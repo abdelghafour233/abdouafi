@@ -1,6 +1,6 @@
 {
-  "name": "AffiliateHub - منصة الأفلييت الاحترافية",
-  "description": "منصة أفلييت متكاملة لإدارة العروض والإعلانات ولوحة تحكم ذكية، مصممة بالكامل باللغة العربية.",
+  "name": "AffiliateHub Vanilla",
+  "description": "منصة أفلييت تعمل بالكامل بـ JavaScript الخام بدون فريم ورك.",
   "requestFramePermissions": [
     "camera",
     "microphone"
