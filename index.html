@@ -16,11 +16,13 @@
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 2px solid #eee; }
     </style>
+    <!-- Placeholder for Adsterra Head Codes -->
     <div id="adsterra-head-placeholder"></div>
 </head>
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
 
-    <div id="adsterra-top-placeholder" class="flex justify-center bg-white border-b overflow-hidden"></div>
+    <!-- Placeholder for Adsterra Top Banner -->
+    <div id="adsterra-top-placeholder" class="flex justify-center bg-white border-b overflow-hidden empty:hidden"></div>
 
     <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -65,7 +67,7 @@
             <div class="flex flex-col lg:flex-row gap-10">
                 <div class="w-full lg:w-72 space-y-3">
                     <button id="tab-btn-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">إدارة المقالات</button>
-                    <button id="tab-btn-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">الإعلانات (Adsterra)</button>
+                    <button id="tab-btn-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">إعلانات Adsterra</button>
                     <button id="tab-btn-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">إعدادات المدونة</button>
                     <hr class="my-6">
                     <button onclick="window.handleLogout()" class="w-full text-right px-6 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50">خروج</button>
@@ -130,16 +132,39 @@
                     </div>
 
                     <div id="tab-ads" class="tab-content">
-                        <h3 class="text-2xl font-black mb-6">إدارة إعلانات Adsterra</h3>
-                        <div class="flex items-center gap-4 mb-10">
-                            <span class="font-bold">تفعيل الإعلانات:</span>
-                            <input type="checkbox" id="ads-enabled" onchange="window.saveAds()" class="w-6 h-6 accent-orange-600">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-2xl font-black">إعدادات Adsterra</h3>
+                            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-xl">
+                                <span class="text-sm font-bold">حالة الإعلانات:</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="ads-enabled" onchange="window.saveAds()" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+                                </label>
+                            </div>
                         </div>
+                        
                         <div class="space-y-6">
-                            <div><label class="block font-bold mb-2">كود Head</label><textarea id="ad-head" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
-                            <div><label class="block font-bold mb-2">إعلان علوي</label><textarea id="ad-top" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
-                            <div><label class="block font-bold mb-2">إعلان سفلي</label><textarea id="ad-footer" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
-                            <button onclick="window.saveAds()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg">حفظ الأكواد</button>
+                            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 text-blue-700 text-sm mb-4">
+                                <p class="font-bold mb-1">نصيحة:</p>
+                                قم بنسخ الأكواد البرمجية التي يوفرها لك موقع Adsterra في الحقول أدناه. سيقوم النظام بتنفيذها تلقائياً.
+                            </div>
+                            
+                            <div>
+                                <label class="block font-bold mb-2 text-gray-700">كود الـ Head (مثل الـ Popunder أو Social Bar)</label>
+                                <textarea id="ad-head" placeholder="إلصق الكود هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block font-bold mb-2 text-gray-700">إعلان علوي (Banner Top - 728x90)</label>
+                                <textarea id="ad-top" placeholder="إلصق كود البانر العلوي هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block font-bold mb-2 text-gray-700">إعلان سفلي (Banner Footer)</label>
+                                <textarea id="ad-footer" placeholder="إلصق كود البانر السفلي هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                            </div>
+                            
+                            <button onclick="window.saveAds()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg hover:bg-orange-700 transition transform active:scale-[0.98]">حفظ وتفعيل الإعلانات الآن</button>
                         </div>
                     </div>
 
@@ -156,7 +181,8 @@
         </section>
     </main>
 
-    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-8 border-t overflow-hidden"></div>
+    <!-- Placeholder for Adsterra Footer Banner -->
+    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-8 border-t overflow-hidden empty:hidden"></div>
 
     <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">

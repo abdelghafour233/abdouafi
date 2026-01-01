@@ -1,11 +1,10 @@
 
 /**
- * Affiliate Blog Engine - V3.5 (Full Image Upload & Data Restore)
+ * Affiliate Blog Engine - V3.6 (Adsterra Integration & Full Persistence)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v3';
 
-// صور افتراضية عالية الجودة (Placeholders) لضمان عدم اختفاء المنتجات
 const DEFAULT_BLOG_DATA = {
     siteName: "مدونة الصفقات",
     adminPassword: "admin123",
@@ -41,14 +40,16 @@ let isLoggedIn = false;
 let currentMainImageBase64 = '';
 let currentGalleryBase64: string[] = [];
 
-// Helper: Convert File to Base64
-const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = error => reject(error);
-    });
+// Helper to execute scripts from string (Needed for Adsterra)
+const injectScript = (containerId: string, scriptHtml: string) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    if (!scriptHtml || !state.ads.enabled) return;
+
+    const range = document.createRange();
+    const fragment = range.createContextualFragment(scriptHtml);
+    container.appendChild(fragment);
 };
 
 // 1. Navigation
@@ -73,7 +74,16 @@ const switchTab = (tabId: string, event: any) => {
     if (event) event.currentTarget.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
 };
 
-// 2. Image Previews
+// 2. Image Previews & Files
+const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+    });
+};
+
 const previewMainImage = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
@@ -218,7 +228,7 @@ const saveAds = () => {
     state.ads.top = (document.getElementById('ad-top') as HTMLTextAreaElement).value;
     state.ads.footer = (document.getElementById('ad-footer') as HTMLTextAreaElement).value;
     syncAndRender();
-    alert('تم حفظ إعدادات الإعلانات');
+    alert('تم حفظ إعدادات الإعلانات بنجاح!');
 };
 
 const saveSettings = () => {
@@ -226,7 +236,7 @@ const saveSettings = () => {
     const newPass = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
     if (newPass) state.adminPassword = newPass;
     syncAndRender();
-    alert('تم حفظ الإعدادات');
+    alert('تم حفظ إعدادات المدونة');
 };
 
 // 5. Rendering
@@ -236,10 +246,17 @@ function syncAndRender() {
 }
 
 function renderApp() {
+    // 1. Site Branding
     document.getElementById('display-site-name')!.innerText = state.siteName;
     document.getElementById('footer-site-name')!.innerText = state.siteName;
     document.getElementById('footer-year')!.innerText = new Date().getFullYear().toString();
 
+    // 2. Ad Injection
+    injectScript('adsterra-head-placeholder', state.ads.head);
+    injectScript('adsterra-top-placeholder', state.ads.top);
+    injectScript('adsterra-footer-placeholder', state.ads.footer);
+
+    // 3. Render Public Grid
     const grid = document.getElementById('offers-grid');
     if (grid) {
         grid.innerHTML = state.offers.length ? state.offers.map((o: any) => `
@@ -265,9 +282,10 @@ function renderApp() {
                     </div>
                 </div>
             </article>
-        `).join('') : '<p class="col-span-full text-center py-24 text-gray-400 font-bold text-lg">لا توجد مراجعات حالياً. أضف بعض المنتجات من لوحة التحكم.</p>';
+        `).join('') : '<p class="col-span-full text-center py-24 text-gray-400 font-bold text-lg">لا توجد مراجعات حالياً.</p>';
     }
 
+    // 4. Admin UI Sync
     if (isLoggedIn) {
         const list = document.getElementById('admin-offers-list');
         if (list) {
@@ -286,15 +304,26 @@ function renderApp() {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
                             </button>
                             <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 p-2.5 rounded-xl transition border border-transparent hover:border-red-100 shadow-sm bg-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                             </button>
                         </div>
                     </td>
                 </tr>
             `).join('');
         }
+        
+        // Populate Adsterra inputs
+        const adHead = document.getElementById('ad-head') as HTMLTextAreaElement;
+        const adTop = document.getElementById('ad-top') as HTMLTextAreaElement;
+        const adFooter = document.getElementById('ad-footer') as HTMLTextAreaElement;
+        const adToggle = document.getElementById('ads-enabled') as HTMLInputElement;
+        
+        if (adHead) adHead.value = state.ads.head || '';
+        if (adTop) adTop.value = state.ads.top || '';
+        if (adFooter) adFooter.value = state.ads.footer || '';
+        if (adToggle) adToggle.checked = state.ads.enabled;
+
         (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
-        (document.getElementById('ads-enabled') as HTMLInputElement).checked = state.ads.enabled;
     }
 }
 
