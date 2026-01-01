@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدونة الصفقات | Affiliate Blog</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Cairo) -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
@@ -16,25 +14,23 @@
         .tab-content.active { display: block; }
         .hidden { display: none; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 2px solid #eee; }
     </style>
-    <!-- مكان إعلانات الـ Head -->
     <div id="adsterra-head-placeholder"></div>
 </head>
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
 
-    <!-- إعلان علوي -->
     <div id="adsterra-top-placeholder" class="flex justify-center bg-white border-b overflow-hidden"></div>
 
-    <!-- الهيدر (القائمة) -->
     <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.showPage('home')">
                 <div class="bg-orange-600 p-2 rounded-lg text-white shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
                 </div>
                 <span id="display-site-name" class="text-2xl font-black text-orange-600 tracking-tight">BlogDeals</span>
             </div>
-            <nav class="flex items-center gap-1 md:gap-4">
+            <nav class="flex items-center gap-4">
                 <button onclick="window.showPage('home')" class="px-3 py-2 text-gray-700 font-bold hover:text-orange-600 transition">الرئيسية</button>
                 <button onclick="window.showPage('admin')" class="bg-gray-900 text-white px-5 py-2 rounded-full font-bold hover:bg-gray-800 transition shadow-md text-sm">لوحة الإدارة</button>
             </nav>
@@ -42,7 +38,6 @@
     </header>
 
     <main class="flex-grow">
-        <!-- قسم الترحيب (Hero) -->
         <section id="hero-section" class="bg-white border-b border-gray-100 py-12 md:py-20 mb-10">
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">دليلك لأفضل <span class="text-orange-600">الصفقات</span> والمراجعات</h1>
@@ -50,83 +45,83 @@
             </div>
         </section>
 
-        <!-- صفحة المقالات/العروض -->
         <section id="page-home" class="page-view max-w-6xl mx-auto px-4 mb-20">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-black border-r-4 border-orange-600 pr-4">آخر المراجعات والعروض</h2>
             </div>
-            <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- المقالات سيتم شحنها هنا -->
-            </div>
+            <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
         </section>
 
-        <!-- صفحة تسجيل الدخول -->
         <section id="page-login" class="page-view hidden max-w-md mx-auto px-4 py-24">
             <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-100 text-center">
                 <h2 class="text-3xl font-black mb-8">دخول الناشر</h2>
                 <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full px-5 py-4 border-2 border-gray-100 rounded-2xl mb-4 focus:border-orange-500 outline-none transition-all">
                 <p id="login-error" class="text-red-500 text-sm mb-4 hidden font-bold">عذراً، كلمة المرور خاطئة!</p>
-                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-100 text-lg">دخول للوحة التحكم</button>
+                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 transition shadow-lg text-lg">دخول للوحة التحكم</button>
             </div>
         </section>
 
-        <!-- لوحة التحكم (Dashboard) -->
         <section id="page-admin" class="page-view hidden max-w-6xl mx-auto px-4 py-12">
             <div class="flex flex-col lg:flex-row gap-10">
-                <!-- القائمة الجانبية -->
                 <div class="w-full lg:w-72 space-y-3">
-                    <button onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">إدارة المقالات</button>
-                    <button onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent hover:border-orange-200">الإعلانات (Adsterra)</button>
-                    <button onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent hover:border-orange-200">إعدادات المدونة</button>
+                    <button id="tab-btn-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">إدارة المقالات</button>
+                    <button id="tab-btn-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">الإعلانات (Adsterra)</button>
+                    <button id="tab-btn-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">إعدادات المدونة</button>
                     <hr class="my-6">
-                    <button onclick="window.handleLogout()" class="w-full text-right px-6 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50 transition">خروج</button>
+                    <button onclick="window.handleLogout()" class="w-full text-right px-6 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50">خروج</button>
                 </div>
 
-                <!-- محتوى اللوحة -->
                 <div class="flex-grow bg-white p-8 rounded-3xl border border-gray-100 shadow-sm min-h-[600px]">
-                    <!-- المقالات -->
                     <div id="tab-offers" class="tab-content active">
-                        <h3 class="text-2xl font-black mb-8 text-gray-800">نشر مراجعة/صفقة جديدة</h3>
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 id="form-title" class="text-2xl font-black text-gray-800">نشر مراجعة جديدة</h3>
+                            <button id="btn-cancel-edit" onclick="window.resetOfferForm()" class="hidden text-sm text-red-500 font-bold">إلغاء التعديل</button>
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                            <input type="hidden" id="edit-id">
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2">عنوان المقال (جذاب)</label>
-                                <input type="text" id="offer-title" placeholder="مثال: مراجعة شاملة لسماعات Apple Airpods Pro" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
+                                <label class="block text-sm font-bold mb-2">عنوان المقال</label>
+                                <input type="text" id="offer-title" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold mb-2">السعر الحالي</label>
-                                <input type="text" id="offer-price" placeholder="مثال: 199$" class="w-full p-4 border rounded-2xl">
+                                <input type="text" id="offer-price" class="w-full p-4 border rounded-2xl">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold mb-2">رابط الأفلييت</label>
-                                <input type="text" id="offer-url" placeholder="https://amazon.com/..." class="w-full p-4 border rounded-2xl">
+                                <input type="text" id="offer-url" class="w-full p-4 border rounded-2xl">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2">رابط الصورة المعبرة</label>
-                                <input type="text" id="offer-img" placeholder="ضع رابط صورة المنتج هنا" class="w-full p-4 border rounded-2xl">
+                                <label class="block text-sm font-bold mb-2">الصورة الرئيسية (رفع)</label>
+                                <input type="file" id="offer-img-file" accept="image/*" class="w-full p-3 border rounded-2xl bg-white" onchange="window.previewMainImage(event)">
+                                <div id="main-image-preview-container" class="mt-2 hidden">
+                                    <img id="main-image-preview" src="" class="preview-img">
+                                </div>
                             </div>
                             <div>
+                                <label class="block text-sm font-bold mb-2">صور إضافية (اختياري)</label>
+                                <input type="file" id="offer-gallery-files" accept="image/*" multiple class="w-full p-3 border rounded-2xl bg-white" onchange="window.previewGalleryImages(event)">
+                                <div id="gallery-preview-container" class="mt-2 flex flex-wrap gap-2"></div>
+                            </div>
+                            <div class="md:col-span-2">
                                 <label class="block text-sm font-bold mb-2">التصنيف</label>
                                 <select id="offer-cat" class="w-full p-4 border rounded-2xl">
-                                    <option>تقنية</option>
-                                    <option>موضة</option>
-                                    <option>منزل ذكي</option>
-                                    <option>صحة</option>
+                                    <option>تقنية</option><option>موضة</option><option>منزل ذكي</option><option>صحة</option>
                                 </select>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2">نص المراجعة / الوصف</label>
-                                <textarea id="offer-desc" placeholder="اكتب هنا تفاصيل المنتج ولماذا تنصح به..." class="w-full h-40 p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                                <label class="block text-sm font-bold mb-2">نص المراجعة</label>
+                                <textarea id="offer-desc" class="w-full h-40 p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500"></textarea>
                             </div>
-                            <button onclick="window.addOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold md:col-span-2 hover:bg-orange-700 shadow-xl shadow-orange-100 text-lg">نشر في المدونة</button>
+                            <button id="btn-submit-offer" onclick="window.saveOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold md:col-span-2 hover:bg-orange-700 shadow-xl shadow-orange-100 text-lg">نشر في المدونة</button>
                         </div>
-                        <h3 class="text-2xl font-black mb-6">المقالات الحالية</h3>
+                        <h3 class="text-2xl font-black mb-6">المقالات المنشورة</h3>
                         <div class="overflow-hidden border border-gray-100 rounded-2xl">
                             <table class="w-full text-right bg-white">
                                 <thead class="bg-gray-50 border-b">
                                     <tr>
                                         <th class="p-4">المقال</th>
-                                        <th class="p-4">التصنيف</th>
-                                        <th class="p-4 text-center">الإجراء</th>
+                                        <th class="p-4 text-center">الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-offers-list"></tbody>
@@ -134,45 +129,25 @@
                         </div>
                     </div>
 
-                    <!-- الإعلانات -->
                     <div id="tab-ads" class="tab-content">
                         <h3 class="text-2xl font-black mb-6">إدارة إعلانات Adsterra</h3>
-                        <div class="bg-blue-50 p-4 rounded-2xl mb-8 border border-blue-100 text-blue-800 text-sm">
-                            يمكنك وضع أكواد Adsterra هنا لتظهر في الموقع تلقائياً.
-                        </div>
                         <div class="flex items-center gap-4 mb-10">
-                            <span class="font-bold">تفعيل نظام الإعلانات:</span>
+                            <span class="font-bold">تفعيل الإعلانات:</span>
                             <input type="checkbox" id="ads-enabled" onchange="window.saveAds()" class="w-6 h-6 accent-orange-600">
                         </div>
                         <div class="space-y-6">
-                            <div>
-                                <label class="block font-bold mb-2">كود الـ Head (للبوب أندر)</label>
-                                <textarea id="ad-head" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50" placeholder="<script>...</script>"></textarea>
-                            </div>
-                            <div>
-                                <label class="block font-bold mb-2">إعلان أعلى المدونة</label>
-                                <textarea id="ad-top" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50" placeholder="Native Banner"></textarea>
-                            </div>
-                            <div>
-                                <label class="block font-bold mb-2">إعلان أسفل المقالات</label>
-                                <textarea id="ad-footer" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50" placeholder="Footer Banner"></textarea>
-                            </div>
-                            <button onclick="window.saveAds()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg">تطبيق الأكواد</button>
+                            <div><label class="block font-bold mb-2">كود Head</label><textarea id="ad-head" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
+                            <div><label class="block font-bold mb-2">إعلان علوي</label><textarea id="ad-top" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
+                            <div><label class="block font-bold mb-2">إعلان سفلي</label><textarea id="ad-footer" class="w-full h-24 p-4 border rounded-2xl font-mono text-xs bg-gray-50"></textarea></div>
+                            <button onclick="window.saveAds()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg">حفظ الأكواد</button>
                         </div>
                     </div>
 
-                    <!-- الإعدادات -->
                     <div id="tab-settings" class="tab-content">
                         <h3 class="text-2xl font-black mb-8">إعدادات عامة</h3>
                         <div class="space-y-8">
-                            <div>
-                                <label class="block font-bold mb-2 text-gray-700">اسم المدونة</label>
-                                <input type="text" id="site-name-input" class="w-full p-4 border rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block font-bold mb-2 text-gray-700">تغيير كلمة مرور الإدارة</label>
-                                <input type="password" id="new-admin-pass" placeholder="اتركها فارغة لعدم التغيير" class="w-full p-4 border rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none">
-                            </div>
+                            <div><label class="block font-bold mb-2">اسم المدونة</label><input type="text" id="site-name-input" class="w-full p-4 border rounded-2xl outline-none"></div>
+                            <div><label class="block font-bold mb-2">كلمة مرور الإدارة</label><input type="password" id="new-admin-pass" class="w-full p-4 border rounded-2xl outline-none"></div>
                             <button onclick="window.saveSettings()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold shadow-lg">حفظ التغييرات</button>
                         </div>
                     </div>
@@ -181,22 +156,20 @@
         </section>
     </main>
 
-    <!-- إعلان سفلي -->
     <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-8 border-t overflow-hidden"></div>
 
     <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
                 <h3 class="text-2xl font-black text-orange-500 mb-4" id="footer-site-name">BlogDeals</h3>
-                <p class="text-gray-400 leading-relaxed">أكبر مدونة عربية متخصصة في مراجعة المنتجات الرقمية والفيزيائية وتقديم أفضل كوبونات الخصم.</p>
+                <p class="text-gray-400">أكبر مدونة مراجعات صفقات وأفلييت في الوطن العربي.</p>
             </div>
             <div class="text-center md:text-left flex flex-col justify-end">
-                <p class="text-gray-500 text-sm">جميع الحقوق محفوظة &copy; <span id="footer-year"></span></p>
+                <p class="text-gray-500 text-sm">&copy; <span id="footer-year"></span> جميع الحقوق محفوظة</p>
             </div>
         </div>
     </footer>
 
-    <!-- ملف التشغيل الأساسي -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
