@@ -13,6 +13,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .hidden { display: none; }
+        .page-view { transition: opacity 0.3s ease; }
     </style>
     <!-- مكان حقن كود Adsterra Head -->
     <div id="adsterra-head-placeholder"></div>
@@ -29,20 +30,20 @@
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 
     <!-- مكان إعلانات أعلى الصفحة -->
-    <div id="adsterra-top-placeholder" class="flex justify-center bg-white shadow-sm"></div>
+    <div id="adsterra-top-placeholder" class="flex justify-center bg-white shadow-sm overflow-hidden"></div>
 
     <!-- Header / Navigation -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.showPage('home')">
                 <div class="bg-emerald-600 p-2 rounded-lg text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 </div>
                 <span id="display-site-name" class="text-xl font-bold text-gray-800">AffiliateHub</span>
             </div>
-            <nav class="flex gap-4">
-                <button onclick="showPage('home')" class="px-4 py-2 hover:bg-gray-100 rounded-lg transition">الرئيسية</button>
-                <button id="admin-nav-btn" onclick="showPage('admin')" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">لوحة التحكم</button>
+            <nav class="flex gap-2 md:gap-4">
+                <button onclick="window.showPage('home')" class="px-3 py-2 hover:bg-gray-100 rounded-lg transition text-sm md:text-base">الرئيسية</button>
+                <button id="admin-nav-btn" onclick="window.showPage('admin')" class="bg-gray-800 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition text-sm md:text-base">لوحة التحكم</button>
             </nav>
         </div>
     </header>
@@ -51,7 +52,7 @@
         <!-- صفحة العروض الرئيسية -->
         <section id="page-home" class="page-view max-w-6xl mx-auto px-4 py-12">
             <div class="text-center mb-16">
-                <h1 class="text-4xl font-extrabold mb-4">أفضل العروض والمنتجات الحصرية</h1>
+                <h1 class="text-4xl font-extrabold mb-4 text-gray-900">أفضل العروض والمنتجات الحصرية</h1>
                 <p class="text-gray-600">اكتشف منتجاتنا المختارة بعناية بأفضل الأسعار</p>
             </div>
             <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -62,10 +63,13 @@
         <!-- صفحة تسجيل الدخول -->
         <section id="page-login" class="page-view hidden max-w-md mx-auto px-4 py-24">
             <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 text-center">
+                <div class="bg-emerald-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-emerald-600 w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
                 <h2 class="text-2xl font-bold mb-6">دخول الإدارة</h2>
                 <input type="password" id="admin-pass-input" placeholder="كلمة السر" class="w-full px-4 py-3 border rounded-xl mb-4 focus:ring-2 focus:ring-emerald-500 outline-none">
                 <p id="login-error" class="text-red-500 text-sm mb-4 hidden">كلمة السر خاطئة!</p>
-                <button onclick="handleLogin()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold">دخول</button>
+                <button onclick="window.handleLogin()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition shadow-lg shadow-emerald-100">دخول</button>
             </div>
         </section>
 
@@ -74,39 +78,43 @@
             <div class="flex flex-col md:flex-row gap-8">
                 <!-- Sidebar -->
                 <div class="w-full md:w-64 space-y-2">
-                    <button onclick="switchTab('tab-offers')" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl bg-emerald-600 text-white">إدارة العروض</button>
-                    <button onclick="switchTab('tab-ads')" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl hover:bg-gray-200">إدارة الإعلانات</button>
-                    <button onclick="switchTab('tab-settings')" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl hover:bg-gray-200">الإعدادات</button>
+                    <button id="btn-tab-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl bg-emerald-600 text-white transition shadow-md">إدارة العروض</button>
+                    <button id="btn-tab-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl hover:bg-gray-200 transition">إدارة الإعلانات</button>
+                    <button id="btn-tab-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-4 py-3 rounded-xl hover:bg-gray-200 transition">الإعدادات</button>
                     <hr class="my-4">
-                    <button onclick="handleLogout()" class="w-full text-right px-4 py-3 rounded-xl text-red-600 hover:bg-red-50">تسجيل الخروج</button>
+                    <button onclick="window.handleLogout()" class="w-full text-right px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition">تسجيل الخروج</button>
                 </div>
 
                 <!-- Content Area -->
-                <div class="flex-grow bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex-grow bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[500px]">
                     <!-- تبويب العروض -->
                     <div id="tab-offers" class="tab-content active">
-                        <h3 class="text-xl font-bold mb-6">إضافة عرض جديد</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                            <input type="text" id="offer-title" placeholder="عنوان العرض" class="p-2 border rounded">
-                            <input type="text" id="offer-price" placeholder="السعر" class="p-2 border rounded">
-                            <input type="text" id="offer-url" placeholder="رابط الأفلييت" class="p-2 border rounded">
-                            <input type="text" id="offer-img" placeholder="رابط الصورة" class="p-2 border rounded">
-                            <select id="offer-cat" class="p-2 border rounded">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="bg-emerald-100 p-1 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>
+                            إضافة عرض جديد
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-gray-50 p-4 rounded-xl">
+                            <input type="text" id="offer-title" placeholder="عنوان العرض (مثال: ساعة ذكية)" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <input type="text" id="offer-price" placeholder="السعر (مثال: 200 ريال)" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <input type="text" id="offer-url" placeholder="رابط الأفلييت (https://...)" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <input type="text" id="offer-img" placeholder="رابط صورة المنتج" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <select id="offer-cat" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
                                 <option>إلكترونيات</option>
                                 <option>أزياء</option>
+                                <option>صحة وجمال</option>
                                 <option>منزل</option>
                             </select>
-                            <textarea id="offer-desc" placeholder="الوصف" class="p-2 border rounded md:col-span-2"></textarea>
-                            <button onclick="addOffer()" class="bg-emerald-600 text-white py-2 rounded-lg font-bold md:col-span-2">إضافة العرض</button>
+                            <textarea id="offer-desc" placeholder="وصف قصير للمنتج" class="p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none md:col-span-2"></textarea>
+                            <button onclick="window.addOffer()" class="bg-emerald-600 text-white py-3 rounded-lg font-bold md:col-span-2 hover:bg-emerald-700 transition">إضافة العرض للموقع</button>
                         </div>
                         <h3 class="text-xl font-bold mb-4">العروض الحالية</h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-right">
-                                <thead class="bg-gray-50 border-b">
+                            <table class="w-full text-right border-collapse">
+                                <thead class="bg-gray-100 border-b">
                                     <tr>
                                         <th class="p-4">العرض</th>
                                         <th class="p-4">السعر</th>
-                                        <th class="p-4">حذف</th>
+                                        <th class="p-4 text-center">الإجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-offers-list"></tbody>
@@ -117,40 +125,44 @@
                     <!-- تبويب الإعلانات -->
                     <div id="tab-ads" class="tab-content">
                         <h3 class="text-xl font-bold mb-6">إعدادات Adsterra</h3>
-                        <div class="flex items-center gap-4 mb-6">
-                            <span>تفعيل الإعلانات:</span>
-                            <input type="checkbox" id="ads-enabled" onchange="saveAds()" class="w-6 h-6">
+                        <div class="flex items-center gap-4 mb-6 bg-emerald-50 p-4 rounded-xl">
+                            <span class="font-bold">تفعيل عرض الإعلانات:</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="ads-enabled" onchange="window.saveAds()" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                            </label>
                         </div>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-bold mb-1">Head Code</label>
-                                <textarea id="ad-head" class="w-full h-24 p-2 border font-mono text-xs" placeholder="<script>...</script>"></textarea>
+                                <label class="block text-sm font-bold mb-1">كود الـ Head (Popunder / Social Bar)</label>
+                                <textarea id="ad-head" class="w-full h-32 p-3 border rounded-xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="<script type='text/javascript' src='...'></script>"></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-1">Body Top Code</label>
-                                <textarea id="ad-top" class="w-full h-24 p-2 border font-mono text-xs" placeholder="إعلان أعلى الصفحة"></textarea>
+                                <label class="block text-sm font-bold mb-1">كود أعلى الصفحة (Native / Banner)</label>
+                                <textarea id="ad-top" class="w-full h-32 p-3 border rounded-xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="أدخل كود الإعلان الذي سيظهر تحت القائمة مباشرة"></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-1">Footer Code</label>
-                                <textarea id="ad-footer" class="w-full h-24 p-2 border font-mono text-xs" placeholder="إعلان أسفل الصفحة"></textarea>
+                                <label class="block text-sm font-bold mb-1">كود أسفل الصفحة (Banner)</label>
+                                <textarea id="ad-footer" class="w-full h-32 p-3 border rounded-xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="أدخل كود الإعلان الذي سيظهر فوق الفوتر"></textarea>
                             </div>
-                            <button onclick="saveAds()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold">حفظ أكواد الإعلانات</button>
+                            <button onclick="window.saveAds()" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold hover:bg-emerald-700 transition">حفظ وتحديث الإعلانات</button>
                         </div>
                     </div>
 
                     <!-- تبويب الإعدادات -->
                     <div id="tab-settings" class="tab-content">
                         <h3 class="text-xl font-bold mb-6">إعدادات المنصة</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-bold mb-1">اسم الموقع</label>
-                                <input type="text" id="site-name-input" class="w-full p-2 border rounded">
+                        <div class="space-y-6">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <label class="block text-sm font-bold mb-2">اسم الموقع</label>
+                                <input type="text" id="site-name-input" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
                             </div>
-                            <div>
-                                <label class="block text-sm font-bold mb-1">كلمة سر الإدارة الجديدة</label>
-                                <input type="password" id="new-admin-pass" class="w-full p-2 border rounded">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <label class="block text-sm font-bold mb-2">تغيير كلمة سر الإدارة</label>
+                                <input type="password" id="new-admin-pass" placeholder="كلمة السر الجديدة" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                                <p class="text-xs text-gray-400 mt-2">* اتركها فارغة إذا كنت لا تريد تغييرها.</p>
                             </div>
-                            <button onclick="saveSettings()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold">حفظ الإعدادات</button>
+                            <button onclick="window.saveSettings()" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold hover:bg-emerald-700 transition">تأمين وحفظ الإعدادات</button>
                         </div>
                     </div>
                 </div>
@@ -159,10 +171,13 @@
     </main>
 
     <!-- مكان إعلانات أسفل الصفحة -->
-    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-6 border-t"></div>
+    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-6 border-t overflow-hidden"></div>
 
     <footer class="bg-gray-900 text-white py-8 text-center">
-        <p>&copy; <span id="footer-year"></span> <span id="footer-site-name">AffiliateHub</span></p>
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-gray-400 mb-2">منصة الأفلييت الاحترافية</p>
+            <p>&copy; <span id="footer-year"></span> <span id="footer-site-name">AffiliateHub</span></p>
+        </div>
     </footer>
 
     <!-- ملف الجافا سكريبت الأساسي -->
