@@ -1,5 +1,5 @@
 
-// --- البيانات الافتراضية للمنصة ---
+// 1. البيانات الافتراضية في حال عدم وجود بيانات مخزنة
 const DEFAULT_DATA = {
     siteName: "AffiliateHub",
     adminPassword: "admin123",
@@ -10,64 +10,55 @@ const DEFAULT_DATA = {
         footer: ""
     },
     offers: [
-        { id: "1", title: "ساعة ذكية Ultra", price: "299 ريال", category: "إلكترونيات", desc: "أفضل ساعة ذكية تدعم جميع الميزات الرياضية ومقاومة للماء.", img: "https://picsum.photos/seed/watch/400/300", url: "#" },
-        { id: "2", title: "سماعات بلوتوث Pro", price: "150 ريال", category: "إكسسوارات", desc: "سماعات لاسلكية بجودة صوت نقية جداً مع خاصية عزل الضوضاء.", img: "https://picsum.photos/seed/audio/400/300", url: "#" },
-        { id: "3", title: "كاميرا مراقبة ذكية", price: "450 ريال", category: "إلكترونيات", desc: "كاميرا بدقة 4K مع خاصية التتبع والتحميل السحابي.", img: "https://picsum.photos/seed/camera/400/300", url: "#" }
+        { id: "1", title: "ساعة Ultra الذكية", price: "299 ريال", category: "إلكترونيات", desc: "ساعة ذكية متطورة تدعم المكالمات والقياسات الصحية.", img: "https://picsum.photos/seed/watch/400/300", url: "#" },
+        { id: "2", title: "سماعات Pro عازلة", price: "150 ريال", category: "إكسسوارات", desc: "سماعات بلوتوث بجودة صوت نقية وعزل ضوضاء ممتاز.", img: "https://picsum.photos/seed/audio/400/300", url: "#" },
+        { id: "3", title: "كاميرا 4K ذكية", price: "450 ريال", category: "إلكترونيات", desc: "كاميرا مراقبة منزلية بدقة عالية وتصوير ليلي.", img: "https://picsum.photos/seed/camera/400/300", url: "#" }
     ]
 };
 
-// --- تحميل الحالة من المتصفح ---
-let state = JSON.parse(localStorage.getItem('aff_platform_data') || 'null') || DEFAULT_DATA;
+// 2. إدارة الحالة (State Management)
+let state = JSON.parse(localStorage.getItem('aff_data') || 'null') || DEFAULT_DATA;
 let isLoggedIn = false;
 
-// --- وظيفة الحفظ والتحديث ---
+// 3. وظيفة الحفظ والتحديث الشامل
 function saveData() {
-    localStorage.setItem('aff_platform_data', JSON.stringify(state));
+    localStorage.setItem('aff_data', JSON.stringify(state));
     render();
 }
 
-// --- وظائف التنقل (Show Page) ---
+// 4. وظائف التنقل بين الصفحات
 const showPage = (pageId: string) => {
     document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
     
     if (pageId === 'admin' && !isLoggedIn) {
         document.getElementById('page-login')?.classList.remove('hidden');
     } else {
-        const targetPage = document.getElementById(`page-${pageId}`);
-        if (targetPage) targetPage.classList.remove('hidden');
+        document.getElementById(`page-${pageId}`)?.classList.remove('hidden');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// --- وظيفة التبديل بين التبويبات في لوحة التحكم ---
+// 5. وظيفة تبديل التبويبات في لوحة التحكم
 const switchTab = (tabId: string, event: any) => {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.admin-tab-btn').forEach(b => {
-        b.classList.remove('bg-emerald-600', 'text-white', 'shadow-md');
-        b.classList.add('hover:bg-gray-200');
-    });
+    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('bg-emerald-600', 'text-white', 'shadow-md'));
     
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) targetTab.classList.add('active');
-    
+    document.getElementById(tabId)?.classList.add('active');
     if (event && event.currentTarget) {
         (event.currentTarget as HTMLElement).classList.add('bg-emerald-600', 'text-white', 'shadow-md');
-        (event.currentTarget as HTMLElement).classList.remove('hover:bg-gray-200');
     }
 };
 
-// --- وظيفة الدخول للإدارة ---
+// 6. إدارة الدخول والخروج
 const handleLogin = () => {
     const passInput = document.getElementById('admin-pass-input') as HTMLInputElement;
-    const errorMsg = document.getElementById('login-error');
-    
     if (passInput && passInput.value === state.adminPassword) {
         isLoggedIn = true;
-        if (errorMsg) errorMsg.classList.add('hidden');
+        document.getElementById('login-error')?.classList.add('hidden');
         showPage('admin');
         renderAdmin();
     } else {
-        if (errorMsg) errorMsg.classList.remove('hidden');
+        document.getElementById('login-error')?.classList.remove('hidden');
     }
 };
 
@@ -76,7 +67,7 @@ const handleLogout = () => {
     showPage('home');
 };
 
-// --- إدارة العروض (Offers Management) ---
+// 7. إدارة المنتجات (إضافة/حذف)
 const addOffer = () => {
     const title = (document.getElementById('offer-title') as HTMLInputElement).value;
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
@@ -85,153 +76,126 @@ const addOffer = () => {
     const cat = (document.getElementById('offer-cat') as HTMLSelectElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
 
-    if (!title || !url) {
-        alert('يرجى إدخال عنوان المنتج ورابط الأفلييت على الأقل');
-        return;
-    }
+    if (!title || !url) return alert('يرجى ملء الحقول الأساسية');
 
     const newOffer = {
         id: Date.now().toString(),
-        title,
-        price,
-        url,
-        img: img || `https://picsum.photos/seed/${Date.now()}/400/300`,
-        category: cat,
-        desc
+        title, price, url, desc, category: cat,
+        img: img || `https://picsum.photos/seed/${Date.now()}/400/300`
     };
 
     state.offers.unshift(newOffer);
     saveData();
     
-    // تفريغ الحقول
+    // تفريغ الحقول بعد الحفظ
     ['offer-title', 'offer-price', 'offer-url', 'offer-img', 'offer-desc'].forEach(id => {
-        (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement).value = '';
+        (document.getElementById(id) as any).value = '';
     });
-    alert('تمت إضافة العرض بنجاح');
 };
 
 const deleteOffer = (id: string) => {
-    if (confirm('هل أنت متأكد من حذف هذا العرض؟')) {
+    if (confirm('هل تريد حذف هذا المنتج؟')) {
         state.offers = state.offers.filter((o: any) => o.id !== id);
         saveData();
     }
 };
 
-// --- إدارة الإعلانات والإعدادات ---
+// 8. إدارة الإعلانات والإعدادات
 const saveAds = () => {
     state.ads.enabled = (document.getElementById('ads-enabled') as HTMLInputElement).checked;
     state.ads.head = (document.getElementById('ad-head') as HTMLTextAreaElement).value;
     state.ads.top = (document.getElementById('ad-top') as HTMLTextAreaElement).value;
     state.ads.footer = (document.getElementById('ad-footer') as HTMLTextAreaElement).value;
     saveData();
-    alert('تم حفظ الإعلانات وتحديث الموقع');
+    alert('تم حفظ أكواد الإعلانات وتفعيلها');
 };
 
 const saveSettings = () => {
-    const newName = (document.getElementById('site-name-input') as HTMLInputElement).value;
-    const newPass = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
-    
-    if (newName) state.siteName = newName;
-    if (newPass) state.adminPassword = newPass;
-    
+    const name = (document.getElementById('site-name-input') as HTMLInputElement).value;
+    const pass = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
+    if (name) state.siteName = name;
+    if (pass) state.adminPassword = pass;
     saveData();
-    alert('تم تحديث إعدادات المنصة بنجاح');
+    alert('تم حفظ الإعدادات');
 };
 
-// --- وظيفة حقن الأكواد (Adsterra Injector) ---
-function injectScript(container: HTMLElement, code: string) {
+// 9. وظيفة حقن الإعلانات (لضمان تشغيل الـ Script)
+function injectScript(containerId: string, code: string) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     container.innerHTML = "";
     if (!code) return;
     const range = document.createRange();
     range.selectNode(container);
-    const documentFragment = range.createContextualFragment(code);
-    container.appendChild(documentFragment);
+    const fragment = range.createContextualFragment(code);
+    container.appendChild(fragment);
 }
 
-// --- الرندرة (Render functions) ---
+// 10. الرندرة (Rendering) - قلب التطبيق
 function render() {
-    // 1. تحديث الهوية
-    const siteNames = ['display-site-name', 'footer-site-name'];
-    siteNames.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = state.siteName;
-    });
-    
-    const yearEl = document.getElementById('footer-year');
-    if (yearEl) yearEl.innerText = new Date().getFullYear().toString();
+    // تحديث الهوية
+    document.getElementById('display-site-name')!.innerText = state.siteName;
+    document.getElementById('footer-site-name')!.innerText = state.siteName;
+    document.getElementById('footer-year')!.innerText = new Date().getFullYear().toString();
 
-    // 2. رندرة المنتجات
+    // رندرة المنتجات في الشبكة
     const grid = document.getElementById('offers-grid');
     if (grid) {
         if (state.offers.length === 0) {
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-400">لا توجد عروض حالياً، يرجى إضافتها من لوحة التحكم.</div>`;
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-400">لا توجد منتجات حالياً.</div>`;
         } else {
             grid.innerHTML = state.offers.map((o: any) => `
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col h-full hover:shadow-xl transition-all duration-300">
-                    <div class="relative overflow-hidden group">
-                        <img src="${o.img}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" alt="${o.title}">
-                        <span class="absolute top-4 right-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">${o.category || 'عرض'}</span>
-                    </div>
+                <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100 flex flex-col h-full hover:shadow-2xl transition duration-500">
+                    <img src="${o.img}" class="w-full h-56 object-cover" alt="${o.title}">
                     <div class="p-6 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start mb-2">
+                        <div class="flex justify-between items-start mb-3">
                             <h3 class="text-xl font-bold text-gray-800">${o.title}</h3>
-                            <span class="text-emerald-600 font-bold whitespace-nowrap">${o.price}</span>
+                            <span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1 rounded-full text-sm">${o.price || 'عرض'}</span>
                         </div>
-                        <p class="text-gray-600 text-sm mb-6 flex-grow line-clamp-3">${o.desc || 'لا يوجد وصف متاح.'}</p>
-                        <a href="${o.url}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-center font-bold shadow-md shadow-emerald-50 transition-colors">اذهب للعرض الآن</a>
+                        <p class="text-gray-500 text-sm mb-6 flex-grow leading-relaxed">${o.desc || ''}</p>
+                        <a href="${o.url}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl text-center font-bold transition shadow-lg shadow-emerald-50">اذهب للعرض الآن</a>
                     </div>
                 </div>
             `).join('');
         }
     }
 
-    // 3. تحديث الإعلانات
-    const headPlace = document.getElementById('adsterra-head-placeholder');
-    const topPlace = document.getElementById('adsterra-top-placeholder');
-    const footPlace = document.getElementById('adsterra-footer-placeholder');
-
+    // حقن الإعلانات
     if (state.ads.enabled) {
-        if (headPlace) injectScript(headPlace, state.ads.head);
-        if (topPlace) injectScript(topPlace, state.ads.top);
-        if (footPlace) injectScript(footPlace, state.ads.footer);
+        injectScript('adsterra-head-placeholder', state.ads.head);
+        injectScript('adsterra-top-placeholder', state.ads.top);
+        injectScript('adsterra-footer-placeholder', state.ads.footer);
     } else {
-        if (headPlace) headPlace.innerHTML = '';
-        if (topPlace) topPlace.innerHTML = '';
-        if (footPlace) footPlace.innerHTML = '';
+        ['adsterra-head-placeholder', 'adsterra-top-placeholder', 'adsterra-footer-placeholder'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '';
+        });
     }
 
     if (isLoggedIn) renderAdmin();
 }
 
 function renderAdmin() {
-    // ملء بيانات الحقول
-    const siteNameInput = document.getElementById('site-name-input') as HTMLInputElement;
-    if (siteNameInput) siteNameInput.value = state.siteName;
+    (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
+    (document.getElementById('ads-enabled') as HTMLInputElement).checked = state.ads.enabled;
+    (document.getElementById('ad-head') as HTMLTextAreaElement).value = state.ads.head;
+    (document.getElementById('ad-top') as HTMLTextAreaElement).value = state.ads.top;
+    (document.getElementById('ad-footer') as HTMLTextAreaElement).value = state.ads.footer;
 
-    const adsCheck = document.getElementById('ads-enabled') as HTMLInputElement;
-    if (adsCheck) adsCheck.checked = state.ads.enabled;
-
-    const adFields = { 'ad-head': state.ads.head, 'ad-top': state.ads.top, 'ad-footer': state.ads.footer };
-    Object.entries(adFields).forEach(([id, val]) => {
-        const el = document.getElementById(id) as HTMLTextAreaElement;
-        if (el) el.value = val;
-    });
-
-    // قائمة العروض في الإدارة
     const list = document.getElementById('admin-offers-list');
     if (list) {
         list.innerHTML = state.offers.map((o: any) => `
             <tr class="border-b hover:bg-gray-50 transition">
                 <td class="p-4">
                     <div class="flex items-center gap-2">
-                        <img src="${o.img}" class="w-8 h-8 rounded object-cover">
-                        <span class="font-medium text-sm">${o.title}</span>
+                        <img src="${o.img}" class="w-10 h-10 rounded-lg object-cover">
+                        <span class="font-semibold text-gray-700">${o.title}</span>
                     </div>
                 </td>
-                <td class="p-4 text-sm text-emerald-600 font-bold">${o.price}</td>
+                <td class="p-4 text-emerald-600 font-bold">${o.price || '-'}</td>
                 <td class="p-4 text-center">
-                    <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                    <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
                     </button>
                 </td>
             </tr>
@@ -239,7 +203,7 @@ function renderAdmin() {
     }
 }
 
-// --- ربط الدوال بـ window لتعمل مع HTML onclick ---
+// 11. ربط الدوال بالنطاق العام (Global Scope)
 (window as any).showPage = showPage;
 (window as any).switchTab = switchTab;
 (window as any).handleLogin = handleLogin;
@@ -249,10 +213,6 @@ function renderAdmin() {
 (window as any).saveAds = saveAds;
 (window as any).saveSettings = saveSettings;
 
-// --- التشغيل الأول عند تحميل الصفحة ---
-document.addEventListener('DOMContentLoaded', () => {
-    render();
-});
-
-// أيضاً نشغل render فوراً لضمان عدم وجود شاشة بيضاء
-render();
+// 12. التشغيل الأول
+document.addEventListener('DOMContentLoaded', render);
+render(); // تشغيل احتياطي فوراً
