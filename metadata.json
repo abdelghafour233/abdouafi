@@ -1,0 +1,8 @@
+{
+  "name": "AffiliateHub - منصة الأفلييت الاحترافية",
+  "description": "منصة أفلييت متكاملة لإدارة العروض والإعلانات ولوحة تحكم ذكية، مصممة بالكامل باللغة العربية.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
