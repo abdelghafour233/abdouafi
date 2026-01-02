@@ -1,53 +1,57 @@
 
 /**
  * abdouweb - Ultimate Moroccan Tech & Affiliate Platform
- * Professional Version - Custom Social Links System
+ * Professional Version - Categories & Social Fix
  */
 
-const STORAGE_KEY = 'abdouweb_pro_v11_fixed';
+const STORAGE_KEY = 'abdouweb_final_v12';
 
 const DEFAULT_BLOG_DATA = {
     siteName: "عبدو ويب abdouweb",
-    siteUrl: "https://abdouweb.ma",
+    siteDescription: "منصتكم الأولى لأخبار التقنية في المغرب، تطوير الذات، وأفضل مراجعات المنتجات.",
     adminPassword: "admin",
     social: {
-        fb: "#", 
-        tt: "#",
-        tw: "#",
-        ig: "#",
-        wa: "#",
-        pin: "#"
+        fb: "#", tt: "#", tw: "#", ig: "#", wa: "#", pin: "#"
     },
     staticPages: {
-        about: "مرحباً بكم في عبدو ويب abdouweb، منصتكم الأولى لمتابعة جديد التقنية في المغرب، مراجعات المنتجات الأكثر طلباً، ونصائح تطوير الذات للشباب المغربي الطموح.",
-        privacy: "سياسة الخصوصية لدينا تضمن حماية بيانات زوارنا بشكل كامل تماشياً مع القوانين الوطنية والدولية.",
-        terms: "استخدامك لموقع عبدو ويب يعني موافقتك الكاملة على شروط الاستخدام المنصوص عليها هنا."
+        about: "مرحباً بكم في عبدو ويب abdouweb. نحن نهتم بتقديم محتوى تقني عالي الجودة يركز على السوق المغربي، بالإضافة إلى مراجعات دقيقة للمنتجات ونصائح عملية لتطوير الذات.",
+        privacy: "نحن في عبدو ويب نحترم خصوصيتكم ونلتزم بحماية بياناتكم الشخصية.",
+        terms: "باستخدامك لموقعنا، فإنك توافق على شروط الخدمة والاستخدام العادل."
     },
     offers: [
         {
             id: "of-1",
-            title: "مراجعة MacBook Air M3 في المغرب",
-            price: "12,500 درهم",
-            desc: "هل يستحق جهاز آبل الجديد الانتقال إليه؟ قمنا بتجربة الجهاز في ظروف العمل اليومية للمصممين والمبرمجين في المغرب.",
+            title: "MacBook Air M3 - مراجعة شاملة",
+            price: "12,900 درهم",
+            desc: "أقوى جهاز محمول للعمل عن بعد والمصممين في المغرب. تعرف على المميزات والعيوب قبل الشراء.",
             img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop",
             url: "#",
-            date: "2025/01/22"
+            date: "2025/01/26"
         }
     ],
     articles: [
         {
             id: "ar-1",
-            category: "تقنية المغرب",
-            title: "الجيل الخامس (5G) في المغرب: ثورة رقمية تتجاوز مجرد سرعة التحميل",
-            content: "يشهد المشهد التكنولوجي في المملكة المغربية تحولاً جذرياً مع الاستعدادات المتسارعة لإطلاق شبكات الجيل الخامس (5G). لكن، ومن منظور تحليلي، لا ينبغي حصر هذه التكنولوجيا في خانة 'سرعة الإنترنت' فحسب، بل هي ركيزة أساسية للاقتصاد الرقمي المستقبلي.\n\nأولاً: البنية التحتية والسيادة الرقمية\nيتطلب نشر الـ 5G استثمارات ضخمة في الألياف البصرية ومراكز البيانات. المغرب، من خلال استراتيجيته 'المغرب الرقمي 2030'، يهدف إلى خلق نظام بيئي يسمح بربط ملايين الأجهزة (IoT) في آن واحد.\n\nثانياً: التأثير على المقاولات الناشئة والصناعة\nبالنسبة للمقاولات الناشئة المغربية، سيفتح هذا المجال لتطوير تطبيقات في الجراحة عن بعد، والواقع المعزز، والتعليم الافتراضي.",
-            img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop",
+            category: "أخبار التقنية",
+            title: "إطلاق خدمات السحابة الرقمية الجديدة في الدار البيضاء",
+            content: "يشهد المغرب تحولاً رقمياً كبيراً مع افتتاح مراكز بيانات جديدة ستغير وجه الشركات الناشئة في المملكة...",
+            img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&h=400&fit=crop",
             date: "2025/01/25"
+        },
+        {
+            id: "ar-2",
+            category: "تطوير الذات",
+            title: "كيف تنظم وقتك كمستقل (Freelancer) مغربي؟",
+            content: "العمل الحر يتطلب انضباطاً عالياً. في هذا المقال نشارككم أفضل الأدوات والتقنيات لتنظيم اليوم والرفع من الإنتاجية...",
+            img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=600&h=400&fit=crop",
+            date: "2025/01/24"
         }
     ]
 };
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
 let isLoggedIn = false;
+let currentCategoryFilter = 'الكل';
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 
@@ -67,34 +71,31 @@ const showPage = (pageId: string) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-const switchTab = (tabId: string, event: any) => {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('bg-orange-600', 'text-white', 'shadow-lg'));
-    document.getElementById(tabId)?.classList.add('active');
-    if (event) event.currentTarget.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
+const setCategoryFilter = (cat: string) => {
+    currentCategoryFilter = cat;
+    document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-orange-600', 'text-white', 'shadow-lg');
+        if(btn.textContent === cat) btn.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
+    });
+    renderApp();
 };
 
 const renderSocialButtons = (containerId: string) => {
     const container = document.getElementById(containerId);
     if (!container) return;
-
     const platforms = [
-        { id: 'fb', color: '#1877F2', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>', link: state.social.fb },
-        { id: 'tt', color: '#000000', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>', link: state.social.tt },
-        { id: 'tw', color: '#000000', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>', link: state.social.tw },
-        { id: 'ig', color: '#E4405F', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>', link: state.social.ig },
-        { id: 'wa', color: '#25D366', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>', link: state.social.wa },
-        { id: 'pin', color: '#BD081C', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.966 1.406-5.966s-.359-.72-.359-1.781c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.259 7.929-7.259 4.164 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.607 0 11.985-5.36 11.985-11.987C24.021 5.367 18.643 0 12.017 0z"/></svg>', link: state.social.pin }
+        { id: 'fb', color: '#1877F2', icon: 'FB', link: state.social.fb },
+        { id: 'tt', color: '#000000', icon: 'TT', link: state.social.tt },
+        { id: 'tw', color: '#1DA1F2', icon: 'X', link: state.social.tw },
+        { id: 'ig', color: '#E4405F', icon: 'IG', link: state.social.ig },
+        { id: 'wa', color: '#25D366', icon: 'WA', link: state.social.wa },
+        { id: 'pin', color: '#BD081C', icon: 'PI', link: state.social.pin }
     ];
-
     container.innerHTML = platforms.map(p => {
         const href = p.link && p.link !== "#" ? p.link : "javascript:void(0)";
         return `
             <a href="${href}" ${href !== "javascript:void(0)" ? 'target="_blank"' : ''} 
-               class="flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 transition-all shadow-md hover:shadow-xl border border-gray-100 dark:border-gray-700 hover:-translate-y-1" 
-               style="--hover-bg: ${p.color}"
-               onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg'); this.style.color='white';" 
-               onmouseout="this.style.backgroundColor=''; this.style.color=''">
+               class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-800 rounded-full text-xs font-black shadow-md border border-gray-100 dark:border-gray-700 hover:scale-110 transition-all hover:bg-orange-600 hover:text-white">
                 ${p.icon}
             </a>
         `;
@@ -104,24 +105,23 @@ const renderSocialButtons = (containerId: string) => {
 const viewArticle = (id: string) => {
     const a = state.articles.find((x: any) => x.id === id);
     if (!a) return;
-    
-    const detailContainer = document.getElementById('article-detail-content');
-    if (detailContainer) {
-        detailContainer.innerHTML = `
-            <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm animate-fade-in">
-                <img src="${a.img}" class="w-full h-64 md:h-[500px] object-cover">
-                <div class="p-6 md:p-16">
+    const container = document.getElementById('article-detail-content');
+    if (container) {
+        container.innerHTML = `
+            <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-sm animate-fade-in">
+                <img src="${a.img}" class="w-full h-72 md:h-[500px] object-cover">
+                <div class="p-8 md:p-16">
                     <div class="flex items-center gap-3 mb-6">
-                        <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">${a.category}</span>
+                        <span class="bg-orange-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase">${a.category}</span>
                         <span class="text-gray-400 text-xs font-bold">${a.date}</span>
                     </div>
-                    <h1 class="text-3xl md:text-5xl font-black mb-10 leading-tight dark:text-white">${a.title}</h1>
-                    <div class="article-body text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed mb-12 border-b border-gray-100 dark:border-gray-800 pb-12">
-                        ${a.content.split('\n').map((p: string) => p.trim() ? `<p class="mb-6">${p}</p>` : '').join('')}
+                    <h1 class="text-3xl md:text-5xl font-black mb-8 dark:text-white leading-tight">${a.title}</h1>
+                    <div class="article-body text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed whitespace-pre-line">
+                        ${a.content}
                     </div>
-                    <div class="mt-12 bg-gray-50 dark:bg-gray-800/50 p-10 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 text-center">
-                        <h4 class="text-2xl font-black mb-8 text-gray-900 dark:text-white">تابع عبدو ويب abdouweb على منصات التواصل الاجتماعي:</h4>
-                        <div id="article-social-container" class="flex flex-wrap justify-center gap-5"></div>
+                    <div class="mt-16 p-8 bg-gray-50 dark:bg-gray-800 rounded-3xl text-center border border-gray-100 dark:border-gray-700">
+                        <h4 class="font-black mb-6">شارك المقال وتابع عبدو ويب:</h4>
+                        <div id="article-social-container" class="flex justify-center gap-3"></div>
                     </div>
                 </div>
             </div>
@@ -131,155 +131,117 @@ const viewArticle = (id: string) => {
     showPage('article-detail');
 };
 
-const viewStaticPage = (key: string) => {
-    const container = document.getElementById('static-page-container');
-    if (!container) return;
-    let title = key === 'privacy' ? "الخصوصية" : (key === 'terms' ? "الشروط" : "من نحن");
-    let content = state.staticPages[key as keyof typeof state.staticPages] || "";
-    container.innerHTML = `<h1 class="text-3xl md:text-5xl font-black mb-10 text-orange-600">${title}</h1><div class="text-lg md:text-2xl leading-relaxed text-gray-600 dark:text-gray-400 whitespace-pre-line">${content}</div>`;
-    showPage('static');
-};
-
 const handleLogin = () => {
     const pass = (document.getElementById('admin-pass-input') as HTMLInputElement).value;
     if (pass === state.adminPassword) { isLoggedIn = true; showPage('admin'); renderApp(); }
     else { document.getElementById('login-error')?.classList.remove('hidden'); }
 };
-const handleLogout = () => { isLoggedIn = false; showPage('home'); };
 
 const saveOffer = () => {
     const title = (document.getElementById('offer-title') as HTMLInputElement).value;
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
-    const editId = (document.getElementById('edit-offer-id') as HTMLInputElement).value;
-    if(!title || !price || !url) return alert('يرجى ملء الحقول الأساسية');
-    if (editId) {
-        const idx = state.offers.findIndex((o: any) => o.id === editId);
-        state.offers[idx] = { ...state.offers[idx], title, price, url, desc, img: currentMainImageBase64 || state.offers[idx].img };
-    } else {
-        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-    }
-    syncAndRender(); alert('تم حفظ المنتج بنجاح');
+    if(!title || !price) return alert('يرجى إكمال البيانات');
+    state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
+    sync(); renderApp(); alert('تم الحفظ');
 };
 
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
     const category = (document.getElementById('article-category') as HTMLSelectElement).value;
-    const editId = (document.getElementById('edit-article-id') as HTMLInputElement).value;
-    if(!title || !content) return alert('يرجى كتابة العنوان والمحتوى');
-    if (editId) {
-        const idx = state.articles.findIndex((a: any) => a.id === editId);
-        state.articles[idx] = { ...state.articles[idx], title, content, category, img: currentArticleImageBase64 || state.articles[idx].img };
-    } else {
-        state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-    }
-    syncAndRender(); alert('تم نشر المقال بنجاح');
+    if(!title || !content) return alert('يرجى إكمال البيانات');
+    state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
+    sync(); renderApp(); alert('تم النشر');
 };
 
 const saveSettings = () => {
-    state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value || state.siteName;
+    state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value;
     state.social.fb = (document.getElementById('social-fb') as HTMLInputElement).value || "#";
     state.social.tt = (document.getElementById('social-tt') as HTMLInputElement).value || "#";
     state.social.tw = (document.getElementById('social-tw') as HTMLInputElement).value || "#";
     state.social.ig = (document.getElementById('social-ig') as HTMLInputElement).value || "#";
     state.social.wa = (document.getElementById('social-wa') as HTMLInputElement).value || "#";
     state.social.pin = (document.getElementById('social-pin') as HTMLInputElement).value || "#";
-    syncAndRender(); 
-    alert('تم حفظ الإعدادات بنجاح. ستظهر روابط التواصل الآن لجميع الزوار.');
+    sync(); renderApp(); alert('تم تحديث الإعدادات');
 };
 
-const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
-const previewMainImage = async (e: any) => { if(!e.target.files[0]) return; currentMainImageBase64 = await fileToBase64(e.target.files[0]); document.getElementById('main-image-preview')!.setAttribute('src', currentMainImageBase64); document.getElementById('main-image-preview-container')!.classList.remove('hidden'); };
-const previewArticleImage = async (e: any) => { if(!e.target.files[0]) return; currentArticleImageBase64 = await fileToBase64(e.target.files[0]); document.getElementById('article-image-preview')!.setAttribute('src', currentArticleImageBase64); document.getElementById('article-image-preview-container')!.classList.remove('hidden'); };
-
-function deleteOffer(id: string) { if(confirm('هل أنت متأكد من حذف هذا المنتج؟')){ state.offers = state.offers.filter((o:any)=>o.id !== id); syncAndRender(); } }
-function deleteArticle(id: string) { if(confirm('هل أنت متأكد من حذف هذا المقال؟')){ state.articles = state.articles.filter((a:any)=>a.id !== id); syncAndRender(); } }
-
-function syncAndRender() { 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
-    renderApp(); 
-}
+const sync = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
 function renderApp() {
     document.getElementById('display-site-name')!.innerText = state.siteName;
     document.getElementById('footer-site-name')!.innerText = state.siteName;
     document.getElementById('footer-copy-name')!.innerText = state.siteName;
-    document.getElementById('footer-year')!.innerText = new Date().getFullYear().toString();
-    document.getElementById('footer-about-text')!.innerText = state.staticPages.about;
-
+    document.getElementById('hero-site-desc')!.innerText = state.siteDescription;
+    
     renderSocialButtons('footer-social-container');
 
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
-            <article class="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition group">
-                <div class="h-64 overflow-hidden relative cursor-pointer" onclick="window.open('${o.url}', '_blank')">
+            <article class="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition group">
+                <div class="h-56 overflow-hidden relative cursor-pointer" onclick="window.open('${o.url}', '_blank')">
                     <img src="${o.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-4 left-4 bg-orange-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase">Review</span>
+                    <span class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-0.5 rounded-full text-[9px] font-black uppercase">Review</span>
                 </div>
-                <div class="p-8 flex flex-col flex-grow">
-                    <h3 class="text-xl font-black mb-3 dark:text-white leading-tight">${o.title}</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">${o.desc}</p>
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-100 dark:border-gray-800">
-                        <span class="text-orange-600 font-black text-2xl">${o.price}</span>
-                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-4 rounded-2xl font-black shadow-lg hover:scale-105 transition active:scale-95">عرض العرض</a>
+                <div class="p-6">
+                    <h3 class="text-lg font-black mb-2 dark:text-white line-clamp-1">${o.title}</h3>
+                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">${o.desc}</p>
+                    <div class="flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-4">
+                        <span class="text-orange-600 font-black text-xl">${o.price}</span>
+                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md">طلب المنتج</a>
                     </div>
                 </div>
             </article>
         `).join('');
     }
 
+    const filteredArticles = currentCategoryFilter === 'الكل' ? state.articles : state.articles.filter((a:any) => a.category === currentCategoryFilter);
     const articlesGrid = document.getElementById('articles-grid');
     if (articlesGrid) {
-        articlesGrid.innerHTML = state.articles.map((a: any) => `
-            <article class="bg-white dark:bg-gray-900 p-4 md:p-6 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row gap-6 shadow-sm hover:shadow-lg transition group">
-                <div class="w-full sm:w-48 h-48 overflow-hidden rounded-3xl cursor-pointer" onclick="window.viewArticle('${a.id}')">
+        articlesGrid.innerHTML = filteredArticles.map((a: any) => `
+            <article class="bg-white dark:bg-gray-900 p-4 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-5 shadow-sm hover:shadow-lg transition group cursor-pointer" onclick="window.viewArticle('${a.id}')">
+                <div class="w-full md:w-32 h-32 overflow-hidden rounded-2xl flex-shrink-0">
                     <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 </div>
-                <div class="flex-grow flex flex-col justify-center">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-orange-600 text-[10px] font-black border-2 border-orange-600 px-3 py-1 rounded-full uppercase tracking-tighter">${a.category}</span>
-                        <span class="text-gray-400 text-[10px] font-bold">${a.date}</span>
+                <div class="flex flex-col justify-center">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-orange-600 text-[9px] font-black border border-orange-600 px-2 py-0.5 rounded-md">${a.category}</span>
+                        <span class="text-gray-400 text-[9px] font-bold">${a.date}</span>
                     </div>
-                    <h3 class="text-2xl font-black mb-4 dark:text-white cursor-pointer hover:text-orange-600 transition leading-tight" onclick="window.viewArticle('${a.id}')">${a.title}</h3>
-                    <button onclick="window.viewArticle('${a.id}')" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl font-black text-xs hover:bg-orange-600 hover:text-white transition w-fit">إقرأ المقال بالكامل</button>
+                    <h3 class="text-lg font-black dark:text-white line-clamp-2">${a.title}</h3>
                 </div>
             </article>
         `).join('');
     }
 
     if (isLoggedIn) {
-        const siteInput = document.getElementById('site-name-input') as HTMLInputElement;
-        if (siteInput) siteInput.value = state.siteName;
-        
-        (document.getElementById('social-wa') as HTMLInputElement).value = state.social.wa && state.social.wa !== "#" ? state.social.wa : "";
-        (document.getElementById('social-fb') as HTMLInputElement).value = state.social.fb && state.social.fb !== "#" ? state.social.fb : "";
-        (document.getElementById('social-ig') as HTMLInputElement).value = state.social.ig && state.social.ig !== "#" ? state.social.ig : "";
-        (document.getElementById('social-tt') as HTMLInputElement).value = state.social.tt && state.social.tt !== "#" ? state.social.tt : "";
-        (document.getElementById('social-tw') as HTMLInputElement).value = state.social.tw && state.social.tw !== "#" ? state.social.tw : "";
-        (document.getElementById('social-pin') as HTMLInputElement).value = state.social.pin && state.social.pin !== "#" ? state.social.pin : "";
-        
         const oL = document.getElementById('admin-offers-list');
-        if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b dark:border-gray-800"><td class="py-4 font-bold text-sm">${o.title}</td><td class="py-4 text-orange-600 font-bold text-sm">${o.price}</td><td class="py-4 text-left"><button onclick="window.deleteOffer('${o.id}')" class="bg-red-500 text-white px-4 py-1 rounded-lg text-xs font-bold">حذف</button></td></tr>`).join('');
+        if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b dark:border-gray-800"><td class="py-3 font-bold text-xs">${o.title}</td><td class="text-left"><button onclick="window.deleteOffer('${o.id}')" class="text-red-500 font-black">X</button></td></tr>`).join('');
         const aL = document.getElementById('admin-articles-list');
-        if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between items-center p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl mb-3 font-bold text-sm"><span>${a.title}</span><button onclick="window.deleteArticle('${a.id}')" class="bg-red-500 text-white px-5 py-2 rounded-xl text-xs">حذف</button></div>`).join('');
+        if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl mb-2 text-xs font-bold"><span>${a.title}</span><button onclick="window.deleteArticle('${a.id}')" class="text-red-500">حذف</button></div>`).join('');
     }
 }
 
-const toggleDarkMode = () => { 
-    document.documentElement.classList.toggle('dark'); 
-    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); 
-};
+const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
+const previewMainImg = async (e: any) => { if(e.target.files[0]) currentMainImageBase64 = await fileToBase64(e.target.files[0]); };
+const previewArtImg = async (e: any) => { if(e.target.files[0]) currentArticleImageBase64 = await fileToBase64(e.target.files[0]); };
+
+function deleteOffer(id: string) { state.offers = state.offers.filter((o:any)=>o.id !== id); sync(); renderApp(); }
+function deleteArticle(id: string) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); }
 
 Object.assign(window as any, { 
-    showPage, switchTab, handleLogin, handleLogout, viewArticle, viewStaticPage, 
-    saveOffer, saveArticle, saveSettings, previewMainImage, previewArticleImage,
-    toggleDarkMode, deleteOffer, deleteArticle
+    showPage, handleLogin, viewArticle, setCategoryFilter,
+    saveOffer, saveArticle, saveSettings, previewMainImg, previewArtImg,
+    deleteOffer, deleteArticle, 
+    switchTab: (tabId: string, event: any) => {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('bg-orange-600', 'text-white'));
+        document.getElementById(tabId)?.classList.add('active');
+        event.currentTarget.classList.add('bg-orange-600', 'text-white');
+    },
+    toggleDarkMode: () => { document.documentElement.classList.toggle('dark'); }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
-    renderApp();
-});
+document.addEventListener('DOMContentLoaded', renderApp);
