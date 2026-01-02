@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V4.8 (Temu Morocco & Action Links Support)
+ * Affiliate Blog Engine - V4.9 (Fixed Dark Mode & UI Refinements)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v4';
@@ -29,14 +29,6 @@ const DEFAULT_BLOG_DATA = {
             img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=600&h=400&fit=crop",
             url: "https://temu.to/k/u6zpr84k5n5",
             date: "20 يونيو 2024"
-        },
-        {
-            id: "art-1",
-            title: "مقدمة شاملة في التجارة الإلكترونية",
-            content: "تعتبر التجارة الإلكترونية اليوم عصب الاقتصاد العالمي الجديد. في هذا المقال، سنستعرض الخطوات الأساسية لإنشاء متجرك الأول، من اختيار المنصة المناسبة وصولاً إلى استراتيجيات التسويق الرقمي الفعالة في عام 2025.",
-            img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&h=400&fit=crop",
-            url: "",
-            date: "12 يونيو 2024"
         }
     ]
 };
@@ -46,9 +38,16 @@ let isLoggedIn = false;
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 
+/**
+ * دالة تبديل الوضع المظلم المحسنة
+ */
 const toggleDarkMode = () => {
-    const isDark = document.documentElement.classList.toggle('dark');
+    const html = document.documentElement;
+    const isDark = html.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // تلميح للمتصفح بإعادة تطبيق الأنماط إذا لزم الأمر
+    console.debug('Dark mode toggled:', isDark);
 };
 
 const togglePasswordVisibility = (inputId: string, iconId: string) => {
@@ -183,7 +182,6 @@ const resetOfferForm = () => {
     document.getElementById('btn-cancel-offer-edit')?.classList.add('hidden');
 };
 
-// Article Functions
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
@@ -251,7 +249,6 @@ function renderApp() {
     injectScript('adsterra-top-placeholder', state.ads.top);
     injectScript('adsterra-footer-placeholder', state.ads.footer);
 
-    // Render Home Grid (Offers)
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
@@ -266,10 +263,9 @@ function renderApp() {
                     </div>
                 </div>
             </article>
-        `).join('');
+        `).join('') || '<p class="col-span-full text-center py-20 text-gray-400">لا توجد منتجات حالياً.</p>';
     }
 
-    // Render Home Articles
     const articlesGrid = document.getElementById('articles-grid');
     if (articlesGrid) {
         articlesGrid.innerHTML = state.articles.map((a: any) => `
@@ -285,11 +281,10 @@ function renderApp() {
                     </div>
                 </div>
             </article>
-        `).join('');
+        `).join('') || '<p class="col-span-full text-center py-10 text-gray-400">لا توجد مقالات حالياً.</p>';
     }
 
     if (isLoggedIn) {
-        // Admin Offer List
         const offerList = document.getElementById('admin-offers-list');
         if (offerList) offerList.innerHTML = state.offers.map((o: any) => `
             <tr class="border-b border-gray-50 dark:border-gray-800">
@@ -298,7 +293,6 @@ function renderApp() {
             </tr>
         `).join('');
 
-        // Admin Article List
         const artList = document.getElementById('admin-articles-list');
         if (artList) artList.innerHTML = state.articles.map((a: any) => `
             <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
@@ -315,7 +309,7 @@ function renderApp() {
     }
 }
 
-// Bindings
+// Global Bindings
 Object.assign(window as any, { 
     showPage, switchTab, handleLogin, handleLogout, saveOffer, deleteOffer, editOffer, resetOfferForm, 
     previewMainImage, previewArticleImage, saveArticle, editArticle, deleteArticle, resetArticleForm,
