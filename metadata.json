@@ -1,6 +1,6 @@
 {
-  "name": "AffiliateHub Vanilla",
-  "description": "منصة أفلييت تعمل بالكامل بـ JavaScript الخام بدون فريم ورك.",
+  "name": "AffiliatePro Blog",
+  "description": "منصة مراجعات وصفقات أفلييت احترافية متوافقة مع Google AdSense.",
   "requestFramePermissions": [
     "camera",
     "microphone"
