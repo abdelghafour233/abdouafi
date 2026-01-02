@@ -1,19 +1,20 @@
 
 /**
- * Affiliate Blog Engine - V7.1 (Specialized: Morocco Tech, Self-Dev, Reviews)
+ * Affiliate Blog Engine - V7.2 (Production Ready: Specialized Connections)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v5';
 
 const DEFAULT_BLOG_DATA = {
     siteName: "abdouweb",
+    siteUrl: "https://abdouweb.ma",
     adminPassword: "admin123",
     ads: { enabled: true, head: "", top: "", footer: "" },
     social: {
-        fb: "#",
-        ig: "#",
-        tw: "#",
-        pin: "#"
+        fb: "https://facebook.com/abdouweb",
+        ig: "https://instagram.com/abdouweb",
+        tw: "https://twitter.com/abdouweb",
+        pin: "https://pinterest.com/abdouweb"
     },
     staticPages: {
         about: "مرحباً بكم في abdouweb. نحن نركز على تمكين الفرد المغربي من خلال تزويده بأحدث أخبار التكنولوجيا في المملكة، استراتيجيات تطوير الذات الفعالة، ومراجعات دقيقة لأحدث المنتجات لضمان أفضل قيمة مقابل المال.",
@@ -32,17 +33,6 @@ const DEFAULT_BLOG_DATA = {
             extraImgs: [],
             url: "https://amazon.com",
             date: "12 يناير 2025"
-        },
-        {
-            id: "review-2",
-            title: "أفضل الميكروفونات لبدء بودكاست احترافي من منزلك",
-            price: "950 درهم",
-            category: "مراجعات المنتجات",
-            desc: "إذا كنت ترغب في بدء رحلتك في تطوير الذات ومشاركة أفكارك، فهذه القائمة تضم أفضل الخيارات الاقتصادية المتاحة.",
-            img: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=400&h=300&fit=crop",
-            extraImgs: [],
-            url: "https://amazon.com",
-            date: "10 يناير 2025"
         }
     ],
     articles: [
@@ -54,24 +44,6 @@ const DEFAULT_BLOG_DATA = {
             img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop",
             url: "https://example.com",
             date: "15 يناير 2025"
-        },
-        {
-            id: "self-dev-habits",
-            category: "تطوير الذات",
-            title: "5 عادات يومية تزيد من إنتاجيتك بنسبة 200%",
-            content: "النجاح يبدأ من الروتين اليومي. في هذا المقال، نستعرض أفضل الاستراتيجيات التي يستخدمها كبار رواد الأعمال لتنظيم وقتهم، بدءاً من قاعدة 20 دقيقة إلى تقنية البومودورو المتقدمة.",
-            img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=600&h=400&fit=crop",
-            url: "https://example.com",
-            date: "14 يناير 2025"
-        },
-        {
-            id: "morocco-fintech",
-            category: "تقنية المغرب",
-            title: "نمو قطاع الـ Fintech في المغرب: هل نحن أمام ثورة بنكية؟",
-            content: "التطبيقات البنكية المغربية تشهد تحديثات مستمرة، والشركات الناشئة في مجال الدفع الإلكتروني تفرض نفسها بقوة في السوق المحلية.",
-            img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=600&h=400&fit=crop",
-            url: "https://example.com",
-            date: "11 يناير 2025"
         }
     ]
 };
@@ -79,7 +51,6 @@ const DEFAULT_BLOG_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
 let isLoggedIn = false;
 let currentMainImageBase64 = '';
-let currentExtraImages = [] as string[];
 let currentArticleImageBase64 = '';
 
 const toggleDarkMode = () => {
@@ -180,31 +151,20 @@ const viewStaticPage = (key: string) => {
         case 'contact': title = "اتصل بنا"; break;
     }
 
-    let extraHtml = "";
-    if (key === 'contact') {
-        extraHtml = `
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="space-y-4">
-                    <h4 class="text-xl font-bold">معلوماتنا</h4>
-                    <p class="whitespace-pre-line text-gray-500">${state.staticPages.contactInfo}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
-                    <h4 class="text-xl font-bold mb-6">أرسل لنا رسالة</h4>
-                    <div class="space-y-4">
-                        <input id="contact-name" type="text" placeholder="الاسم" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
-                        <input id="contact-email" type="email" placeholder="البريد الإلكتروني" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
-                        <textarea id="contact-msg" placeholder="رسالتك..." class="w-full h-32 p-4 rounded-xl border-none outline-none dark:bg-gray-800"></textarea>
-                        <button onclick="alert('تم إرسال رسالتك بنجاح سنرد عليك قريباً!')" class="w-full bg-orange-600 text-white py-4 rounded-xl font-bold">إرسال</button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
     container.innerHTML = `
         <h1 class="text-4xl font-black mb-10 text-orange-600">${title}</h1>
         <div class="text-lg leading-relaxed text-gray-600 dark:text-gray-400 whitespace-pre-line">${content}</div>
-        ${extraHtml}
+        ${key === 'contact' ? `
+            <div class="mt-12 bg-gray-50 dark:bg-gray-800/50 p-8 rounded-3xl border border-gray-100 dark:border-gray-800">
+                <h4 class="text-xl font-bold mb-6">تواصل معنا</h4>
+                <p class="mb-6 text-gray-500">${state.staticPages.contactInfo}</p>
+                <div class="space-y-4">
+                    <input type="text" placeholder="الاسم" class="w-full p-4 rounded-xl dark:bg-gray-800">
+                    <textarea placeholder="الرسالة" class="w-full h-32 p-4 rounded-xl dark:bg-gray-800"></textarea>
+                    <button onclick="alert('شكراً لتواصلك!')" class="bg-orange-600 text-white px-8 py-3 rounded-xl font-bold">إرسال</button>
+                </div>
+            </div>
+        ` : ''}
     `;
     showPage('static');
 };
@@ -225,17 +185,16 @@ const handleLogout = () => { isLoggedIn = false; showPage('home'); };
 
 const resetOfferForm = () => {
     ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-offer-id'].forEach(id => {
-        const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
+        const el = document.getElementById(id) as HTMLInputElement;
         if (el) el.value = '';
     });
     currentMainImageBase64 = '';
-    currentExtraImages = [];
     document.getElementById('main-image-preview-container')?.classList.add('hidden');
 };
 
 const resetArticleForm = () => {
-    ['article-title', 'article-content', 'article-url-input', 'edit-article-id'].forEach(id => {
-        const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
+    ['article-title', 'article-content', 'edit-article-id'].forEach(id => {
+        const el = document.getElementById(id) as HTMLInputElement;
         if (el) el.value = '';
     });
     currentArticleImageBase64 = '';
@@ -251,14 +210,13 @@ const editOffer = (id: string) => {
     (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
     (document.getElementById('edit-offer-id') as HTMLInputElement).value = o.id;
     currentMainImageBase64 = o.img;
-    currentExtraImages = o.extraImgs || [];
     const preview = document.getElementById('main-image-preview');
     if (preview) preview.setAttribute('src', o.img);
     document.getElementById('main-image-preview-container')?.classList.remove('hidden');
 };
 
 const deleteOffer = (id: string) => {
-    if (!confirm('هل أنت متأكد من حذف هذا العرض؟')) return;
+    if (!confirm('حذف المنتج؟')) return;
     state.offers = state.offers.filter((o: any) => o.id !== id);
     syncAndRender();
 };
@@ -268,7 +226,6 @@ const editArticle = (id: string) => {
     if (!a) return;
     (document.getElementById('article-title') as HTMLInputElement).value = a.title;
     (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
-    (document.getElementById('article-url-input') as HTMLInputElement).value = a.url || '';
     (document.getElementById('edit-article-id') as HTMLInputElement).value = a.id;
     (document.getElementById('article-category') as HTMLSelectElement).value = a.category || "تقنية المغرب";
     currentArticleImageBase64 = a.img;
@@ -278,7 +235,7 @@ const editArticle = (id: string) => {
 };
 
 const deleteArticle = (id: string) => {
-    if (!confirm('هل أنت متأكد من حذف هذا المقال؟')) return;
+    if (!confirm('حذف المقال؟')) return;
     state.articles = state.articles.filter((a: any) => a.id !== id);
     syncAndRender();
 };
@@ -289,12 +246,11 @@ const saveOffer = () => {
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
     const editId = (document.getElementById('edit-offer-id') as HTMLInputElement).value;
-    if (!title || !price) return alert('أكمل الحقول');
     if (editId) {
         const idx = state.offers.findIndex((o: any) => o.id === editId);
-        state.offers[idx] = { ...state.offers[idx], title, price, url, desc, img: currentMainImageBase64 || state.offers[idx].img, extraImgs: [...currentExtraImages] };
+        state.offers[idx] = { ...state.offers[idx], title, price, url, desc, img: currentMainImageBase64 || state.offers[idx].img };
     } else {
-        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64, extraImgs: [...currentExtraImages], date: new Date().toLocaleDateString('ar-EG') });
+        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64, date: new Date().toLocaleDateString('ar-EG') });
     }
     syncAndRender(); resetOfferForm(); alert('تم الحفظ');
 };
@@ -302,15 +258,13 @@ const saveOffer = () => {
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
-    const url = (document.getElementById('article-url-input') as HTMLInputElement).value;
     const category = (document.getElementById('article-category') as HTMLSelectElement).value;
     const editId = (document.getElementById('edit-article-id') as HTMLInputElement).value;
-    if (!title || !content) return alert('أكمل الحقول');
     if (editId) {
         const idx = state.articles.findIndex((a: any) => a.id === editId);
-        state.articles[idx] = { ...state.articles[idx], title, content, url, category, img: currentArticleImageBase64 || state.articles[idx].img };
+        state.articles[idx] = { ...state.articles[idx], title, content, category, img: currentArticleImageBase64 || state.articles[idx].img };
     } else {
-        state.articles.unshift({ id: Date.now().toString(), title, content, url, category, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
+        state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
     }
     syncAndRender(); resetArticleForm(); alert('تم النشر');
 };
@@ -319,27 +273,17 @@ const saveStaticPages = () => {
     state.staticPages.about = (document.getElementById('edit-about') as HTMLTextAreaElement).value;
     state.staticPages.privacy = (document.getElementById('edit-privacy') as HTMLTextAreaElement).value;
     state.staticPages.terms = (document.getElementById('edit-terms') as HTMLTextAreaElement).value;
-    state.staticPages.contactInfo = (document.getElementById('edit-contact-info') as HTMLTextAreaElement).value;
-    syncAndRender(); alert('تم حفظ الصفحات');
-};
-
-const saveAds = () => {
-    state.ads.enabled = (document.getElementById('ads-enabled') as HTMLInputElement).checked;
-    state.ads.head = (document.getElementById('ad-head') as HTMLTextAreaElement).value;
-    state.ads.top = (document.getElementById('ad-top') as HTMLTextAreaElement).value;
-    state.ads.footer = (document.getElementById('ad-footer') as HTMLTextAreaElement).value;
-    syncAndRender(); alert('تم حفظ الإعلانات');
+    syncAndRender(); alert('حفظ');
 };
 
 const saveSettings = () => {
     state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value;
+    state.siteUrl = (document.getElementById('site-url-input') as HTMLInputElement).value;
     state.social.fb = (document.getElementById('social-fb') as HTMLInputElement).value;
     state.social.ig = (document.getElementById('social-ig') as HTMLInputElement).value;
     state.social.tw = (document.getElementById('social-tw') as HTMLInputElement).value;
     state.social.pin = (document.getElementById('social-pin') as HTMLInputElement).value;
-    const pass = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
-    if (pass) state.adminPassword = pass;
-    syncAndRender(); alert('تم حفظ الإعدادات');
+    syncAndRender(); alert('حفظ الإعدادات');
 };
 
 const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
@@ -353,18 +297,22 @@ function renderApp() {
     document.getElementById('footer-site-name')!.innerText = state.siteName;
     document.getElementById('footer-copy-name')!.innerText = state.siteName;
     document.getElementById('footer-year')!.innerText = new Date().getFullYear().toString();
-    document.getElementById('footer-about-text')!.innerText = state.staticPages.about.substring(0, 100) + "...";
+    document.getElementById('footer-about-text')!.innerText = state.staticPages.about.substring(0, 80) + "...";
     
-    // Social Links
-    (document.getElementById('footer-social-fb') as HTMLAnchorElement).href = state.social.fb;
-    (document.getElementById('footer-social-ig') as HTMLAnchorElement).href = state.social.ig;
-    (document.getElementById('footer-social-tw') as HTMLAnchorElement).href = state.social.tw;
-    (document.getElementById('footer-social-pin') as HTMLAnchorElement).href = state.social.pin;
+    // Social Links & Logic
+    const fb = document.getElementById('footer-social-fb') as HTMLAnchorElement;
+    fb.href = state.social.fb; fb.style.display = state.social.fb ? 'flex' : 'none';
+    
+    const ig = document.getElementById('footer-social-ig') as HTMLAnchorElement;
+    ig.href = state.social.ig; ig.style.display = state.social.ig ? 'flex' : 'none';
+    
+    const tw = document.getElementById('footer-social-tw') as HTMLAnchorElement;
+    tw.href = state.social.tw; tw.style.display = state.social.tw ? 'flex' : 'none';
+    
+    const pin = document.getElementById('footer-social-pin') as HTMLAnchorElement;
+    pin.href = state.social.pin; pin.style.display = state.social.pin ? 'flex' : 'none';
 
-    injectScript('adsterra-head-placeholder', state.ads.head);
-    injectScript('adsterra-top-placeholder', state.ads.top);
-    injectScript('adsterra-footer-placeholder', state.ads.footer);
-
+    // Grids rendering (Offers & Articles)
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
@@ -405,31 +353,28 @@ function renderApp() {
     }
 
     if (isLoggedIn) {
-        (document.getElementById('edit-about') as HTMLTextAreaElement).value = state.staticPages.about;
-        (document.getElementById('edit-privacy') as HTMLTextAreaElement).value = state.staticPages.privacy;
-        (document.getElementById('edit-terms') as HTMLTextAreaElement).value = state.staticPages.terms;
-        (document.getElementById('edit-contact-info') as HTMLTextAreaElement).value = state.staticPages.contactInfo;
-        (document.getElementById('ad-head') as HTMLTextAreaElement).value = state.ads.head;
+        // Populating admin inputs
         (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
+        (document.getElementById('site-url-input') as HTMLInputElement).value = state.siteUrl;
         (document.getElementById('social-fb') as HTMLInputElement).value = state.social.fb;
         (document.getElementById('social-ig') as HTMLInputElement).value = state.social.ig;
         (document.getElementById('social-tw') as HTMLInputElement).value = state.social.tw;
         (document.getElementById('social-pin') as HTMLInputElement).value = state.social.pin;
-        
+        (document.getElementById('edit-about') as HTMLTextAreaElement).value = state.staticPages.about;
+        (document.getElementById('edit-privacy') as HTMLTextAreaElement).value = state.staticPages.privacy;
+        (document.getElementById('edit-terms') as HTMLTextAreaElement).value = state.staticPages.terms;
+
         const oL = document.getElementById('admin-offers-list');
-        if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b border-gray-50 dark:border-gray-800"><td class="p-4 flex items-center gap-3"><img src="${o.img}" class="w-10 h-10 rounded"> <span class="text-sm font-bold dark:text-white">${o.title}</span></td><td class="p-4 text-left"><button onclick="window.editOffer('${o.id}')" class="text-blue-500 text-xs ml-3">تعديل</button><button onclick="window.deleteOffer('${o.id}')" class="text-red-500 text-xs">حذف</button></td></tr>`).join('');
+        if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b dark:border-gray-800"><td>${o.title}</td><td class="text-left"><button onclick="window.editOffer('${o.id}')" class="text-blue-500 mr-2">تعديل</button><button onclick="window.deleteOffer('${o.id}')" class="text-red-500">حذف</button></td></tr>`).join('');
         const aL = document.getElementById('admin-articles-list');
-        if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl"><div class="flex items-center gap-3"><img src="${a.img}" class="w-10 h-10 rounded"> <span class="font-bold text-sm dark:text-white">${a.title}</span></div><div class="flex gap-4"><button onclick="window.editArticle('${a.id}')" class="text-blue-500 text-xs">تعديل</button><button onclick="window.deleteArticle('${a.id}')" class="text-red-500 text-xs">حذف</button></div></div>`).join('');
+        if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl"><span>${a.title}</span><div class="flex gap-4"><button onclick="window.editArticle('${a.id}')" class="text-blue-500">تعديل</button><button onclick="window.deleteArticle('${a.id}')" class="text-red-500">حذف</button></div></div>`).join('');
     }
 }
 
 Object.assign(window as any, { 
-    showPage, switchTab, handleLogin, handleLogout, 
-    viewArticle, viewStaticPage, 
-    saveOffer, saveArticle, saveStaticPages, saveAds, saveSettings,
-    previewMainImage, previewArticleImage,
-    toggleDarkMode, togglePasswordVisibility,
-    editOffer, deleteOffer, editArticle, deleteArticle, resetOfferForm, resetArticleForm
+    showPage, switchTab, handleLogin, handleLogout, viewArticle, viewStaticPage, 
+    saveOffer, saveArticle, saveStaticPages, saveSettings, previewMainImage, previewArticleImage,
+    toggleDarkMode, togglePasswordVisibility, editOffer, deleteOffer, editArticle, deleteArticle
 });
 
 document.addEventListener('DOMContentLoaded', renderApp);
