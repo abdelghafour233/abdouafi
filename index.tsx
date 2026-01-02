@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V3.7 (Enhanced Product Management & File Uploads)
+ * Affiliate Blog Engine - V3.9 (Dark Mode & UI Enhancements)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v3';
@@ -28,6 +28,28 @@ let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_B
 let isLoggedIn = false;
 let currentMainImageBase64 = '';
 let currentGalleryBase64: string[] = [];
+
+/**
+ * Dark Mode Support
+ */
+const toggleDarkMode = () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+};
+
+const togglePasswordVisibility = (inputId: string, iconId: string) => {
+    const input = document.getElementById(inputId) as HTMLInputElement;
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>';
+    } else {
+        input.type = 'password';
+        icon.innerHTML = '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+    }
+};
 
 const injectScript = (containerId: string, scriptHtml: string) => {
     const container = document.getElementById(containerId);
@@ -92,7 +114,7 @@ const previewGalleryImages = async (event: any) => {
         currentGalleryBase64.push(b64);
         const img = document.createElement('img');
         img.src = b64;
-        img.className = 'preview-img w-16 h-16 object-cover rounded-xl border border-gray-100 shadow-sm';
+        img.className = 'preview-img w-16 h-16 object-cover rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm';
         container?.appendChild(img);
     }
 };
@@ -176,7 +198,7 @@ const editOffer = (id: string) => {
         offer.gallery?.forEach((imgStr: string) => {
             const img = document.createElement('img');
             img.src = imgStr;
-            img.className = 'preview-img w-16 h-16 object-cover rounded-xl';
+            img.className = 'preview-img w-16 h-16 object-cover rounded-xl border dark:border-gray-700';
             galleryContainer.appendChild(img);
         });
     }
@@ -234,22 +256,22 @@ function renderApp() {
     const grid = document.getElementById('offers-grid');
     if (grid) {
         grid.innerHTML = state.offers.length ? state.offers.map((o: any) => `
-            <article class="blog-card bg-white rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col h-full shadow-sm hover:shadow-xl transition duration-500 group">
+            <article class="blog-card bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition duration-500 group">
                 <div class="relative overflow-hidden h-64">
                     <img src="${o.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="${o.title}">
                     <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">${o.category}</div>
                 </div>
                 <div class="p-8 flex flex-col flex-grow">
-                    <h3 class="text-xl font-black mb-3 line-clamp-2 text-gray-900 leading-tight">${o.title}</h3>
-                    <p class="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">${o.desc}</p>
+                    <h3 class="text-xl font-black mb-3 line-clamp-2 text-gray-900 dark:text-white leading-tight">${o.title}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">${o.desc}</p>
                     ${o.gallery && o.gallery.length > 0 ? `
                         <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                            ${o.gallery.map((g: string) => `<img src="${g}" class="w-10 h-10 rounded-lg object-cover border border-gray-100">`).join('')}
+                            ${o.gallery.map((g: string) => `<img src="${g}" class="w-10 h-10 rounded-lg object-cover border border-gray-100 dark:border-gray-800">`).join('')}
                         </div>
                     ` : ''}
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-50">
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-50 dark:border-gray-800">
                         <span class="text-orange-600 font-black text-2xl">${o.price}</span>
-                        <a href="${o.url}" target="_blank" class="bg-gray-900 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-orange-600 transition">تسوق الآن</a>
+                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-orange-600 dark:hover:bg-orange-500 transition">تسوق الآن</a>
                     </div>
                 </div>
             </article>
@@ -260,18 +282,18 @@ function renderApp() {
         const list = document.getElementById('admin-offers-list');
         if (list) {
             list.innerHTML = state.offers.map((o: any) => `
-                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                <tr class="border-b border-gray-50 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
                     <td class="p-4 flex items-center gap-4">
-                        <img src="${o.img}" class="w-12 h-12 rounded-xl object-cover shadow-sm">
+                        <img src="${o.img}" class="w-12 h-12 rounded-xl object-cover shadow-sm border dark:border-gray-700">
                         <div>
-                            <span class="font-black text-gray-800 text-sm block line-clamp-1">${o.title}</span>
+                            <span class="font-black text-gray-800 dark:text-white text-sm block line-clamp-1">${o.title}</span>
                             <span class="text-xs text-orange-600 font-bold">${o.price}</span>
                         </div>
                     </td>
                     <td class="p-4 text-center">
                         <div class="flex justify-center gap-2">
-                            <button onclick="window.editOffer('${o.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg">تعديل</button>
-                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg">حذف</button>
+                            <button onclick="window.editOffer('${o.id}')" class="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition">تعديل</button>
+                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition">حذف</button>
                         </div>
                     </td>
                 </tr>
@@ -298,5 +320,7 @@ function renderApp() {
 (window as any).previewGalleryImages = previewGalleryImages;
 (window as any).saveAds = saveAds;
 (window as any).saveSettings = saveSettings;
+(window as any).togglePasswordVisibility = togglePasswordVisibility;
+(window as any).toggleDarkMode = toggleDarkMode;
 
 document.addEventListener('DOMContentLoaded', renderApp);

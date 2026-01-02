@@ -7,6 +7,14 @@
     <title>مدونة الصفقات | Affiliate Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        // إعداد الوضع المظلم قبل تحميل الصفحة لمنع الوميض الأبيض
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <style>
         body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
         .blog-card:hover img { transform: scale(1.05); }
@@ -16,17 +24,19 @@
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 2px solid #eee; }
         .upload-area { border: 2px dashed #e2e8f0; transition: all 0.3s ease; }
+        .dark .upload-area { border-color: #374151; background-color: #1f2937; }
         .upload-area:hover { border-color: #ea580c; background-color: #fffaf8; }
+        .dark .upload-area:hover { background-color: #111827; }
     </style>
     <!-- Placeholder for Adsterra Head Codes -->
     <div id="adsterra-head-placeholder"></div>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-300">
 
     <!-- Placeholder for Adsterra Top Banner -->
-    <div id="adsterra-top-placeholder" class="flex justify-center bg-white border-b overflow-hidden empty:hidden"></div>
+    <div id="adsterra-top-placeholder" class="flex justify-center bg-white dark:bg-gray-900 border-b dark:border-gray-800 overflow-hidden empty:hidden"></div>
 
-    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <header class="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800 transition-colors">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="window.showPage('home')">
                 <div class="bg-orange-600 p-2 rounded-lg text-white shadow-lg">
@@ -34,32 +44,42 @@
                 </div>
                 <span id="display-site-name" class="text-2xl font-black text-orange-600 tracking-tight">BlogDeals</span>
             </div>
-            <nav class="flex items-center gap-4">
-                <button onclick="window.showPage('home')" class="px-3 py-2 text-gray-700 font-bold hover:text-orange-600 transition">الرئيسية</button>
-                <button onclick="window.showPage('admin')" class="bg-gray-900 text-white px-5 py-2 rounded-full font-bold hover:bg-gray-800 transition shadow-md text-sm">لوحة الإدارة</button>
+            <nav class="flex items-center gap-3">
+                <!-- Dark Mode Toggle Button -->
+                <button onclick="window.toggleDarkMode()" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-orange-600 transition-all">
+                    <svg id="theme-icon-sun" class="hidden dark:block" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <svg id="theme-icon-moon" class="block dark:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+                <button onclick="window.showPage('home')" class="px-3 py-2 text-gray-700 dark:text-gray-300 font-bold hover:text-orange-600 transition">الرئيسية</button>
+                <button onclick="window.showPage('admin')" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-full font-bold hover:bg-orange-700 dark:hover:bg-orange-500 transition shadow-md text-sm">لوحة الإدارة</button>
             </nav>
         </div>
     </header>
 
     <main class="flex-grow">
-        <section id="hero-section" class="bg-white border-b border-gray-100 py-12 md:py-20 mb-10">
+        <section id="hero-section" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-12 md:py-20 mb-10 transition-colors">
             <div class="max-w-4xl mx-auto px-4 text-center">
-                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">دليلك لأفضل <span class="text-orange-600">الصفقات</span> والمراجعات</h1>
-                <p class="text-gray-500 text-lg md:text-xl leading-relaxed">نحن نبحث عن أفضل المنتجات ونقدم لك مراجعات صادقة وروابط شراء مباشرة لأفضل المواقع العالمية.</p>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight dark:text-white">دليلك لأفضل <span class="text-orange-600">الصفقات</span> والمراجعات</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-lg md:text-xl leading-relaxed">نحن نبحث عن أفضل المنتجات ونقدم لك مراجعات صادقة وروابط شراء مباشرة لأفضل المواقع العالمية.</p>
             </div>
         </section>
 
         <section id="page-home" class="page-view max-w-6xl mx-auto px-4 mb-20">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black border-r-4 border-orange-600 pr-4">آخر المنتجات المنشورة</h2>
+                <h2 class="text-2xl font-black border-r-4 border-orange-600 pr-4 dark:text-white">آخر المنتجات المنشورة</h2>
             </div>
             <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
         </section>
 
         <section id="page-login" class="page-view hidden max-w-md mx-auto px-4 py-24">
-            <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-100 text-center">
-                <h2 class="text-3xl font-black mb-8">دخول الناشر</h2>
-                <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full px-5 py-4 border-2 border-gray-100 rounded-2xl mb-4 focus:border-orange-500 outline-none transition-all">
+            <div class="bg-white dark:bg-gray-900 p-10 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 text-center">
+                <h2 class="text-3xl font-black mb-8 dark:text-white">دخول الناشر</h2>
+                <div class="relative mb-4">
+                    <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full pl-12 pr-5 py-4 border-2 border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-white rounded-2xl focus:border-orange-500 outline-none transition-all">
+                    <button type="button" onclick="window.togglePasswordVisibility('admin-pass-input', 'eye-icon-login')" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-600 transition">
+                        <svg id="eye-icon-login" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
                 <p id="login-error" class="text-red-500 text-sm mb-4 hidden font-bold">عذراً، كلمة المرور خاطئة!</p>
                 <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 transition shadow-lg text-lg">دخول للوحة التحكم</button>
             </div>
@@ -69,48 +89,48 @@
             <div class="flex flex-col lg:flex-row gap-10">
                 <div class="w-full lg:w-72 space-y-3">
                     <button id="tab-btn-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">إدارة المنتجات</button>
-                    <button id="tab-btn-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">إعلانات Adsterra</button>
-                    <button id="tab-btn-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white transition font-bold border border-transparent">إعدادات المدونة</button>
-                    <hr class="my-6">
-                    <button onclick="window.handleLogout()" class="w-full text-right px-6 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50">خروج</button>
+                    <button id="tab-btn-ads" onclick="window.switchTab('tab-ads', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white dark:hover:bg-gray-800 dark:text-gray-300 transition font-bold border border-transparent">إعلانات Adsterra</button>
+                    <button id="tab-btn-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn w-full text-right px-6 py-4 rounded-2xl hover:bg-white dark:hover:bg-gray-800 dark:text-gray-300 transition font-bold border border-transparent">إعدادات المدونة</button>
+                    <hr class="my-6 dark:border-gray-800">
+                    <button onclick="window.handleLogout()" class="w-full text-right px-6 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition">خروج</button>
                 </div>
 
-                <div class="flex-grow bg-white p-8 rounded-3xl border border-gray-100 shadow-sm min-h-[600px]">
+                <div class="flex-grow bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm min-h-[600px] transition-colors">
                     <div id="tab-offers" class="tab-content active">
                         <div class="flex justify-between items-center mb-8">
-                            <h3 id="form-title" class="text-2xl font-black text-gray-800">إضافة منتج جديد</h3>
+                            <h3 id="form-title" class="text-2xl font-black text-gray-800 dark:text-white">إضافة منتج جديد</h3>
                             <button id="btn-cancel-edit" onclick="window.resetOfferForm()" class="hidden text-sm text-red-500 font-bold">إلغاء التعديل</button>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
                             <input type="hidden" id="edit-id">
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2 text-gray-700">اسم المنتج</label>
-                                <input type="text" id="offer-title" placeholder="مثال: ساعة أبل الجيل التاسع" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">اسم المنتج</label>
+                                <input type="text" id="offer-title" placeholder="مثال: ساعة أبل الجيل التاسع" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2 text-gray-700">السعر</label>
-                                <input type="text" id="offer-price" placeholder="399$" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">السعر</label>
+                                <input type="text" id="offer-price" placeholder="399$" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2 text-gray-700">رابط شراء الأفلييت</label>
-                                <input type="text" id="offer-url" placeholder="https://amazon.com/..." class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">رابط شراء الأفلييت</label>
+                                <input type="text" id="offer-url" placeholder="https://amazon.com/..." class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2 text-gray-700">تحميل الصورة الرئيسية</label>
-                                <div class="upload-area p-4 rounded-2xl bg-white text-center cursor-pointer relative">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">تحميل الصورة الرئيسية</label>
+                                <div class="upload-area p-4 rounded-2xl bg-white dark:bg-gray-800 text-center cursor-pointer relative">
                                     <input type="file" id="offer-img-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="window.previewMainImage(event)">
                                     <div id="main-upload-label" class="text-gray-400 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                         اضغط لرفع صورة المنتج
                                     </div>
                                     <div id="main-image-preview-container" class="mt-2 hidden">
-                                        <img id="main-image-preview" src="" class="preview-img mx-auto w-32 h-32 rounded-xl">
+                                        <img id="main-image-preview" src="" class="preview-img mx-auto w-32 h-32 rounded-xl border dark:border-gray-700">
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2 text-gray-700">تحميل صور إضافية</label>
-                                <div class="upload-area p-4 rounded-2xl bg-white text-center cursor-pointer relative">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">تحميل صور إضافية</label>
+                                <div class="upload-area p-4 rounded-2xl bg-white dark:bg-gray-800 text-center cursor-pointer relative">
                                     <input type="file" id="offer-gallery-files" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="window.previewGalleryImages(event)">
                                     <div class="text-gray-400 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
@@ -120,24 +140,24 @@
                                 </div>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2 text-gray-700">التصنيف</label>
-                                <select id="offer-cat" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">التصنيف</label>
+                                <select id="offer-cat" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
                                     <option>تقنية</option><option>موضة</option><option>منزل ذكي</option><option>صحة</option><option>ألعاب</option>
                                 </select>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2 text-gray-700">وصف المنتج بالتفصيل</label>
-                                <textarea id="offer-desc" placeholder="اكتب مراجعة أو مواصفات المنتج هنا..." class="w-full h-40 p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all"></textarea>
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">وصف المنتج بالتفصيل</label>
+                                <textarea id="offer-desc" placeholder="اكتب مراجعة أو مواصفات المنتج هنا..." class="w-full h-40 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all"></textarea>
                             </div>
-                            <button id="btn-submit-offer" onclick="window.saveOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold md:col-span-2 hover:bg-orange-700 shadow-xl shadow-orange-100 text-lg transition-transform active:scale-95">نشر المنتج في الموقع</button>
+                            <button id="btn-submit-offer" onclick="window.saveOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold md:col-span-2 hover:bg-orange-700 shadow-xl shadow-orange-100 dark:shadow-none text-lg transition-transform active:scale-95">نشر المنتج في الموقع</button>
                         </div>
-                        <h3 class="text-2xl font-black mb-6">قائمة المنتجات المنشورة</h3>
-                        <div class="overflow-hidden border border-gray-100 rounded-2xl shadow-sm">
-                            <table class="w-full text-right bg-white">
-                                <thead class="bg-gray-50 border-b">
+                        <h3 class="text-2xl font-black mb-6 dark:text-white">قائمة المنتجات المنشورة</h3>
+                        <div class="overflow-hidden border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm">
+                            <table class="w-full text-right bg-white dark:bg-gray-900">
+                                <thead class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
                                     <tr>
-                                        <th class="p-4">المنتج</th>
-                                        <th class="p-4 text-center">الإجراءات</th>
+                                        <th class="p-4 dark:text-gray-300">المنتج</th>
+                                        <th class="p-4 text-center dark:text-gray-300">الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-offers-list"></tbody>
@@ -146,11 +166,10 @@
                     </div>
 
                     <div id="tab-ads" class="tab-content">
-                        <!-- Ads Content (Same as before) -->
                         <div class="flex items-center justify-between mb-8">
-                            <h3 class="text-2xl font-black">إعدادات Adsterra</h3>
-                            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-xl">
-                                <span class="text-sm font-bold">حالة الإعلانات:</span>
+                            <h3 class="text-2xl font-black dark:text-white">إعدادات Adsterra</h3>
+                            <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 px-4 py-2 rounded-xl">
+                                <span class="text-sm font-bold dark:text-gray-300">حالة الإعلانات:</span>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" id="ads-enabled" onchange="window.saveAds()" class="sr-only peer">
                                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
@@ -160,26 +179,34 @@
                         
                         <div class="space-y-6">
                             <div>
-                                <label class="block font-bold mb-2 text-gray-700">كود الـ Head (Popunder)</label>
-                                <textarea id="ad-head" placeholder="إلصق الكود هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                                <label class="block font-bold mb-2 text-gray-700 dark:text-gray-300">كود الـ Head (Popunder)</label>
+                                <textarea id="ad-head" placeholder="إلصق الكود هنا..." class="w-full h-32 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
                             </div>
                             <div>
-                                <label class="block font-bold mb-2 text-gray-700">إعلان علوي (Banner Top)</label>
-                                <textarea id="ad-top" placeholder="إلصق كود البانر العلوي هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                                <label class="block font-bold mb-2 text-gray-700 dark:text-gray-300">إعلان علوي (Banner Top)</label>
+                                <textarea id="ad-top" placeholder="إلصق كود البانر العلوي هنا..." class="w-full h-32 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
                             </div>
                             <div>
-                                <label class="block font-bold mb-2 text-gray-700">إعلان سفلي (Banner Footer)</label>
-                                <textarea id="ad-footer" placeholder="إلصق كود البانر السفلي هنا..." class="w-full h-32 p-4 border rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+                                <label class="block font-bold mb-2 text-gray-700 dark:text-gray-300">إعلان سفلي (Banner Footer)</label>
+                                <textarea id="ad-footer" placeholder="إلصق كود البانر السفلي هنا..." class="w-full h-32 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl font-mono text-xs bg-gray-50 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
                             </div>
                             <button onclick="window.saveAds()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg hover:bg-orange-700 transition">حفظ التغييرات</button>
                         </div>
                     </div>
 
                     <div id="tab-settings" class="tab-content">
-                        <h3 class="text-2xl font-black mb-8">إعدادات عامة</h3>
+                        <h3 class="text-2xl font-black mb-8 dark:text-white">إعدادات عامة</h3>
                         <div class="space-y-8">
-                            <div><label class="block font-bold mb-2">اسم الموقع</label><input type="text" id="site-name-input" class="w-full p-4 border rounded-2xl outline-none"></div>
-                            <div><label class="block font-bold mb-2">كلمة مرور الإدارة الجديدة</label><input type="password" id="new-admin-pass" class="w-full p-4 border rounded-2xl outline-none"></div>
+                            <div><label class="block font-bold mb-2 dark:text-gray-300">اسم الموقع</label><input type="text" id="site-name-input" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none"></div>
+                            <div class="relative">
+                                <label class="block font-bold mb-2 dark:text-gray-300">كلمة مرور الإدارة الجديدة</label>
+                                <div class="relative">
+                                    <input type="password" id="new-admin-pass" class="w-full pl-12 pr-4 py-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
+                                    <button type="button" onclick="window.togglePasswordVisibility('new-admin-pass', 'eye-icon-settings')" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-600 transition">
+                                        <svg id="eye-icon-settings" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
                             <button onclick="window.saveSettings()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-bold shadow-lg">حفظ التغييرات</button>
                         </div>
                     </div>
@@ -189,9 +216,9 @@
     </main>
 
     <!-- Placeholder for Adsterra Footer Banner -->
-    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white py-8 border-t overflow-hidden empty:hidden"></div>
+    <div id="adsterra-footer-placeholder" class="flex justify-center bg-white dark:bg-gray-900 py-8 border-t dark:border-gray-800 overflow-hidden empty:hidden transition-colors"></div>
 
-    <footer class="bg-gray-900 text-white py-16">
+    <footer class="bg-gray-900 dark:bg-black text-white py-16 transition-colors">
         <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
                 <h3 class="text-2xl font-black text-orange-500 mb-4" id="footer-site-name">BlogDeals</h3>
