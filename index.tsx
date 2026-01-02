@@ -1,9 +1,9 @@
 
 /**
- * Affiliate Blog Engine - V4.0 (Enhanced Affiliate Link Handling)
+ * Affiliate Blog Engine - V4.5 (E-commerce Articles Support)
  */
 
-const STORAGE_KEY = 'aff_blog_pro_storage_v3';
+const STORAGE_KEY = 'aff_blog_pro_storage_v4';
 
 const DEFAULT_BLOG_DATA = {
     siteName: "مدونة الصفقات",
@@ -17,9 +17,31 @@ const DEFAULT_BLOG_DATA = {
             category: "تقنية",
             desc: "تعتبر هذه الساعة هي الأفضل حالياً لمستخدمي أيفون، حيث تقدم ميزات صحية متطورة ومعالجاً أسرع من أي وقت مضى. جربناها لمدة أسبوع وإليك الانطباع الكامل.",
             img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&h=300&fit=crop",
-            gallery: [],
             url: "https://amazon.com",
             date: "25 مايو 2024"
+        }
+    ],
+    articles: [
+        {
+            id: "art-1",
+            title: "مقدمة شاملة في التجارة الإلكترونية",
+            content: "تعتبر التجارة الإلكترونية اليوم عصب الاقتصاد العالمي الجديد. في هذا المقال، سنستعرض الخطوات الأساسية لإنشاء متجرك الأول، من اختيار المنصة المناسبة وصولاً إلى استراتيجيات التسويق الرقمي الفعالة في عام 2025.",
+            img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&h=400&fit=crop",
+            date: "12 يونيو 2024"
+        },
+        {
+            id: "art-2",
+            title: "أسرار الربح من الأفلييت (التسويق بالعمولة)",
+            content: "التسويق بالعمولة هو وسيلة رائعة لبدء العمل عبر الإنترنت دون الحاجة لامتلاك منتج خاص بك. السر يكمن في بناء الثقة مع جمهورك وتقديم قيمة حقيقية من خلال مراجعات صادقة للمنتجات التي يحتاجونها فعلاً.",
+            img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&h=400&fit=crop",
+            date: "15 يونيو 2024"
+        },
+        {
+            id: "art-3",
+            title: "كيف تختار المنتج الرابح لترويجه؟",
+            content: "ليس كل منتج يستحق الترويج. هناك معايير أساسية يجب اتباعها مثل: هامش الربح، حاجة السوق، وسهولة الشحن. سنتعلم في هذا المقال كيف نستخدم أدوات تحليل البيانات لاكتشاف الصفقات الرابحة قبل الجميع.",
+            img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&h=400&fit=crop",
+            date: "18 يونيو 2024"
         }
     ]
 };
@@ -27,11 +49,8 @@ const DEFAULT_BLOG_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
 let isLoggedIn = false;
 let currentMainImageBase64 = '';
-let currentGalleryBase64: string[] = [];
+let currentArticleImageBase64 = '';
 
-/**
- * Dark Mode Support
- */
 const toggleDarkMode = () => {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
@@ -41,7 +60,6 @@ const togglePasswordVisibility = (inputId: string, iconId: string) => {
     const input = document.getElementById(inputId) as HTMLInputElement;
     const icon = document.getElementById(iconId);
     if (!input || !icon) return;
-    
     if (input.type === 'password') {
         input.type = 'text';
         icon.innerHTML = '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>';
@@ -96,26 +114,20 @@ const previewMainImage = async (event: any) => {
     if (file) {
         currentMainImageBase64 = await fileToBase64(file);
         const img = document.getElementById('main-image-preview') as HTMLImageElement;
-        const container = document.getElementById('main-image-preview-container');
-        const label = document.getElementById('main-upload-label');
         img.src = currentMainImageBase64;
-        container?.classList.remove('hidden');
-        label?.classList.add('hidden');
+        document.getElementById('main-image-preview-container')?.classList.remove('hidden');
+        document.getElementById('main-upload-label')?.classList.add('hidden');
     }
 };
 
-const previewGalleryImages = async (event: any) => {
-    const files = Array.from(event.target.files as FileList);
-    currentGalleryBase64 = [];
-    const container = document.getElementById('gallery-preview-container');
-    if (container) container.innerHTML = '';
-    for (const file of files) {
-        const b64 = await fileToBase64(file);
-        currentGalleryBase64.push(b64);
-        const img = document.createElement('img');
-        img.src = b64;
-        img.className = 'preview-img w-16 h-16 object-cover rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm';
-        container?.appendChild(img);
+const previewArticleImage = async (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+        currentArticleImageBase64 = await fileToBase64(file);
+        const img = document.getElementById('article-image-preview') as HTMLImageElement;
+        img.src = currentArticleImageBase64;
+        document.getElementById('article-image-preview-container')?.classList.remove('hidden');
+        document.getElementById('article-upload-label')?.classList.add('hidden');
     }
 };
 
@@ -136,97 +148,85 @@ const saveOffer = () => {
     const title = (document.getElementById('offer-title') as HTMLInputElement).value;
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
-    const cat = (document.getElementById('offer-cat') as HTMLSelectElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
-    const editId = (document.getElementById('edit-id') as HTMLInputElement).value;
+    const editId = (document.getElementById('edit-offer-id') as HTMLInputElement).value;
 
-    if (!title || !price || (!currentMainImageBase64 && !editId)) {
-        return alert('يرجى كتابة اسم المنتج والسعر ورفع الصورة الرئيسية على الأقل.');
-    }
-
-    // Basic URL check
-    let formattedUrl = url;
-    if (formattedUrl && !formattedUrl.startsWith('http')) {
-        formattedUrl = 'https://' + formattedUrl;
-    }
+    if (!title || !price || (!currentMainImageBase64 && !editId)) return alert('يرجى ملء البيانات الأساسية');
 
     if (editId) {
-        const index = state.offers.findIndex((o: any) => o.id === editId);
-        if (index !== -1) {
-            state.offers[index] = {
-                ...state.offers[index],
-                title, price, url: formattedUrl, category: cat, desc,
-                img: currentMainImageBase64 || state.offers[index].img,
-                gallery: currentGalleryBase64.length > 0 ? currentGalleryBase64 : state.offers[index].gallery
-            };
-        }
+        const idx = state.offers.findIndex((o: any) => o.id === editId);
+        if (idx !== -1) state.offers[idx] = { ...state.offers[idx], title, price, url, desc, img: currentMainImageBase64 || state.offers[idx].img };
     } else {
-        const newOffer = {
-            id: Date.now().toString(),
-            title, price, url: formattedUrl, category: cat, desc,
-            img: currentMainImageBase64,
-            gallery: currentGalleryBase64,
-            date: new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' })
-        };
-        state.offers.unshift(newOffer);
+        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64, date: new Date().toLocaleDateString('ar-EG') });
     }
-
-    syncAndRender();
-    resetOfferForm();
-    alert('تم حفظ المنتج بنجاح!');
+    syncAndRender(); resetOfferForm(); alert('تم الحفظ');
 };
 
-const deleteOffer = (id: string) => {
-    if (confirm('حذف هذا المنتج نهائياً؟')) {
-        state.offers = state.offers.filter((o: any) => o.id !== id);
-        syncAndRender();
-    }
-};
+const deleteOffer = (id: string) => { if (confirm('حذف؟')) { state.offers = state.offers.filter((o: any) => o.id !== id); syncAndRender(); } };
 
 const editOffer = (id: string) => {
-    const offer = state.offers.find((o: any) => o.id === id);
-    if (!offer) return;
-    (document.getElementById('edit-id') as HTMLInputElement).value = offer.id;
-    (document.getElementById('offer-title') as HTMLInputElement).value = offer.title;
-    (document.getElementById('offer-price') as HTMLInputElement).value = offer.price;
-    (document.getElementById('offer-url') as HTMLInputElement).value = offer.url;
-    (document.getElementById('offer-cat') as HTMLSelectElement).value = offer.category;
-    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = offer.desc;
-
-    const mainPreview = document.getElementById('main-image-preview') as HTMLImageElement;
-    mainPreview.src = offer.img;
+    const o = state.offers.find((o: any) => o.id === id);
+    if (!o) return;
+    (document.getElementById('edit-offer-id') as HTMLInputElement).value = o.id;
+    (document.getElementById('offer-title') as HTMLInputElement).value = o.title;
+    (document.getElementById('offer-price') as HTMLInputElement).value = o.price;
+    (document.getElementById('offer-url') as HTMLInputElement).value = o.url;
+    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
+    (document.getElementById('main-image-preview') as HTMLImageElement).src = o.img;
     document.getElementById('main-image-preview-container')?.classList.remove('hidden');
     document.getElementById('main-upload-label')?.classList.add('hidden');
-
-    const galleryContainer = document.getElementById('gallery-preview-container');
-    if (galleryContainer) {
-        galleryContainer.innerHTML = '';
-        offer.gallery?.forEach((imgStr: string) => {
-            const img = document.createElement('img');
-            img.src = imgStr;
-            img.className = 'preview-img w-16 h-16 object-cover rounded-xl border dark:border-gray-700';
-            galleryContainer.appendChild(img);
-        });
-    }
-    document.getElementById('form-title')!.innerText = "تعديل بيانات المنتج";
-    document.getElementById('btn-submit-offer')!.innerText = "حفظ التغييرات";
-    document.getElementById('btn-cancel-edit')?.classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('offer-form-title')!.innerText = "تعديل المنتج";
+    document.getElementById('btn-cancel-offer-edit')?.classList.remove('hidden');
 };
 
 const resetOfferForm = () => {
-    ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-id', 'offer-img-file', 'offer-gallery-files'].forEach(id => {
-        const el = document.getElementById(id) as any;
-        if (el) el.value = '';
-    });
+    ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-offer-id', 'offer-img-file'].forEach(id => (document.getElementById(id) as any).value = '');
     currentMainImageBase64 = '';
-    currentGalleryBase64 = [];
     document.getElementById('main-image-preview-container')?.classList.add('hidden');
     document.getElementById('main-upload-label')?.classList.remove('hidden');
-    document.getElementById('gallery-preview-container')!.innerHTML = '';
-    document.getElementById('form-title')!.innerText = "إضافة منتج جديد";
-    document.getElementById('btn-submit-offer')!.innerText = "نشر المنتج في الموقع";
-    document.getElementById('btn-cancel-edit')?.classList.add('hidden');
+    document.getElementById('offer-form-title')!.innerText = "إضافة منتج جديد";
+    document.getElementById('btn-cancel-offer-edit')?.classList.add('hidden');
+};
+
+// Article Functions
+const saveArticle = () => {
+    const title = (document.getElementById('article-title') as HTMLInputElement).value;
+    const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
+    const editId = (document.getElementById('edit-article-id') as HTMLInputElement).value;
+
+    if (!title || !content || (!currentArticleImageBase64 && !editId)) return alert('يرجى كتابة العنوان والمحتوى');
+
+    if (editId) {
+        const idx = state.articles.findIndex((a: any) => a.id === editId);
+        if (idx !== -1) state.articles[idx] = { ...state.articles[idx], title, content, img: currentArticleImageBase64 || state.articles[idx].img };
+    } else {
+        state.articles.unshift({ id: Date.now().toString(), title, content, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
+    }
+    syncAndRender(); resetArticleForm(); alert('تم نشر المقال');
+};
+
+const editArticle = (id: string) => {
+    const a = state.articles.find((a: any) => a.id === id);
+    if (!a) return;
+    (document.getElementById('edit-article-id') as HTMLInputElement).value = a.id;
+    (document.getElementById('article-title') as HTMLInputElement).value = a.title;
+    (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
+    (document.getElementById('article-image-preview') as HTMLImageElement).src = a.img;
+    document.getElementById('article-image-preview-container')?.classList.remove('hidden');
+    document.getElementById('article-upload-label')?.classList.add('hidden');
+    document.getElementById('article-form-title')!.innerText = "تعديل المقال";
+    document.getElementById('btn-cancel-article-edit')?.classList.remove('hidden');
+};
+
+const deleteArticle = (id: string) => { if (confirm('حذف المقال؟')) { state.articles = state.articles.filter((a: any) => a.id !== id); syncAndRender(); } };
+
+const resetArticleForm = () => {
+    ['article-title', 'article-content', 'edit-article-id', 'article-img-file'].forEach(id => (document.getElementById(id) as any).value = '');
+    currentArticleImageBase64 = '';
+    document.getElementById('article-image-preview-container')?.classList.add('hidden');
+    document.getElementById('article-upload-label')?.classList.remove('hidden');
+    document.getElementById('article-form-title')!.innerText = "كتابة مقال جديد";
+    document.getElementById('btn-cancel-article-edit')?.classList.add('hidden');
 };
 
 const saveAds = () => {
@@ -234,22 +234,17 @@ const saveAds = () => {
     state.ads.head = (document.getElementById('ad-head') as HTMLTextAreaElement).value;
     state.ads.top = (document.getElementById('ad-top') as HTMLTextAreaElement).value;
     state.ads.footer = (document.getElementById('ad-footer') as HTMLTextAreaElement).value;
-    syncAndRender();
-    alert('تم تفعيل وحفظ الإعلانات');
+    syncAndRender(); alert('تم حفظ الإعلانات');
 };
 
 const saveSettings = () => {
     state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value || state.siteName;
-    const newPass = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
-    if (newPass) state.adminPassword = newPass;
-    syncAndRender();
-    alert('تم حفظ الإعدادات');
+    const np = (document.getElementById('new-admin-pass') as HTMLInputElement).value;
+    if (np) state.adminPassword = np;
+    syncAndRender(); alert('تم الحفظ');
 };
 
-function syncAndRender() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    renderApp();
-}
+function syncAndRender() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderApp(); }
 
 function renderApp() {
     document.getElementById('display-site-name')!.innerText = state.siteName;
@@ -259,75 +254,72 @@ function renderApp() {
     injectScript('adsterra-top-placeholder', state.ads.top);
     injectScript('adsterra-footer-placeholder', state.ads.footer);
 
-    const grid = document.getElementById('offers-grid');
-    if (grid) {
-        grid.innerHTML = state.offers.length ? state.offers.map((o: any) => `
-            <article class="blog-card bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition duration-500 group">
-                <div class="relative overflow-hidden h-64">
-                    <img src="${o.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="${o.title}">
-                    <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">${o.category}</div>
-                </div>
+    // Render Home Grid (Offers)
+    const offersGrid = document.getElementById('offers-grid');
+    if (offersGrid) {
+        offersGrid.innerHTML = state.offers.map((o: any) => `
+            <article class="blog-card bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition group">
+                <div class="h-64 overflow-hidden"><img src="${o.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"></div>
                 <div class="p-8 flex flex-col flex-grow">
-                    <h3 class="text-xl font-black mb-3 line-clamp-2 text-gray-900 dark:text-white leading-tight">${o.title}</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">${o.desc}</p>
-                    ${o.gallery && o.gallery.length > 0 ? `
-                        <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                            ${o.gallery.map((g: string) => `<img src="${g}" class="w-10 h-10 rounded-lg object-cover border border-gray-100 dark:border-gray-800">`).join('')}
-                        </div>
-                    ` : ''}
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-50 dark:border-gray-800">
+                    <h3 class="text-xl font-black mb-3 line-clamp-2 dark:text-white">${o.title}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3">${o.desc}</p>
+                    <div class="flex items-center justify-between mt-auto">
                         <span class="text-orange-600 font-black text-2xl">${o.price}</span>
-                        <a href="${o.url || '#'}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-orange-600 dark:hover:bg-orange-500 transition">تسوق الآن</a>
+                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-orange-600 transition">تسوق الآن</a>
                     </div>
                 </div>
             </article>
-        `).join('') : '<p class="col-span-full text-center py-24 text-gray-400">لا يوجد منتجات حالياً.</p>';
+        `).join('');
+    }
+
+    // Render Home Articles
+    const articlesGrid = document.getElementById('articles-grid');
+    if (articlesGrid) {
+        articlesGrid.innerHTML = state.articles.map((a: any) => `
+            <article class="bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-6 shadow-sm hover:shadow-md transition">
+                <img src="${a.img}" class="w-full md:w-40 h-40 object-cover rounded-2xl">
+                <div>
+                    <span class="text-orange-600 text-xs font-bold">${a.date}</span>
+                    <h3 class="text-lg font-black mt-2 mb-3 dark:text-white">${a.title}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-2">${a.content}</p>
+                    <button class="mt-4 text-gray-900 dark:text-orange-500 font-bold text-sm hover:underline">اقرأ المزيد...</button>
+                </div>
+            </article>
+        `).join('');
     }
 
     if (isLoggedIn) {
-        const list = document.getElementById('admin-offers-list');
-        if (list) {
-            list.innerHTML = state.offers.map((o: any) => `
-                <tr class="border-b border-gray-50 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-                    <td class="p-4 flex items-center gap-4">
-                        <img src="${o.img}" class="w-12 h-12 rounded-xl object-cover shadow-sm border dark:border-gray-700">
-                        <div>
-                            <span class="font-black text-gray-800 dark:text-white text-sm block line-clamp-1">${o.title}</span>
-                            <span class="text-xs text-orange-600 font-bold">${o.price}</span>
-                        </div>
-                    </td>
-                    <td class="p-4 text-center">
-                        <div class="flex justify-center gap-2">
-                            <a href="${o.url}" target="_blank" class="text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 p-2 rounded-lg transition text-xs font-bold">فتح الرابط</a>
-                            <button onclick="window.editOffer('${o.id}')" class="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition text-xs font-bold">تعديل</button>
-                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition text-xs font-bold">حذف</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-        (document.getElementById('ad-head') as HTMLTextAreaElement).value = state.ads.head || '';
-        (document.getElementById('ad-top') as HTMLTextAreaElement).value = state.ads.top || '';
-        (document.getElementById('ad-footer') as HTMLTextAreaElement).value = state.ads.footer || '';
+        // Admin Offer List
+        const offerList = document.getElementById('admin-offers-list');
+        if (offerList) offerList.innerHTML = state.offers.map((o: any) => `
+            <tr class="border-b border-gray-50 dark:border-gray-800">
+                <td class="p-4 flex items-center gap-3"><img src="${o.img}" class="w-10 h-10 rounded-lg"> <span class="text-sm font-bold truncate max-w-[150px] dark:text-white">${o.title}</span></td>
+                <td class="p-4 text-left"><button onclick="window.editOffer('${o.id}')" class="text-blue-500 text-xs ml-3">تعديل</button><button onclick="window.deleteOffer('${o.id}')" class="text-red-500 text-xs">حذف</button></td>
+            </tr>
+        `).join('');
+
+        // Admin Article List
+        const artList = document.getElementById('admin-articles-list');
+        if (artList) artList.innerHTML = state.articles.map((a: any) => `
+            <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                <div class="flex items-center gap-3"><img src="${a.img}" class="w-10 h-10 rounded-lg"> <span class="font-bold text-sm dark:text-white">${a.title}</span></div>
+                <div class="flex gap-4"><button onclick="window.editArticle('${a.id}')" class="text-blue-500 text-xs">تعديل</button><button onclick="window.deleteArticle('${a.id}')" class="text-red-500 text-xs">حذف</button></div>
+            </div>
+        `).join('');
+
+        (document.getElementById('ad-head') as HTMLTextAreaElement).value = state.ads.head;
+        (document.getElementById('ad-top') as HTMLTextAreaElement).value = state.ads.top;
+        (document.getElementById('ad-footer') as HTMLTextAreaElement).value = state.ads.footer;
         (document.getElementById('ads-enabled') as HTMLInputElement).checked = state.ads.enabled;
         (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
     }
 }
 
-// Global Bindings
-(window as any).showPage = showPage;
-(window as any).switchTab = switchTab;
-(window as any).handleLogin = handleLogin;
-(window as any).handleLogout = handleLogout;
-(window as any).saveOffer = saveOffer;
-(window as any).deleteOffer = deleteOffer;
-(window as any).editOffer = editOffer;
-(window as any).resetOfferForm = resetOfferForm;
-(window as any).previewMainImage = previewMainImage;
-(window as any).previewGalleryImages = previewGalleryImages;
-(window as any).saveAds = saveAds;
-(window as any).saveSettings = saveSettings;
-(window as any).togglePasswordVisibility = togglePasswordVisibility;
-(window as any).toggleDarkMode = toggleDarkMode;
+// Bindings
+Object.assign(window as any, { 
+    showPage, switchTab, handleLogin, handleLogout, saveOffer, deleteOffer, editOffer, resetOfferForm, 
+    previewMainImage, previewArticleImage, saveArticle, editArticle, deleteArticle, resetArticleForm,
+    saveAds, saveSettings, togglePasswordVisibility, toggleDarkMode 
+});
 
 document.addEventListener('DOMContentLoaded', renderApp);
