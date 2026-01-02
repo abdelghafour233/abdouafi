@@ -1,10 +1,10 @@
 
 /**
  * abdouweb - Ultimate Moroccan Tech & Affiliate Platform
- * Professional Version - Social Share & Follow System Fix
+ * Professional Version - Universal Share & Follow System
  */
 
-const STORAGE_KEY = 'abdouweb_final_v16';
+const STORAGE_KEY = 'abdouweb_final_v17';
 
 const DEFAULT_BLOG_DATA = {
     siteName: "عبدو ويب abdouweb",
@@ -63,7 +63,6 @@ let currentCategoryFilter = 'الكل';
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 
-// Fix URLs for standard links
 const fixUrl = (val: string, type: string = 'generic') => {
     if (!val || val.trim() === "") return "javascript:void(0)";
     let trimmed = val.trim();
@@ -85,16 +84,13 @@ const ICONS = {
     pin: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.966 1.406-5.966s-.359-.72-.359-1.781c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.259 7.929-7.259 4.164 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.607 0 11.985-5.36 11.985-11.987C24.021 5.367 18.643 0 12.017 0z"/></svg>`
 };
 
-/**
- * Renders social buttons based on mode: 'follow' (link to profile) or 'share' (share current page)
- */
-const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'follow', articleData?: { title: string, url: string, img: string }) => {
+const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'follow', data?: { title: string, url: string, img: string }) => {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const currentUrl = articleData?.url || window.location.href;
-    const currentTitle = articleData?.title || state.siteName;
-    const currentImg = articleData?.img || "";
+    const currentUrl = data?.url || window.location.href;
+    const currentTitle = data?.title || state.siteName;
+    const currentImg = data?.img || "";
 
     const platforms = [
         { 
@@ -105,7 +101,7 @@ const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'fo
         { 
             id: 'tw', color: '#000000', icon: ICONS.tw, 
             follow: fixUrl(state.social.tw),
-            share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(currentTitle)}`
+            share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('اكتشف ' + currentTitle + ': ')}`
         },
         { 
             id: 'wa', color: '#25D366', icon: ICONS.wa, 
@@ -113,9 +109,14 @@ const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'fo
             share: `https://wa.me/?text=${encodeURIComponent(currentTitle + " " + currentUrl)}`
         },
         { 
+            id: 'tt', color: '#000000', icon: ICONS.tt, 
+            follow: fixUrl(state.social.tt),
+            share: fixUrl(state.social.tt) // TikTok doesn't support URL sharing via link
+        },
+        { 
             id: 'ig', color: '#E4405F', icon: ICONS.ig, 
             follow: fixUrl(state.social.ig),
-            share: "javascript:alert('انستغرام لا يدعم مشاركة الروابط المباشرة، يمكنك مشاركة رابط المقال في الستوري الخاص بك.')" 
+            share: fixUrl(state.social.ig) // Instagram doesn't support URL sharing via link
         },
         { 
             id: 'pin', color: '#BD081C', icon: ICONS.pin, 
@@ -125,7 +126,9 @@ const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'fo
     ];
 
     container.innerHTML = platforms.map(p => {
-        const finalUrl = mode === 'share' ? p.share : p.follow;
+        // If mode is share, we use sharing link for standard platforms, but keep profile link for TT/IG
+        const isShareStandard = ['fb', 'tw', 'wa', 'pin'].includes(p.id);
+        const finalUrl = (mode === 'share' && isShareStandard) ? p.share : p.follow;
         const isAction = finalUrl.startsWith('javascript:');
         
         return `
@@ -134,7 +137,7 @@ const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'fo
                style="--hover-bg: ${p.color}"
                onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg');" 
                onmouseout="this.style.backgroundColor='';"
-               title="${mode === 'share' ? 'مشاركة عبر ' : 'تابعنا على '}${p.id.toUpperCase()}">
+               title="${(mode === 'share' && isShareStandard) ? 'مشاركة عبر ' : 'تابعنا على '}${p.id.toUpperCase()}">
                 ${p.icon}
             </a>
         `;
@@ -146,9 +149,6 @@ const viewArticle = (id: string) => {
     if (!a) return;
     const container = document.getElementById('article-detail-content');
     if (container) {
-        // We simulate a stable URL for sharing using the ID
-        const fakeArticleUrl = `${window.location.origin}/article/${a.id}`; 
-        
         container.innerHTML = `
             <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-sm animate-fade-in">
                 <img src="${a.img}" class="w-full h-72 md:h-[500px] object-cover">
@@ -168,6 +168,7 @@ const viewArticle = (id: string) => {
                 </div>
             </div>
         `;
+        // Articles always use SHARE mode
         setTimeout(() => renderSocialButtons('article-social-container', 'share', { title: a.title, url: window.location.href, img: a.img }), 50);
     }
     showPage('article-detail');
@@ -210,7 +211,7 @@ const saveSettings = () => {
     state.social.pin = (document.getElementById('social-pin') as HTMLInputElement).value;
     
     sync(); renderApp(); 
-    alert('تم حفظ الإعدادات بنجاح. أزرار المتابعة تعمل الآن بالروابط الجديدة.');
+    alert('تم حفظ الإعدادات بنجاح.');
 };
 
 const sync = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -221,8 +222,12 @@ function renderApp() {
     document.getElementById('footer-copy-name')!.innerText = state.siteName;
     document.getElementById('hero-site-desc')!.innerText = state.siteDescription;
     
-    // Footer uses FOLLOW mode
-    renderSocialButtons('footer-social-container', 'follow');
+    // UPDATED: Footer now uses SHARE mode to share the main website
+    renderSocialButtons('footer-social-container', 'share', { 
+        title: state.siteName, 
+        url: window.location.origin, 
+        img: "" 
+    });
 
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
@@ -277,6 +282,22 @@ const handleLogin = () => {
     else { document.getElementById('login-error')?.classList.remove('hidden'); }
 };
 
+const toggleLoginPassword = () => {
+    const passInput = document.getElementById('admin-pass-input') as HTMLInputElement;
+    const eyeOpen = document.getElementById('eye-open');
+    const eyeClosed = document.getElementById('eye-closed');
+    
+    if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeOpen?.classList.add('hidden');
+        eyeClosed?.classList.remove('hidden');
+    } else {
+        passInput.type = 'password';
+        eyeOpen?.classList.remove('hidden');
+        eyeClosed?.classList.add('hidden');
+    }
+};
+
 const setCategoryFilter = (cat: string) => {
     currentCategoryFilter = cat;
     document.querySelectorAll('.cat-filter-btn').forEach(btn => {
@@ -315,7 +336,7 @@ function deleteArticle(id: string) { if(confirm('حذف المقال؟')) { stat
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
     saveOffer, saveArticle, saveSettings, previewMainImg, previewArtImg,
-    deleteOffer, deleteArticle, 
+    deleteOffer, deleteArticle, toggleLoginPassword,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('bg-orange-600', 'text-white'));
