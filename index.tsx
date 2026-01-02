@@ -1,12 +1,12 @@
 
 /**
- * Affiliate Blog Engine - V7.0 (Production Ready)
+ * Affiliate Blog Engine - V7.1 (Specialized: Morocco Tech, Self-Dev, Reviews)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v5';
 
 const DEFAULT_BLOG_DATA = {
-    siteName: "مدونة الصفقات",
+    siteName: "abdouweb",
     adminPassword: "admin123",
     ads: { enabled: true, head: "", top: "", footer: "" },
     social: {
@@ -16,32 +16,62 @@ const DEFAULT_BLOG_DATA = {
         pin: "#"
     },
     staticPages: {
-        about: "نحن منصة متخصصة في مراجعة أفضل المنتجات وتقديم صفقات حصرية لمتابعينا. هدفنا هو مساعدتك في اتخاذ قرار الشراء الأنسب.",
+        about: "مرحباً بكم في abdouweb. نحن نركز على تمكين الفرد المغربي من خلال تزويده بأحدث أخبار التكنولوجيا في المملكة، استراتيجيات تطوير الذات الفعالة، ومراجعات دقيقة لأحدث المنتجات لضمان أفضل قيمة مقابل المال.",
         privacy: "نحن نحترم خصوصيتك. نحن لا نقوم بجمع أي بيانات شخصية حساسة عن زوارنا إلا ما يتم تقديمه طواعية عبر نموذج الاتصال.",
         terms: "استخدامك للموقع يعني موافقتك على الشروط. الروابط الموجودة هي روابط أفلييت قد نحصل من خلالها على عمولة بسيطة عند الشراء دون أي تكلفة إضافية عليك.",
-        contactInfo: "البريد الإلكتروني: contact@yourdomain.com\nالهاتف: +212 600 000 000\nالمقر: المغرب"
+        contactInfo: "البريد الإلكتروني: contact@abdouweb.ma\nالمقر: الدار البيضاء، المغرب"
     },
     offers: [
         {
-            id: "default-1",
-            title: "ساعة Apple Watch Series 9",
-            price: "4200 درهم",
-            category: "تقنية",
-            desc: "أحدث إصدارات أبل للمهتمين بالصحة والرياضة. مراجعة شاملة للميزات الجديدة.",
-            img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&h=300&fit=crop",
+            id: "review-1",
+            title: "مراجعة MacBook Air M3: هل يستحق الشراء في المغرب؟",
+            price: "12,900 درهم",
+            category: "مراجعات المنتجات",
+            desc: "أداء مذهل وعمر بطارية طويل. قمنا باختبار النسخة الجديدة لنعرف مدى ملاءمتها للمبرمجين والمصممين المغاربة.",
+            img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400&h=300&fit=crop",
             extraImgs: [],
             url: "https://amazon.com",
-            date: "25 مايو 2024"
+            date: "12 يناير 2025"
+        },
+        {
+            id: "review-2",
+            title: "أفضل الميكروفونات لبدء بودكاست احترافي من منزلك",
+            price: "950 درهم",
+            category: "مراجعات المنتجات",
+            desc: "إذا كنت ترغب في بدء رحلتك في تطوير الذات ومشاركة أفكارك، فهذه القائمة تضم أفضل الخيارات الاقتصادية المتاحة.",
+            img: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=400&h=300&fit=crop",
+            extraImgs: [],
+            url: "https://amazon.com",
+            date: "10 يناير 2025"
         }
     ],
     articles: [
         {
-            id: "temu-morocco",
-            title: "دليلك الشامل للشراء من Temu في المغرب 2024",
-            content: "يعتبر موقع Temu حالياً من أقوى المواقع التي توفر منتجات بأسعار رخيصة جداً. في هذا المقال نشرح لك طريقة الطلب، الجمارك، ومدة التوصيل للمغرب بالتفصيل...",
-            img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=600&h=400&fit=crop",
-            url: "https://temu.to",
-            date: "20 يونيو 2024"
+            id: "morocco-tech-5g",
+            category: "تقنية المغرب",
+            title: "إطلاق خدمات الجيل الخامس (5G) في المغرب: ماذا يعني ذلك للمقاولات الناشئة؟",
+            content: "يشهد المغرب تحولاً رقمياً كبيراً مع اقتراب الإطلاق الفعلي لشبكات الجيل الخامس. هذا التحول سيفتح آفاقاً جديدة للشركات الناشئة في مجالات الذكاء الاصطناعي وإنترنت الأشياء، مما يعزز مكانة المغرب كقطب تكنولوجي في أفريقيا.",
+            img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop",
+            url: "https://example.com",
+            date: "15 يناير 2025"
+        },
+        {
+            id: "self-dev-habits",
+            category: "تطوير الذات",
+            title: "5 عادات يومية تزيد من إنتاجيتك بنسبة 200%",
+            content: "النجاح يبدأ من الروتين اليومي. في هذا المقال، نستعرض أفضل الاستراتيجيات التي يستخدمها كبار رواد الأعمال لتنظيم وقتهم، بدءاً من قاعدة 20 دقيقة إلى تقنية البومودورو المتقدمة.",
+            img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=600&h=400&fit=crop",
+            url: "https://example.com",
+            date: "14 يناير 2025"
+        },
+        {
+            id: "morocco-fintech",
+            category: "تقنية المغرب",
+            title: "نمو قطاع الـ Fintech في المغرب: هل نحن أمام ثورة بنكية؟",
+            content: "التطبيقات البنكية المغربية تشهد تحديثات مستمرة، والشركات الناشئة في مجال الدفع الإلكتروني تفرض نفسها بقوة في السوق المحلية.",
+            img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=600&h=400&fit=crop",
+            url: "https://example.com",
+            date: "11 يناير 2025"
         }
     ]
 };
@@ -115,7 +145,10 @@ const viewArticle = (id: string) => {
             <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm">
                 <img src="${a.img}" class="w-full h-[300px] md:h-[500px] object-cover">
                 <div class="p-6 md:p-16">
-                    <span class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 px-4 py-1 rounded-full text-xs font-bold mb-6 inline-block">${a.date}</span>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">${a.category || 'مقال'}</span>
+                        <span class="text-gray-400 dark:text-gray-500 text-xs font-bold">${a.date}</span>
+                    </div>
                     <h1 class="text-3xl md:text-5xl font-black mb-10 leading-tight dark:text-white">${a.title}</h1>
                     <div class="article-body text-gray-600 dark:text-gray-400 text-lg md:text-xl leading-relaxed mb-12">
                         ${a.content.split('\n').map((p: string) => `<p>${p}</p>`).join('')}
@@ -125,7 +158,7 @@ const viewArticle = (id: string) => {
                             <a href="https://wa.me/?text=${shareTitle}%20${shareUrl}" target="_blank" class="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center hover:bg-green-500 hover:text-white transition shadow-sm"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
                             <a href="https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}" target="_blank" class="w-12 h-12 bg-gray-900/10 dark:bg-gray-100/10 text-gray-900 dark:text-white rounded-2xl flex items-center justify-center hover:bg-black hover:text-white transition shadow-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
                         </div>
-                        ${a.url ? `<a href="${a.url}" target="_blank" class="w-full md:w-auto bg-orange-600 text-white px-10 py-5 rounded-2xl font-black shadow-xl hover:bg-orange-700 transition">انتقل للعرض</a>` : ''}
+                        ${a.url ? `<a href="${a.url}" target="_blank" class="w-full md:w-auto bg-orange-600 text-white px-10 py-5 rounded-2xl font-black shadow-xl hover:bg-orange-700 transition">انتقل للمصدر / العرض</a>` : ''}
                     </div>
                 </div>
             </div>
@@ -158,9 +191,9 @@ const viewStaticPage = (key: string) => {
                 <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
                     <h4 class="text-xl font-bold mb-6">أرسل لنا رسالة</h4>
                     <div class="space-y-4">
-                        <input type="text" placeholder="الاسم" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
-                        <input type="email" placeholder="البريد الإلكتروني" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
-                        <textarea placeholder="رسالتك..." class="w-full h-32 p-4 rounded-xl border-none outline-none dark:bg-gray-800"></textarea>
+                        <input id="contact-name" type="text" placeholder="الاسم" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
+                        <input id="contact-email" type="email" placeholder="البريد الإلكتروني" class="w-full p-4 rounded-xl border-none outline-none dark:bg-gray-800">
+                        <textarea id="contact-msg" placeholder="رسالتك..." class="w-full h-32 p-4 rounded-xl border-none outline-none dark:bg-gray-800"></textarea>
                         <button onclick="alert('تم إرسال رسالتك بنجاح سنرد عليك قريباً!')" class="w-full bg-orange-600 text-white py-4 rounded-xl font-bold">إرسال</button>
                     </div>
                 </div>
@@ -190,9 +223,6 @@ const handleLogin = () => {
 
 const handleLogout = () => { isLoggedIn = false; showPage('home'); };
 
-/**
- * Fix: Added resetOfferForm and resetArticleForm to clear form fields after submission
- */
 const resetOfferForm = () => {
     ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-offer-id'].forEach(id => {
         const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
@@ -212,9 +242,6 @@ const resetArticleForm = () => {
     document.getElementById('article-image-preview-container')?.classList.add('hidden');
 };
 
-/**
- * Fix: Added edit and delete handlers for Offers and Articles
- */
 const editOffer = (id: string) => {
     const o = state.offers.find((x: any) => x.id === id);
     if (!o) return;
@@ -228,7 +255,6 @@ const editOffer = (id: string) => {
     const preview = document.getElementById('main-image-preview');
     if (preview) preview.setAttribute('src', o.img);
     document.getElementById('main-image-preview-container')?.classList.remove('hidden');
-    switchTab('tab-offers-form', null);
 };
 
 const deleteOffer = (id: string) => {
@@ -244,11 +270,11 @@ const editArticle = (id: string) => {
     (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
     (document.getElementById('article-url-input') as HTMLInputElement).value = a.url || '';
     (document.getElementById('edit-article-id') as HTMLInputElement).value = a.id;
+    (document.getElementById('article-category') as HTMLSelectElement).value = a.category || "تقنية المغرب";
     currentArticleImageBase64 = a.img;
     const preview = document.getElementById('article-image-preview');
     if (preview) preview.setAttribute('src', a.img);
     document.getElementById('article-image-preview-container')?.classList.remove('hidden');
-    switchTab('tab-articles-form', null);
 };
 
 const deleteArticle = (id: string) => {
@@ -277,13 +303,14 @@ const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
     const url = (document.getElementById('article-url-input') as HTMLInputElement).value;
+    const category = (document.getElementById('article-category') as HTMLSelectElement).value;
     const editId = (document.getElementById('edit-article-id') as HTMLInputElement).value;
     if (!title || !content) return alert('أكمل الحقول');
     if (editId) {
         const idx = state.articles.findIndex((a: any) => a.id === editId);
-        state.articles[idx] = { ...state.articles[idx], title, content, url, img: currentArticleImageBase64 || state.articles[idx].img };
+        state.articles[idx] = { ...state.articles[idx], title, content, url, category, img: currentArticleImageBase64 || state.articles[idx].img };
     } else {
-        state.articles.unshift({ id: Date.now().toString(), title, content, url, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
+        state.articles.unshift({ id: Date.now().toString(), title, content, url, category, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
     }
     syncAndRender(); resetArticleForm(); alert('تم النشر');
 };
@@ -344,13 +371,14 @@ function renderApp() {
             <article class="blog-card bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition group">
                 <div class="h-64 overflow-hidden relative cursor-pointer" onclick="window.open('${o.url}', '_blank')">
                     <img src="${o.img}" class="main-img w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">مراجعة</span>
                 </div>
                 <div class="p-8 flex flex-col flex-grow">
                     <h3 class="text-xl font-black mb-3 dark:text-white cursor-pointer hover:text-orange-600 transition" onclick="window.open('${o.url}', '_blank')">${o.title}</h3>
                     <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3">${o.desc}</p>
                     <div class="flex items-center justify-between mt-auto">
                         <span class="text-orange-600 font-black text-2xl">${o.price}</span>
-                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg">تسوق الآن</a>
+                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg">التفاصيل</a>
                     </div>
                 </div>
             </article>
@@ -365,16 +393,18 @@ function renderApp() {
                     <img src="${a.img}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
                 </div>
                 <div class="flex-grow">
-                    <span class="text-orange-600 text-xs font-bold">${a.date}</span>
-                    <h3 class="text-lg md:text-xl font-black mt-2 mb-3 dark:text-white cursor-pointer hover:text-orange-600 transition" onclick="window.viewArticle('${a.id}')">${a.title}</h3>
-                    <button onclick="window.viewArticle('${a.id}')" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-orange-600 hover:text-white transition">قراءة المقال كاملاً</button>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-orange-600 text-[10px] font-bold border border-orange-600 px-2 py-0.5 rounded-full">${a.category || 'تقنية'}</span>
+                        <span class="text-gray-400 dark:text-gray-500 text-[10px] font-bold">${a.date}</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-black mb-3 dark:text-white cursor-pointer hover:text-orange-600 transition" onclick="window.viewArticle('${a.id}')">${a.title}</h3>
+                    <button onclick="window.viewArticle('${a.id}')" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-orange-600 hover:text-white transition">إقرأ المزيد</button>
                 </div>
             </article>
         `).join('');
     }
 
     if (isLoggedIn) {
-        // Admin Tab Content Population
         (document.getElementById('edit-about') as HTMLTextAreaElement).value = state.staticPages.about;
         (document.getElementById('edit-privacy') as HTMLTextAreaElement).value = state.staticPages.privacy;
         (document.getElementById('edit-terms') as HTMLTextAreaElement).value = state.staticPages.terms;
@@ -386,7 +416,6 @@ function renderApp() {
         (document.getElementById('social-tw') as HTMLInputElement).value = state.social.tw;
         (document.getElementById('social-pin') as HTMLInputElement).value = state.social.pin;
         
-        // List Rendering
         const oL = document.getElementById('admin-offers-list');
         if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b border-gray-50 dark:border-gray-800"><td class="p-4 flex items-center gap-3"><img src="${o.img}" class="w-10 h-10 rounded"> <span class="text-sm font-bold dark:text-white">${o.title}</span></td><td class="p-4 text-left"><button onclick="window.editOffer('${o.id}')" class="text-blue-500 text-xs ml-3">تعديل</button><button onclick="window.deleteOffer('${o.id}')" class="text-red-500 text-xs">حذف</button></td></tr>`).join('');
         const aL = document.getElementById('admin-articles-list');
@@ -394,7 +423,6 @@ function renderApp() {
     }
 }
 
-// Bindings
 Object.assign(window as any, { 
     showPage, switchTab, handleLogin, handleLogout, 
     viewArticle, viewStaticPage, 
