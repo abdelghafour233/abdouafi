@@ -135,11 +135,37 @@
                     </div>
 
                     <div id="tab-settings" class="tab-content">
-                        <h3 class="text-2xl font-black mb-8 dark:text-white">إعدادات الموقع</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <h3 class="text-2xl font-black mb-8 dark:text-white">إعدادات الموقع ووسائل التواصل</h3>
+                        <div class="grid grid-cols-1 gap-6">
                             <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl">
                                 <label class="block mb-2 font-bold text-sm">اسم الموقع</label>
                                 <input type="text" id="site-name-input" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-blue-500">رابط فيسبوك</label>
+                                    <input type="text" id="social-fb" placeholder="https://facebook.com/..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-black dark:text-white">رابط تيك توك</label>
+                                    <input type="text" id="social-tt" placeholder="https://tiktok.com/@..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-sky-500">رابط تويتر (X)</label>
+                                    <input type="text" id="social-tw" placeholder="https://x.com/..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-pink-500">رابط انستغرام</label>
+                                    <input type="text" id="social-ig" placeholder="https://instagram.com/..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-green-500">رابط واتساب</label>
+                                    <input type="text" id="social-wa" placeholder="https://wa.me/..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                                    <label class="block mb-2 text-xs font-bold text-red-700">رابط بنتريست</label>
+                                    <input type="text" id="social-pin" placeholder="https://pinterest.com/..." class="w-full p-3 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl outline-none">
+                                </div>
                             </div>
                             <button onclick="window.saveSettings()" class="bg-orange-600 text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-orange-700 transition">حفظ التغييرات</button>
                         </div>
@@ -150,7 +176,7 @@
     </main>
 
     <footer class="bg-gray-900 text-white py-16 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 text-center md:text-right">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 text-center md:text-right">
             <div>
                 <h3 class="text-3xl font-black text-orange-500 mb-6" id="footer-site-name"></h3>
                 <p class="text-gray-400 leading-relaxed text-sm" id="footer-about-text"></p>
@@ -159,6 +185,10 @@
                 <h4 class="text-xl font-bold mb-4">قانوني</h4>
                 <button onclick="window.viewStaticPage('privacy')" class="text-gray-400 hover:text-orange-500 transition text-sm text-right">سياسة الخصوصية</button>
                 <button onclick="window.viewStaticPage('terms')" class="text-gray-400 hover:text-orange-500 transition text-sm text-right">شروط الاستخدام</button>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 text-orange-500">تواصل معنا</h4>
+                <div id="footer-social-container" class="flex flex-wrap justify-center md:justify-start gap-3"></div>
             </div>
         </div>
         <div class="max-w-6xl mx-auto px-4 mt-10 pt-10 border-t border-gray-800 text-center">
