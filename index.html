@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصتي للأفلييت | مراجعات وأخبار</title>
+    <title>abdouweb | التكنولوجيا وتطوير الذات في المغرب</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script>
@@ -22,7 +22,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .article-body p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.125rem; }
+        .article-body p { margin-bottom: 1.5rem; line-height: 2; font-size: 1.15rem; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -32,8 +32,8 @@
     <!-- Header -->
     <header class="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800">
         <div class="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-            <a href="javascript:void(0)" onclick="window.showPage('home')" class="flex items-center gap-2">
-                <div class="bg-orange-600 p-2 rounded-xl text-white shadow-lg">
+            <a href="javascript:void(0)" onclick="window.showPage('home')" class="flex items-center gap-2 group">
+                <div class="bg-orange-600 p-2 rounded-xl text-white shadow-lg group-hover:bg-orange-700 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 </div>
                 <span id="display-site-name" class="text-xl md:text-2xl font-black text-orange-600 tracking-tighter"></span>
@@ -49,32 +49,32 @@
     </header>
 
     <main class="flex-grow">
-        <!-- Hero -->
+        <!-- Hero Section -->
         <section id="hero-section" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-12 md:py-24 mb-10 text-center">
             <div class="max-w-4xl mx-auto px-4">
-                <h1 class="text-4xl md:text-7xl font-black mb-6 leading-tight dark:text-white">عالم التقنية في <span class="text-orange-600">مكان واحد</span></h1>
-                <p class="text-gray-500 dark:text-gray-400 text-lg md:text-2xl max-w-2xl mx-auto font-medium">مراجعات حصرية، نصائح تطوير الذات، وأفضل عروض الأفلييت المختارة بعناية.</p>
+                <h1 class="text-4xl md:text-7xl font-black mb-6 leading-tight dark:text-white">جديد التكنولوجيا في <span class="text-orange-600">المغرب</span></h1>
+                <p class="text-gray-500 dark:text-gray-400 text-lg md:text-2xl max-w-2xl mx-auto font-medium">مراجعات المنتجات، أخبار التقنية، وخطوات عملية لتطوير ذاتك وتحقيق النجاح.</p>
             </div>
         </section>
 
-        <!-- Home Page -->
+        <!-- Home Page Content -->
         <section id="page-home" class="page-view max-w-6xl mx-auto px-4 mb-24">
             <div class="mb-16">
                 <h2 class="text-2xl md:text-3xl font-black mb-10 flex items-center gap-3 dark:text-white">
-                    <span class="w-2 h-8 bg-orange-600 rounded-full"></span> عروض ومراجعات المنتجات
+                    <span class="w-2 h-8 bg-orange-600 rounded-full"></span> مراجعات المنتجات الأكثر طلباً
                 </h2>
                 <div id="offers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </div>
 
             <div class="mb-16">
                 <h2 class="text-2xl md:text-3xl font-black mb-10 flex items-center gap-3 dark:text-white">
-                    <span class="w-2 h-8 bg-gray-900 dark:bg-orange-600 rounded-full"></span> مقالات تهمك
+                    <span class="w-2 h-8 bg-gray-900 dark:bg-orange-600 rounded-full"></span> مقالات مختارة
                 </h2>
                 <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
             </div>
         </section>
 
-        <!-- Article Detail -->
+        <!-- Article Detail Page -->
         <section id="page-article-detail" class="page-view hidden max-w-4xl mx-auto px-4 py-8 md:py-16 mb-24">
             <button onclick="window.showPage('home')" class="flex items-center gap-2 text-orange-600 font-bold mb-8 hover:-translate-x-2 transition-transform">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
@@ -83,101 +83,82 @@
             <div id="article-detail-content"></div>
         </section>
 
-        <!-- Static Pages (About, Privacy, etc) -->
+        <!-- Static Content Page -->
         <section id="page-static" class="page-view hidden max-w-4xl mx-auto px-4 py-16 mb-24">
             <div id="static-page-container" class="bg-white dark:bg-gray-900 p-8 md:p-16 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800"></div>
         </section>
 
-        <!-- Admin Login -->
+        <!-- Admin Login Section -->
         <section id="page-login" class="page-view hidden max-w-md mx-auto px-4 py-24">
             <div class="bg-white dark:bg-gray-900 p-10 rounded-3xl shadow-2xl text-center border border-gray-100 dark:border-gray-800">
-                <h2 class="text-3xl font-black mb-8 dark:text-white">منطقة الإدارة</h2>
+                <h2 class="text-3xl font-black mb-8 dark:text-white">لوحة تحكم abdouweb</h2>
                 <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full p-4 border-2 border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-white rounded-2xl focus:border-orange-500 outline-none mb-4 text-center text-lg">
                 <p id="login-error" class="text-red-500 text-sm mb-4 hidden font-bold">كلمة المرور غير صحيحة</p>
-                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 transition shadow-xl text-lg">دخول</button>
+                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 transition shadow-xl text-lg">دخول للمشرف</button>
             </div>
         </section>
 
-        <!-- Admin Dashboard -->
+        <!-- Admin Dashboard Section -->
         <section id="page-admin" class="page-view hidden max-w-6xl mx-auto px-4 py-12">
             <div class="flex flex-col lg:flex-row gap-8">
                 <div class="w-full lg:w-64 flex lg:flex-col gap-2 overflow-x-auto no-scrollbar pb-4 lg:pb-0">
-                    <button id="tab-btn-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">المنتجات</button>
+                    <button id="tab-btn-offers" onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-lg font-bold">المنتجات (أفلييت)</button>
                     <button id="tab-btn-articles" onclick="window.switchTab('tab-articles', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-4 rounded-2xl hover:bg-white dark:hover:bg-gray-800 font-bold transition">المقالات</button>
                     <button id="tab-btn-settings" onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-4 rounded-2xl hover:bg-white dark:hover:bg-gray-800 font-bold transition">الإعدادات</button>
-                    <button onclick="window.handleLogout()" class="mt-auto text-red-500 font-bold p-4 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-2xl transition text-right">خروج من الإدارة</button>
+                    <button onclick="window.handleLogout()" class="mt-auto text-red-500 font-bold p-4 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-2xl transition text-right">خروج</button>
                 </div>
 
                 <div class="flex-grow bg-white dark:bg-gray-900 p-6 md:p-10 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm">
-                    <!-- Tab Offers -->
                     <div id="tab-offers" class="tab-content active">
-                        <h3 class="text-2xl font-black mb-8 dark:text-white">إضافة عرض أفلييت</h3>
+                        <h3 class="text-2xl font-black mb-8 dark:text-white">إدارة العروض</h3>
                         <div class="grid grid-cols-1 gap-6 bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl mb-10">
                             <input type="hidden" id="edit-offer-id">
-                            <input type="text" id="offer-title" placeholder="اسم المنتج / العنوان" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
+                            <input type="text" id="offer-title" placeholder="اسم المنتج" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <input type="text" id="offer-price" placeholder="السعر" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                <input type="text" id="offer-url" placeholder="رابط الأفلييت (Amazon, Jumia, etc)" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
+                                <input type="text" id="offer-price" placeholder="السعر (مثال: 500 درهم)" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
+                                <input type="text" id="offer-url" placeholder="رابط الشراء" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
                             </div>
                             <input type="file" id="offer-img-file" accept="image/*" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl" onchange="window.previewMainImage(event)">
                             <div id="main-image-preview-container" class="hidden"><img id="main-image-preview" src="" class="w-24 h-24 object-cover rounded-xl border"></div>
-                            <textarea id="offer-desc" placeholder="وصف سريع للمنتج..." class="w-full h-32 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none"></textarea>
-                            <button onclick="window.saveOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 shadow-lg transition text-lg">حفظ المنتج</button>
+                            <textarea id="offer-desc" placeholder="وصف المنتج..." class="w-full h-32 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none"></textarea>
+                            <button onclick="window.saveOffer()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 shadow-lg transition">حفظ</button>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-right border-collapse min-w-[500px]">
-                                <thead><tr class="text-gray-400 text-sm border-b dark:border-gray-800"><th class="pb-4">المنتج</th><th class="pb-4">السعر</th><th class="pb-4">إجراء</th></tr></thead>
+                            <table class="w-full text-right min-w-[500px]">
+                                <thead><tr class="text-gray-400 text-sm border-b dark:border-gray-800"><th class="pb-4">المنتج</th><th class="pb-4">السعر</th><th class="pb-4">تحكم</th></tr></thead>
                                 <tbody id="admin-offers-list"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Tab Articles -->
                     <div id="tab-articles" class="tab-content">
-                        <h3 class="text-2xl font-black mb-8 dark:text-white">نشر مقال جديد</h3>
+                        <h3 class="text-2xl font-black mb-8 dark:text-white">إدارة المقالات</h3>
                         <div class="grid grid-cols-1 gap-6 bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl mb-10">
                             <input type="hidden" id="edit-article-id">
                             <input type="text" id="article-title" placeholder="عنوان المقال" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
                             <select id="article-category" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                <option value="تقنية">تقنية</option>
+                                <option value="تقنية المغرب">تقنية المغرب</option>
                                 <option value="تطوير الذات">تطوير الذات</option>
+                                <option value="أخبار التقنية">أخبار التقنية</option>
                                 <option value="مراجعات">مراجعات</option>
                             </select>
                             <input type="file" id="article-img-file" accept="image/*" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl" onchange="window.previewArticleImage(event)">
                             <div id="article-image-preview-container" class="hidden"><img id="article-image-preview" src="" class="w-32 h-20 object-cover rounded-xl border"></div>
-                            <textarea id="article-content" placeholder="اكتب المقال هنا (يمكنك كتابة مقال طويل جداً)..." class="w-full h-80 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none"></textarea>
-                            <button onclick="window.saveArticle()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 shadow-lg transition text-lg">نشر المقال</button>
+                            <textarea id="article-content" placeholder="محتوى المقال..." class="w-full h-80 p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none"></textarea>
+                            <button onclick="window.saveArticle()" class="bg-orange-600 text-white py-4 rounded-2xl font-bold hover:bg-orange-700 shadow-lg transition">نشر</button>
                         </div>
-                        <div id="admin-articles-list" class="space-y-4"></div>
+                        <div id="admin-articles-list" class="space-y-3"></div>
                     </div>
 
-                    <!-- Tab Settings -->
                     <div id="tab-settings" class="tab-content">
-                        <h3 class="text-2xl font-black mb-8 dark:text-white">إعدادات الهوية والتواصل</h3>
+                        <h3 class="text-2xl font-black mb-8 dark:text-white">إعدادات الموقع والتواصل</h3>
                         <div class="grid grid-cols-1 gap-6">
-                            <div class="bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl">
-                                <label class="block mb-2 font-bold opacity-70">اسم الموقع / البراند</label>
-                                <input type="text" id="site-name-input" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                            </div>
+                            <input type="text" id="site-name-input" placeholder="اسم الموقع" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl">
-                                    <label class="block mb-2 font-bold opacity-70">رابط فيسبوك الشخصي</label>
-                                    <input type="text" id="social-fb" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                </div>
-                                <div class="bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl">
-                                    <label class="block mb-2 font-bold opacity-70">رابط انستغرام</label>
-                                    <input type="text" id="social-ig" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                </div>
-                                <div class="bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl">
-                                    <label class="block mb-2 font-bold opacity-70">رابط تويتر (X)</label>
-                                    <input type="text" id="social-tw" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                </div>
-                                <div class="bg-gray-50 dark:bg-gray-800/40 p-6 rounded-3xl">
-                                    <label class="block mb-2 font-bold opacity-70">رابط بنتريست</label>
-                                    <input type="text" id="social-pin" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none">
-                                </div>
+                                <input type="text" id="social-fb" placeholder="رابط فيسبوك" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl">
+                                <input type="text" id="social-ig" placeholder="رابط انستغرام" class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl">
                             </div>
-                            <button onclick="window.saveSettings()" class="bg-orange-600 text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-orange-700 transition">حفظ جميع الإعدادات</button>
+                            <button onclick="window.saveSettings()" class="bg-orange-600 text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-orange-700 transition">حفظ التغييرات</button>
                         </div>
                     </div>
                 </div>
@@ -193,12 +174,12 @@
                 <p class="text-gray-400 leading-relaxed text-sm" id="footer-about-text"></p>
             </div>
             <div class="flex flex-col gap-4">
-                <h4 class="text-xl font-bold mb-4">روابط سريعة</h4>
+                <h4 class="text-xl font-bold mb-4">قانوني</h4>
                 <button onclick="window.viewStaticPage('privacy')" class="text-gray-400 hover:text-orange-500 transition text-sm text-right">سياسة الخصوصية</button>
-                <button onclick="window.viewStaticPage('terms')" class="text-gray-400 hover:text-orange-500 transition text-sm text-right">الشروط والأحكام</button>
+                <button onclick="window.viewStaticPage('terms')" class="text-gray-400 hover:text-orange-500 transition text-sm text-right">الشروط</button>
             </div>
             <div>
-                <h4 class="text-xl font-bold mb-8">تابعنا على</h4>
+                <h4 class="text-xl font-bold mb-8">تابع abdouweb</h4>
                 <div class="flex justify-center md:justify-start gap-4">
                     <a id="footer-social-fb" href="#" target="_blank" class="w-12 h-12 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition shadow-lg">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
