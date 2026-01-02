@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V4.9 (Fixed Dark Mode & UI Refinements)
+ * Affiliate Blog Engine - V5.0 (Moroccan Dirham Currency Update)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v4';
@@ -13,7 +13,7 @@ const DEFAULT_BLOG_DATA = {
         {
             id: "default-1",
             title: "Apple Watch Series 9",
-            price: "399$",
+            price: "4200 درهم",
             category: "تقنية",
             desc: "تعتبر هذه الساعة هي الأفضل حالياً لمستخدمي أيفون، حيث تقدم ميزات صحية متطورة ومعالجاً أسرع من أي وقت مضى. جربناها لمدة أسبوع وإليك الانطباع الكامل.",
             img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&h=300&fit=crop",
