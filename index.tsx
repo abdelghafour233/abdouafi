@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V4.5 (E-commerce Articles Support)
+ * Affiliate Blog Engine - V4.8 (Temu Morocco & Action Links Support)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v4';
@@ -23,25 +23,20 @@ const DEFAULT_BLOG_DATA = {
     ],
     articles: [
         {
+            id: "temu-morocco",
+            title: "لماذا تيمو (Temu) هو الخيار الأفضل للمتسوقين في المغرب؟",
+            content: "أحدث موقع تيمو ثورة في عالم التسوق الإلكتروني بالمغرب، حيث يوفر ملايين المنتجات بأسعار تنافسية لا تقبل المنافسة. من أهم مميزات الشراء من تيمو في المغرب هي خدمة التوصيل المجاني والسريع لجميع المدن، بالإضافة إلى جودة المنتجات وتنوعها الهائل الذي يشمل الملابس، الإلكترونيات، والأدوات المنزلية. كما يوفر الموقع طرق دفع آمنة وسهلة تناسب المستخدم المغربي. لا تفوت فرصة الحصول على خصومات حصرية وتوصيل مجاني لباب منزلك.",
+            img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=600&h=400&fit=crop",
+            url: "https://temu.to/k/u6zpr84k5n5",
+            date: "20 يونيو 2024"
+        },
+        {
             id: "art-1",
             title: "مقدمة شاملة في التجارة الإلكترونية",
             content: "تعتبر التجارة الإلكترونية اليوم عصب الاقتصاد العالمي الجديد. في هذا المقال، سنستعرض الخطوات الأساسية لإنشاء متجرك الأول، من اختيار المنصة المناسبة وصولاً إلى استراتيجيات التسويق الرقمي الفعالة في عام 2025.",
             img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&h=400&fit=crop",
+            url: "",
             date: "12 يونيو 2024"
-        },
-        {
-            id: "art-2",
-            title: "أسرار الربح من الأفلييت (التسويق بالعمولة)",
-            content: "التسويق بالعمولة هو وسيلة رائعة لبدء العمل عبر الإنترنت دون الحاجة لامتلاك منتج خاص بك. السر يكمن في بناء الثقة مع جمهورك وتقديم قيمة حقيقية من خلال مراجعات صادقة للمنتجات التي يحتاجونها فعلاً.",
-            img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&h=400&fit=crop",
-            date: "15 يونيو 2024"
-        },
-        {
-            id: "art-3",
-            title: "كيف تختار المنتج الرابح لترويجه؟",
-            content: "ليس كل منتج يستحق الترويج. هناك معايير أساسية يجب اتباعها مثل: هامش الربح، حاجة السوق، وسهولة الشحن. سنتعلم في هذا المقال كيف نستخدم أدوات تحليل البيانات لاكتشاف الصفقات الرابحة قبل الجميع.",
-            img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&h=400&fit=crop",
-            date: "18 يونيو 2024"
         }
     ]
 };
@@ -192,15 +187,16 @@ const resetOfferForm = () => {
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
+    const url = (document.getElementById('article-url-input') as HTMLInputElement).value;
     const editId = (document.getElementById('edit-article-id') as HTMLInputElement).value;
 
     if (!title || !content || (!currentArticleImageBase64 && !editId)) return alert('يرجى كتابة العنوان والمحتوى');
 
     if (editId) {
         const idx = state.articles.findIndex((a: any) => a.id === editId);
-        if (idx !== -1) state.articles[idx] = { ...state.articles[idx], title, content, img: currentArticleImageBase64 || state.articles[idx].img };
+        if (idx !== -1) state.articles[idx] = { ...state.articles[idx], title, content, url, img: currentArticleImageBase64 || state.articles[idx].img };
     } else {
-        state.articles.unshift({ id: Date.now().toString(), title, content, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
+        state.articles.unshift({ id: Date.now().toString(), title, content, url, img: currentArticleImageBase64, date: new Date().toLocaleDateString('ar-EG') });
     }
     syncAndRender(); resetArticleForm(); alert('تم نشر المقال');
 };
@@ -211,6 +207,7 @@ const editArticle = (id: string) => {
     (document.getElementById('edit-article-id') as HTMLInputElement).value = a.id;
     (document.getElementById('article-title') as HTMLInputElement).value = a.title;
     (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
+    (document.getElementById('article-url-input') as HTMLInputElement).value = a.url || '';
     (document.getElementById('article-image-preview') as HTMLImageElement).src = a.img;
     document.getElementById('article-image-preview-container')?.classList.remove('hidden');
     document.getElementById('article-upload-label')?.classList.add('hidden');
@@ -221,7 +218,7 @@ const editArticle = (id: string) => {
 const deleteArticle = (id: string) => { if (confirm('حذف المقال؟')) { state.articles = state.articles.filter((a: any) => a.id !== id); syncAndRender(); } };
 
 const resetArticleForm = () => {
-    ['article-title', 'article-content', 'edit-article-id', 'article-img-file'].forEach(id => (document.getElementById(id) as any).value = '');
+    ['article-title', 'article-content', 'article-url-input', 'edit-article-id', 'article-img-file'].forEach(id => (document.getElementById(id) as any).value = '');
     currentArticleImageBase64 = '';
     document.getElementById('article-image-preview-container')?.classList.add('hidden');
     document.getElementById('article-upload-label')?.classList.remove('hidden');
@@ -278,11 +275,14 @@ function renderApp() {
         articlesGrid.innerHTML = state.articles.map((a: any) => `
             <article class="bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-6 shadow-sm hover:shadow-md transition">
                 <img src="${a.img}" class="w-full md:w-40 h-40 object-cover rounded-2xl">
-                <div>
+                <div class="flex-grow">
                     <span class="text-orange-600 text-xs font-bold">${a.date}</span>
                     <h3 class="text-lg font-black mt-2 mb-3 dark:text-white">${a.title}</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-2">${a.content}</p>
-                    <button class="mt-4 text-gray-900 dark:text-orange-500 font-bold text-sm hover:underline">اقرأ المزيد...</button>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed mb-4">${a.content}</p>
+                    <div class="flex gap-4 items-center">
+                        ${a.url ? `<a href="${a.url}" target="_blank" class="bg-orange-600 text-white px-5 py-2 rounded-xl font-bold text-xs hover:bg-orange-700 transition">انتقل للعرض</a>` : ''}
+                        <button class="text-gray-400 dark:text-gray-500 font-bold text-xs hover:underline">قراءة المقال كاملاً</button>
+                    </div>
                 </div>
             </article>
         `).join('');
