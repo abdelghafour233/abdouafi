@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V3.9 (Dark Mode & UI Enhancements)
+ * Affiliate Blog Engine - V4.0 (Enhanced Affiliate Link Handling)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v3';
@@ -144,12 +144,18 @@ const saveOffer = () => {
         return alert('يرجى كتابة اسم المنتج والسعر ورفع الصورة الرئيسية على الأقل.');
     }
 
+    // Basic URL check
+    let formattedUrl = url;
+    if (formattedUrl && !formattedUrl.startsWith('http')) {
+        formattedUrl = 'https://' + formattedUrl;
+    }
+
     if (editId) {
         const index = state.offers.findIndex((o: any) => o.id === editId);
         if (index !== -1) {
             state.offers[index] = {
                 ...state.offers[index],
-                title, price, url, category: cat, desc,
+                title, price, url: formattedUrl, category: cat, desc,
                 img: currentMainImageBase64 || state.offers[index].img,
                 gallery: currentGalleryBase64.length > 0 ? currentGalleryBase64 : state.offers[index].gallery
             };
@@ -157,7 +163,7 @@ const saveOffer = () => {
     } else {
         const newOffer = {
             id: Date.now().toString(),
-            title, price, url, category: cat, desc,
+            title, price, url: formattedUrl, category: cat, desc,
             img: currentMainImageBase64,
             gallery: currentGalleryBase64,
             date: new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -271,7 +277,7 @@ function renderApp() {
                     ` : ''}
                     <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-50 dark:border-gray-800">
                         <span class="text-orange-600 font-black text-2xl">${o.price}</span>
-                        <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-orange-600 dark:hover:bg-orange-500 transition">تسوق الآن</a>
+                        <a href="${o.url || '#'}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-orange-600 dark:hover:bg-orange-500 transition">تسوق الآن</a>
                     </div>
                 </div>
             </article>
@@ -292,8 +298,9 @@ function renderApp() {
                     </td>
                     <td class="p-4 text-center">
                         <div class="flex justify-center gap-2">
-                            <button onclick="window.editOffer('${o.id}')" class="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition">تعديل</button>
-                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition">حذف</button>
+                            <a href="${o.url}" target="_blank" class="text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 p-2 rounded-lg transition text-xs font-bold">فتح الرابط</a>
+                            <button onclick="window.editOffer('${o.id}')" class="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition text-xs font-bold">تعديل</button>
+                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition text-xs font-bold">حذف</button>
                         </div>
                     </td>
                 </tr>
