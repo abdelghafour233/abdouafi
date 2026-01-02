@@ -1,6 +1,6 @@
 
 /**
- * Affiliate Blog Engine - V5.0 (Moroccan Dirham Currency Update)
+ * Affiliate Blog Engine - V5.5 (Multiple Product Images Support)
  */
 
 const STORAGE_KEY = 'aff_blog_pro_storage_v4';
@@ -17,6 +17,7 @@ const DEFAULT_BLOG_DATA = {
             category: "تقنية",
             desc: "تعتبر هذه الساعة هي الأفضل حالياً لمستخدمي أيفون، حيث تقدم ميزات صحية متطورة ومعالجاً أسرع من أي وقت مضى. جربناها لمدة أسبوع وإليك الانطباع الكامل.",
             img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&h=300&fit=crop",
+            extraImgs: [],
             url: "https://amazon.com",
             date: "25 مايو 2024"
         }
@@ -36,18 +37,13 @@ const DEFAULT_BLOG_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
 let isLoggedIn = false;
 let currentMainImageBase64 = '';
+let currentExtraImages = [] as string[];
 let currentArticleImageBase64 = '';
 
-/**
- * دالة تبديل الوضع المظلم المحسنة
- */
 const toggleDarkMode = () => {
     const html = document.documentElement;
     const isDark = html.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    // تلميح للمتصفح بإعادة تطبيق الأنماط إذا لزم الأمر
-    console.debug('Dark mode toggled:', isDark);
 };
 
 const togglePasswordVisibility = (inputId: string, iconId: string) => {
@@ -114,6 +110,31 @@ const previewMainImage = async (event: any) => {
     }
 };
 
+const handleExtraImages = async (event: any) => {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+        const base64 = await fileToBase64(files[i]);
+        currentExtraImages.push(base64);
+    }
+    renderExtraImagesPreview();
+};
+
+const removeExtraImage = (index: number) => {
+    currentExtraImages.splice(index, 1);
+    renderExtraImagesPreview();
+};
+
+const renderExtraImagesPreview = () => {
+    const container = document.getElementById('extra-images-preview');
+    if (!container) return;
+    container.innerHTML = currentExtraImages.map((src, idx) => `
+        <div class="thumb-preview">
+            <img src="${src}" class="preview-img">
+            <div class="thumb-remove" onclick="window.removeExtraImage(${idx})">×</div>
+        </div>
+    `).join('');
+};
+
 const previewArticleImage = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
@@ -149,9 +170,21 @@ const saveOffer = () => {
 
     if (editId) {
         const idx = state.offers.findIndex((o: any) => o.id === editId);
-        if (idx !== -1) state.offers[idx] = { ...state.offers[idx], title, price, url, desc, img: currentMainImageBase64 || state.offers[idx].img };
+        if (idx !== -1) {
+            state.offers[idx] = { 
+                ...state.offers[idx], 
+                title, price, url, desc, 
+                img: currentMainImageBase64 || state.offers[idx].img,
+                extraImgs: [...currentExtraImages]
+            };
+        }
     } else {
-        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64, date: new Date().toLocaleDateString('ar-EG') });
+        state.offers.unshift({ 
+            id: Date.now().toString(), title, price, url, desc, 
+            img: currentMainImageBase64, 
+            extraImgs: [...currentExtraImages],
+            date: new Date().toLocaleDateString('ar-EG') 
+        });
     }
     syncAndRender(); resetOfferForm(); alert('تم الحفظ');
 };
@@ -167,17 +200,24 @@ const editOffer = (id: string) => {
     (document.getElementById('offer-url') as HTMLInputElement).value = o.url;
     (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
     (document.getElementById('main-image-preview') as HTMLImageElement).src = o.img;
+    currentMainImageBase64 = o.img;
+    currentExtraImages = o.extraImgs ? [...o.extraImgs] : [];
+    
     document.getElementById('main-image-preview-container')?.classList.remove('hidden');
     document.getElementById('main-upload-label')?.classList.add('hidden');
+    renderExtraImagesPreview();
+    
     document.getElementById('offer-form-title')!.innerText = "تعديل المنتج";
     document.getElementById('btn-cancel-offer-edit')?.classList.remove('hidden');
 };
 
 const resetOfferForm = () => {
-    ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-offer-id', 'offer-img-file'].forEach(id => (document.getElementById(id) as any).value = '');
+    ['offer-title', 'offer-price', 'offer-url', 'offer-desc', 'edit-offer-id', 'offer-img-file', 'offer-extra-imgs-file'].forEach(id => (document.getElementById(id) as any).value = '');
     currentMainImageBase64 = '';
+    currentExtraImages = [];
     document.getElementById('main-image-preview-container')?.classList.add('hidden');
     document.getElementById('main-upload-label')?.classList.remove('hidden');
+    document.getElementById('extra-images-preview')!.innerHTML = '';
     document.getElementById('offer-form-title')!.innerText = "إضافة منتج جديد";
     document.getElementById('btn-cancel-offer-edit')?.classList.add('hidden');
 };
@@ -251,19 +291,34 @@ function renderApp() {
 
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
-        offersGrid.innerHTML = state.offers.map((o: any) => `
+        offersGrid.innerHTML = state.offers.map((o: any) => {
+            const extraThumbnails = (o.extraImgs || []).map((img: string) => `
+                <img src="${img}" class="w-10 h-10 object-cover rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-500" onclick="const p = this.closest('article').querySelector('.main-img'); p.src='${img}'">
+            `).join('');
+
+            return `
             <article class="blog-card bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full shadow-sm hover:shadow-xl transition group">
-                <div class="h-64 overflow-hidden"><img src="${o.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"></div>
+                <div class="h-64 overflow-hidden relative">
+                    <img src="${o.img}" class="main-img w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                </div>
                 <div class="p-8 flex flex-col flex-grow">
                     <h3 class="text-xl font-black mb-3 line-clamp-2 dark:text-white">${o.title}</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3">${o.desc}</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4 line-clamp-3">${o.desc}</p>
+                    
+                    ${extraThumbnails ? `
+                        <div class="flex flex-wrap gap-2 mb-6 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+                            <img src="${o.img}" class="w-10 h-10 object-cover rounded-lg border-2 border-orange-500 cursor-pointer" onclick="const p = this.closest('article').querySelector('.main-img'); p.src='${o.img}'">
+                            ${extraThumbnails}
+                        </div>
+                    ` : ''}
+
                     <div class="flex items-center justify-between mt-auto">
                         <span class="text-orange-600 font-black text-2xl">${o.price}</span>
                         <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-orange-600 transition">تسوق الآن</a>
                     </div>
                 </div>
             </article>
-        `).join('') || '<p class="col-span-full text-center py-20 text-gray-400">لا توجد منتجات حالياً.</p>';
+        `}).join('') || '<p class="col-span-full text-center py-20 text-gray-400">لا توجد منتجات حالياً.</p>';
     }
 
     const articlesGrid = document.getElementById('articles-grid');
@@ -313,6 +368,7 @@ function renderApp() {
 Object.assign(window as any, { 
     showPage, switchTab, handleLogin, handleLogout, saveOffer, deleteOffer, editOffer, resetOfferForm, 
     previewMainImage, previewArticleImage, saveArticle, editArticle, deleteArticle, resetArticleForm,
+    handleExtraImages, removeExtraImage,
     saveAds, saveSettings, togglePasswordVisibility, toggleDarkMode 
 });
 

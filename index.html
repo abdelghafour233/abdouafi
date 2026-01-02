@@ -29,7 +29,7 @@
     </script>
     <style>
         body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
-        .blog-card:hover img { transform: scale(1.05); }
+        .blog-card:hover img.main-img { transform: scale(1.05); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .hidden { display: none; }
@@ -40,6 +40,8 @@
         .dark .upload-area { border-color: #374151; background-color: #1f2937; }
         .upload-area:hover { border-color: #ea580c; background-color: #fffaf8; }
         .dark .upload-area:hover { background-color: #111827; }
+        .thumb-preview { position: relative; display: inline-block; }
+        .thumb-remove { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; items-center; justify-content: center; font-size: 12px; cursor: pointer; border: 2px solid white; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-300">
@@ -138,11 +140,19 @@
                                 <input type="text" id="offer-url" placeholder="https://amazon.com/..." class="w-full p-4 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-orange-500">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">تحميل الصورة الرئيسية</label>
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">الصورة الرئيسية</label>
                                 <div class="upload-area p-4 rounded-2xl bg-white dark:bg-gray-800 text-center cursor-pointer relative">
                                     <input type="file" id="offer-img-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="window.previewMainImage(event)">
                                     <div id="main-upload-label" class="text-gray-400 text-sm">اضغط لرفع صورة المنتج</div>
                                     <div id="main-image-preview-container" class="mt-2 hidden"><img id="main-image-preview" src="" class="preview-img mx-auto w-32 h-32 rounded-xl"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">صور إضافية للمنتج</label>
+                                <div class="upload-area p-4 rounded-2xl bg-white dark:bg-gray-800 text-center cursor-pointer relative">
+                                    <input type="file" id="offer-extra-imgs-file" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="window.handleExtraImages(event)">
+                                    <div id="extra-upload-label" class="text-gray-400 text-sm">اختر عدة صور إضافية</div>
+                                    <div id="extra-images-preview" class="flex flex-wrap gap-2 mt-2 justify-center"></div>
                                 </div>
                             </div>
                             <div class="md:col-span-2">
