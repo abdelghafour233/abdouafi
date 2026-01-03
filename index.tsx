@@ -36,6 +36,28 @@ const DEFAULT_BLOG_DATA = {
     ],
     articles: [
         {
+            id: "ar-can-2025",
+            category: "أخبار التقنية",
+            title: "افتتاح 'الكان' التاريخي بالمغرب: رسالة للعالم عن ريادة المملكة الإفريقية وعرس كروي يبهر الأنفاس",
+            content: `حبست الأنفاس، واتجهت أنظار الملايين صوب المملكة المغربية، التي أعطت انطلاقة تاريخية لنهائيات كأس أمم إفريقيا (الكان). لم يكن مجرد افتتاح لبطولة كروية، بل كان تجسيداً لرؤية ملكية طموحة جعلت من المغرب قبلة للرياضة العالمية ومنارة للبنية التحتية المتطورة في القارة السمراء.
+
+أولاً: حفل افتتاح يمزج بين الأصالة والحداثة
+شهد حفل الافتتاح عروضاً بصرية مذهلة استخدمت فيها أحدث تقنيات الـ "هولوغرام" والإضاءة الرقمية، لترسم لوحات فنية تحكي تاريخ المغرب العريق وانفتاحه على إفريقيا. الموسيقى المغربية الممزوجة بالإيقاعات الإفريقية العصرية خلقت أجواء حماسية أكدت أن المغرب هو الجسر الرابط بين القارات.
+
+ثانياً: ملاعب من الجيل الرابع
+أبهر المغرب ضيوفه بجودة الملاعب التي تم تجديدها وتشييدها. من ملعب طنجة الكبير الذي ظهر في حلة عالمية، إلى مركب محمد الخامس بالدار البيضاء وملعب مراكش الكبير. البنية التحتية لم تقتصر على المستطيل الأخضر، بل شملت شبكة طرقية وسكك حديدية (البراق) سهلت تنقل الجماهير الإفريقية والدولية بين المدن المستضيفة في زمن قياسي.
+
+ثالثاً: الأمن والاحترافية التنظيمية
+أثبتت السلطات المغربية احترافية عالية في إدارة الحشود وتأمين التظاهرة الكبرى. الحضور الجماهيري الغفير من مختلف الجنسيات الإفريقية وجد ترحيباً مغربياً خالصاً (تامغربيت)، حيث تحولت المدن المغربية إلى ساحات للاحتفال الثقافي المشترك، مما يعزز قيم السلم والتآخي بين الشعوب.
+
+رابعاً: الأثر الاقتصادي والرقمي
+تغطية البطولة رقمياً وصلت إلى أرقام قياسية، حيث استثمر المغرب في تقنيات البث والربط بالألياف البصرية لضمان وصول الصورة بجودة عالية لكل بقاع العالم. هذا الافتتاح هو خير ترويج لمونديال 2030 الذي سيستضيفه المغرب بالتعاون مع إسبانيا والبرتغال.
+
+خلاصة القول، إن نجاح افتتاح "الكان" في المغرب هو انتصار للقارة الإفريقية بأكملها، وتأكيد على أن المملكة المغربية قادرة على تنظيم أكبر التظاهرات العالمية بمعايير تتجاوز التوقعات.`,
+            img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&h=500&fit=crop",
+            date: "2025/01/27"
+        },
+        {
             id: "ar-1",
             category: "أخبار التقنية",
             title: "ثورة الذكاء الاصطناعي في المغرب: كيف يستعد المغرب لريادة الاقتصاد الرقمي الأفريقي؟",
@@ -217,10 +239,14 @@ const saveSettings = () => {
 const sync = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
 function renderApp() {
-    document.getElementById('display-site-name')!.innerText = state.siteName;
-    document.getElementById('footer-site-name')!.innerText = state.siteName;
-    document.getElementById('footer-copy-name')!.innerText = state.siteName;
-    document.getElementById('hero-site-desc')!.innerText = state.siteDescription;
+    const siteTitle = document.getElementById('display-site-name');
+    if (siteTitle) siteTitle.innerText = state.siteName;
+    const footerTitle = document.getElementById('footer-site-name');
+    if (footerTitle) footerTitle.innerText = state.siteName;
+    const footerCopy = document.getElementById('footer-copy-name');
+    if (footerCopy) footerCopy.innerText = state.siteName;
+    const heroDesc = document.getElementById('hero-site-desc');
+    if (heroDesc) heroDesc.innerText = state.siteDescription;
     
     // UPDATED: Footer now uses SHARE mode to share the main website
     renderSocialButtons('footer-social-container', 'share', { 
