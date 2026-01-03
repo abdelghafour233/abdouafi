@@ -4,7 +4,7 @@
  * Professional Version - Universal Share & Follow System
  */
 
-const STORAGE_KEY = 'abdouweb_final_v18'; // Updated version for stats
+const STORAGE_KEY = 'abdouweb_final_v18';
 
 const DEFAULT_BLOG_DATA = {
     siteName: "عبدو ويب abdouweb",
@@ -37,24 +37,97 @@ const DEFAULT_BLOG_DATA = {
             img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop",
             url: "https://www.apple.com/ma/macbook-air/",
             date: "2025/01/26"
+        },
+        {
+            id: "of-2",
+            title: "iPhone 15 Pro Max - تخفيضات الرباط",
+            price: "13,500 درهم",
+            desc: "أفضل سعر للايفون 15 برو ماكس في السوق المغربي مع ضمان لمدة سنة.",
+            img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500&h=300&fit=crop",
+            url: "#",
+            date: "2025/01/28"
         }
     ],
     articles: [
         {
-            id: "ar-can-revenues-2025",
-            category: "أخبار التقنية",
-            title: "مكاسب المغرب من استضافة كأس أمم إفريقيا 2025: تحليل للمداخيل المالية والأثر الاقتصادي بعيد المدى",
-            content: `مع اقتراب موعد انطلاق كأس أمم إفريقيا 2025 التي ستحتضنها المملكة المغربية، تتجه الأنظار ليس فقط نحو المستطيل الأخضر، بل نحو الأرقام الضخمة والمداخيل المتوقعة التي ستنعش الخزينة الوطنية. إن استضافة حدث بهذا الحجم تتجاوز كونه "مجرد بطولة كرة قدم"، لتصبح رافعة اقتصادية استراتيجية تضع المغرب في قلب الخريطة العالمية...`,
-            img: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=800&h=500&fit=crop",
+            id: "ar-1",
+            category: "أخبار وطنية",
+            title: "افتتاح الكان في المغرب: عرس إفريقي بمواصفات عالمية",
+            content: `تستعد المملكة المغربية لكتابة فصل جديد في تاريخ كرة القدم الإفريقية من خلال استضافة نهائيات كأس أمم إفريقيا (الكان). الاستعدادات تجري على قدم وساق في ملاعب الرباط، الدار البيضاء، وطنجة لتقديم حفل افتتاح يبهر العالم.
+
+المغرب، بخبرته الكبيرة في تنظيم التظاهرات الكبرى، يراهن على بنية تحتية متطورة وشغف جماهيري منقطع النظير لجعل هذه النسخة هي الأفضل في تاريخ القارة السمراء.`,
+            img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&h=500&fit=crop",
             date: "2025/01/30"
         },
         {
-            id: "ar-wealth-books-2025",
+            id: "ar-2",
+            category: "اقتصاد",
+            title: "مداخيل المغرب من كأس إفريقيا: أرقام وتوقعات اقتصادية",
+            content: `لا تقتصر أهمية استضافة كأس إفريقيا على الجانب الرياضي فقط، بل تمتد لتشمل انتعاشة اقتصادية كبرى. يتوقع الخبراء أن تضخ البطولة مئات الملايين من الدراهم في قطاعات السياحة، النقل، والخدمات.
+
+حضور آلاف المشجعين من مختلف دول القارة سيعزز من ليالي المبيت في الفنادق المغربية وينعش التجارة المحلية، مما يسهم في خلق فرص شغل موسمية هامة للشباب المغربي.`,
+            img: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800&h=500&fit=crop",
+            date: "2025/01/31"
+        },
+        {
+            id: "ar-3",
+            category: "فلاحة وصناعة",
+            title: "زيت الزيتون في المغرب: هل ستنخفض الأسعار هذا الموسم؟",
+            content: `يعتبر زيت الزيتون مادة أساسية في المائدة المغربية، ومع تقلبات المناخ شهدت الأسعار ارتفاعاً ملحوظاً في السنوات الأخيرة. في هذا المقال، نرصد حالة المعاصر في مناطق "قلعة السراغنة" و"تاونات" وتوقعات المهنيين حول استقرار الأثمان.
+
+كما نقدم نصائح للمستهلك المغربي حول كيفية التمييز بين الزيت الأصلي والمغشوش لضمان جودة المنتج وسلامة الأسرة.`,
+            img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/01"
+        },
+        {
+            id: "ar-4",
+            category: "بيئة",
+            title: "الأمطار في المغرب: عودة الأمل للفلاحين وحالة السدود",
+            content: `استبشر المغاربة خيراً بالتساقطات المطرية الأخيرة التي شهدتها مختلف أرجاء المملكة. هذه الأمطار جاءت في وقت حاسم لإنقاذ الموسم الفلاحي وتخفيف الضغط على الفرشة المائية.
+
+نستعرض في هذا التقرير نسب ملء السدود الكبرى وأثر هذه التساقطات على أسعار الخضر والفواكه في الأسواق الأسبوعية المغربية.`,
+            img: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/02"
+        },
+        {
+            id: "ar-5",
+            category: "صحة ونفسية",
+            title: "الكآبة وفصل الشتاء: كيف تتغلب على الاضطراب الموسمي؟",
+            content: `مع قصر النهار وانخفاض درجات الحرارة، يعاني الكثيرون مما يسمى "اكتئاب الشتاء". في المغرب، تزداد هذه الظاهرة مع غياب الشمس في بعض المناطق الشمالية والجبلية.
+
+نقدم لكم في هذا المقال حلولاً عملية تتضمن التغذية السليمة، ممارسة الرياضة المنزلية، وأهمية التعرض لأشعة الشمس خلال ساعات الذروة للحفاظ على توازنك النفسي ونشاطك اليومي.`,
+            img: "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/03"
+        },
+        {
+            id: "ar-6",
             category: "تطوير الذات",
-            title: "دليلك الشامل لأفضل كتب الثراء وتطوير الذات: كيف تبرمج عقلك على النجاح المالي؟",
-            content: `يُقال إن "القراءة هي العادة التي يشترك فيها جميع المليارديرات"...`,
-            img: "https://images.unsplash.com/photo-1491336477066-31156b5e4f35?q=80&w=800&h=500&fit=crop",
-            date: "2025/01/30"
+            title: "أفضل كتب الثراء وتطوير الذات التي يجب أن تقرأها في 2025",
+            content: `بناء العقلية المالية هو الخطوة الأولى نحو الحرية. اخترنا لكم باقة من أقوى الكتب العالمية التي تُرجمت للغة العربية، مثل "سيكولوجية المال" و"أغنى رجل في بابل".
+
+نشرح كيف يمكن لهذه الكتب أن تغير نظرتك للادخار والاستثمار في الواقع المغربي، وكيف تبدأ مشروعك الخاص بأقل التكاليف.`,
+            img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/04"
+        },
+        {
+            id: "ar-7",
+            category: "أخبار التقنية",
+            title: "مستقبل الذكاء الاصطناعي في المغرب: ثورة رقمية قادمة",
+            content: `يشهد المغرب تحولاً جذرياً في تبني تقنيات الذكاء الاصطناعي في مختلف القطاعات. من التعليم إلى الصناعة، بدأت الشركات المغربية تدرك أهمية الأتمتة والبيانات الضخمة في تحسين الإنتاجية.
+
+نستعرض في هذا المقال أهم المبادرات الوطنية والشركات الناشئة التي تقود قاطرة الابتكار الرقمي في المملكة، وكيف يمكن للشباب تطوير مهاراتهم لمواكبة هذا التغيير العالمي.`,
+            img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/05"
+        },
+        {
+            id: "ar-8",
+            category: "رياضة",
+            title: "من سيفوز باللقب؟ توقعات الفائز بكان المغرب 2025",
+            content: `تتجه الأنظار نحو المنتخب الوطني المغربي "أسود الأطلس" كمرشح أول لنيل لقب كأس أمم إفريقيا على أرضه وبين جماهيره. ولكن المنافسة لن تكون سهلة بوجود عمالقة القارة مثل السنغال، مصر، وكوت ديفوار.
+
+في هذا التحليل الرياضي، نستعرض نقاط القوة والضعف للمنتخبات الكبرى، وما هي الحظوظ الحقيقية للمغرب لكسر العقدة التاريخية والظفر باللقب الغالي.`,
+            img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&h=500&fit=crop",
+            date: "2025/02/06"
         }
     ]
 };
@@ -65,6 +138,7 @@ let currentCategoryFilter = 'الكل';
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 let editingOfferId: string | null = null;
+let editingArticleId: string | null = null;
 
 const updateVisitorStats = () => {
     const now = Date.now();
@@ -225,6 +299,8 @@ function renderApp() {
     if (heroDesc) heroDesc.innerText = state.siteDescription;
     updateVisitorStats();
     renderSocialButtons('footer-social-container', 'share', { title: state.siteName, url: window.location.origin, img: "" });
+    
+    // Render Offers Grid
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
@@ -243,6 +319,8 @@ function renderApp() {
                 </div>
             </article>`).join('');
     }
+
+    // Render Articles Grid with Filter
     const filteredArticles = currentCategoryFilter === 'الكل' ? state.articles : state.articles.filter((a:any) => a.category === currentCategoryFilter);
     const articlesGrid = document.getElementById('articles-grid');
     if (articlesGrid) {
@@ -260,6 +338,8 @@ function renderApp() {
                 </div>
             </article>`).join('');
     }
+
+    // Admin List Rendering
     if (isLoggedIn) {
         const oL = document.getElementById('admin-offers-list');
         if(oL) {
@@ -284,10 +364,13 @@ function renderApp() {
         if(aL) aL.innerHTML = state.articles.map((a:any)=>`
             <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/40 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-blue-200 transition">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg flex items-center justify-center font-black text-xs">A</div>
+                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg flex items-center justify-center font-black text-xs">${a.category[0]}</div>
                     <span class="text-xs font-bold line-clamp-1">${a.title}</span>
                 </div>
-                <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
+                <div class="flex gap-4">
+                     <button onclick="window.loadArticleToEdit('${a.id}')" class="text-blue-500 font-black text-[10px] uppercase">تعديل</button>
+                     <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
+                </div>
             </div>`).join('');
     }
 }
@@ -315,6 +398,7 @@ const setCategoryFilter = (cat: string) => {
     renderApp();
 };
 
+// Offer Management
 const loadOfferToEdit = (id: string) => {
     const o = state.offers.find((x: any) => x.id === id);
     if (!o) return;
@@ -360,15 +444,38 @@ const saveOffer = () => {
     sync(); renderApp();
 };
 
+// Article Management
+const loadArticleToEdit = (id: string) => {
+    const a = state.articles.find((x: any) => x.id === id);
+    if (!a) return;
+    editingArticleId = id;
+    (document.getElementById('article-title') as HTMLInputElement).value = a.title;
+    (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
+    (document.getElementById('article-category') as HTMLSelectElement).value = a.category;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
     const category = (document.getElementById('article-category') as HTMLSelectElement).value;
     if(!title || !content) return alert('يرجى كتابة العنوان والمحتوى');
-    state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-    sync(); renderApp(); alert('تم النشر بنجاح');
+    
+    if (editingArticleId) {
+        const index = state.articles.findIndex((a: any) => a.id === editingArticleId);
+        if (index !== -1) {
+            state.articles[index] = { ...state.articles[index], title, content, category, img: currentArticleImageBase64 || state.articles[index].img };
+            alert('تم التحديث بنجاح');
+            editingArticleId = null;
+        }
+    } else {
+        state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
+        alert('تم النشر بنجاح');
+    }
+    sync(); renderApp();
     (document.getElementById('article-title') as HTMLInputElement).value = '';
     (document.getElementById('article-content') as HTMLTextAreaElement).value = '';
+    currentArticleImageBase64 = '';
 };
 
 const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
@@ -376,11 +483,11 @@ const previewMainImg = async (e: any) => { if(e.target.files[0]) currentMainImag
 const previewArtImg = async (e: any) => { if(e.target.files[0]) currentArticleImageBase64 = await fileToBase64(e.target.files[0]); };
 
 function deleteOffer(id: string) { if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); if(editingOfferId === id) cancelEditOffer(); sync(); renderApp(); } }
-function deleteArticle(id: string) { if(confirm('هل أنت متأكد من حذف هذا المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); } }
+function deleteArticle(id: string) { if(confirm('هل أنت متأكد من حذف هذا المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); if(editingArticleId === id) editingArticleId = null; sync(); renderApp(); } }
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
-    saveOffer, loadOfferToEdit, cancelEditOffer, saveArticle, saveSettings, changePassword, previewMainImg, previewArtImg,
+    saveOffer, loadOfferToEdit, cancelEditOffer, saveArticle, loadArticleToEdit, saveSettings, changePassword, previewMainImg, previewArtImg,
     deleteOffer, deleteArticle, toggleLoginPassword,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));

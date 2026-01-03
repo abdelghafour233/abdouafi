@@ -194,19 +194,23 @@
                         <div class="flex items-center justify-between mb-10">
                             <h3 id="offer-form-title" class="text-2xl font-black">إدارة المنتجات</h3>
                         </div>
-                        <div class="space-y-4 mb-12">
+                        <div id="product-form-container" class="space-y-4 mb-12 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <input type="text" id="offer-title" placeholder="اسم المنتج" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
-                                <input type="text" id="offer-price" placeholder="السعر" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
+                                <input type="text" id="offer-title" placeholder="اسم المنتج" class="w-full p-4 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
+                                <input type="text" id="offer-price" placeholder="السعر (مثال: 500 درهم)" class="w-full p-4 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
                             </div>
-                            <input type="text" id="offer-url" placeholder="رابط الأفلييت" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none">
-                            <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
-                            <textarea id="offer-desc" placeholder="وصف المنتج..." class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl h-32 outline-none"></textarea>
+                            <input type="text" id="offer-url" placeholder="رابط الأفلييت المباشر" class="w-full p-4 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-2xl outline-none">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-black text-slate-400 mr-2">صورة المنتج</label>
+                                <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="w-full p-3 bg-white dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
+                            </div>
+                            <textarea id="offer-desc" placeholder="وصف قصير ومميزات المنتج..." class="w-full p-4 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-2xl h-32 outline-none"></textarea>
                             <div class="flex gap-4">
-                                <button id="btn-save-offer" onclick="window.saveOffer()" class="flex-grow bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg">حفظ المنتج</button>
+                                <button id="btn-save-offer" onclick="window.saveOffer()" class="flex-grow bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-700 transition">حفظ المنتج</button>
                                 <button id="btn-cancel-offer" onclick="window.cancelEditOffer()" class="hidden bg-slate-200 dark:bg-slate-700 px-8 py-4 rounded-2xl font-bold">إلغاء</button>
                             </div>
                         </div>
+                        <h4 class="font-black mb-4 text-slate-400 text-sm uppercase tracking-widest">قائمة المنتجات الحالية</h4>
                         <div class="overflow-x-auto rounded-3xl border border-slate-100 dark:border-slate-800">
                             <table class="w-full text-right">
                                 <thead class="bg-slate-50 dark:bg-slate-800">
@@ -247,7 +251,25 @@
                             <div class="space-y-4">
                                 <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">المعلومات الأساسية</h4>
                                 <input type="text" id="site-name-input" placeholder="اسم الموقع" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl font-bold">
-                                <button onclick="window.saveSettings()" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-4 rounded-2xl font-black">حفظ التغييرات</button>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black mr-2 text-blue-600">Facebook</label>
+                                        <input type="text" id="social-fb" placeholder="رابط الفيسبوك" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black mr-2 text-pink-600">TikTok</label>
+                                        <input type="text" id="social-tt" placeholder="رابط تيك توك" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black mr-2 text-sky-500">Twitter (X)</label>
+                                        <input type="text" id="social-tw" placeholder="رابط تويتر" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black mr-2 text-orange-600">Instagram</label>
+                                        <input type="text" id="social-ig" placeholder="رابط إنستغرام" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm">
+                                    </div>
+                                </div>
+                                <button onclick="window.saveSettings()" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-4 rounded-2xl font-black hover:scale-[1.01] transition">حفظ التغييرات</button>
                             </div>
                             <div class="pt-10 border-t dark:border-slate-800 space-y-4">
                                 <h4 class="text-sm font-black text-orange-600 uppercase tracking-widest">تغيير كلمة المرور</h4>
