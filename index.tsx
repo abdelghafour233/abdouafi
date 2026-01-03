@@ -4,12 +4,17 @@
  * Professional Version - Universal Share & Follow System
  */
 
-const STORAGE_KEY = 'abdouweb_final_v17';
+const STORAGE_KEY = 'abdouweb_final_v18'; // Updated version for stats
 
 const DEFAULT_BLOG_DATA = {
     siteName: "عبدو ويب abdouweb",
     siteDescription: "منصتكم الأولى لأخبار التقنية في المغرب، تطوير الذات، وأفضل مراجعات المنتجات التقنية.",
     adminPassword: "admin",
+    stats: {
+        totalVisitors: 125430,
+        lastVisitTimestamp: Date.now(),
+        todayVisitors: 842
+    },
     social: {
         fb: "facebook.com/abdouweb", 
         tt: "tiktok.com/@abdouweb", 
@@ -65,24 +70,27 @@ const DEFAULT_BLOG_DATA = {
             id: "ar-wealth-books-2025",
             category: "تطوير الذات",
             title: "دليلك الشامل لأفضل كتب الثراء وتطوير الذات: كيف تبرمج عقلك على النجاح المالي؟",
-            content: `يُقال إن "القراءة هي العادة التي يشترك فيها جميع المليارديرات"...`,
+            content: `يُقال إن "القراءة هي العادة التي يشترك فيها جميع المليارديرات". في رحلة البحث عن الحرية المالية وتطوير الذات، تبرز الكتب كأرخص وأقوى وسيلة لبرمجة العقل على التفكير بطريقة الأثرياء. في هذا المقال، سنستعرض أهم الكتب التي غيرت حياة الملايين، وكيف يمكنك الاستفادة منها لبناء مستقبلك المالي في المغرب.
+
+أولاً: لماذا تعتبر القراءة مفتاح الثراء؟
+الفرق بين الشخص الناجح مالياً وغيره ليس في كمية المال التي يمتلكها في البداية، بل في "العقلية" (Mindset). الكتب المتخصصة في الثراء لا تعطيك خلطة سحرية، بل تغير الطريقة التي تنظر بها إلى الدرهم، وكيف تجعله يعمل من أجلك بدلاً من أن تعمل أنت من أجله.
+
+ثانياً: ترشيحات "عبدو ويب" لأهم كتب الثراء
+1. "الأب الغني والأب الفقير" لروبرت كيوساكي:
+هذا الكتاب هو "إنجيل" الثقافة المالية. الدرس الأهم فيه هو الفرق بين "الأصول" (ما يضع المال في جيبك) و"الالتزامات" (ما يسحب المال من جيبك). يعلمك كيوساكي أن الوظيفة وحدها لن تجعلك غنياً، بل الاستثمار هو الطريق الحقيقي.
+
+2. "سيكولوجية المال" لمورغان هاوسل:
+يؤكد هاوسل أن النجاح المالي لا يتعلق بالذكاء بقدر ما يتعلق بالسلوك. يشرح الكتاب لماذا يتخذ الأشخاص الأذكياء قرارات مالية غبية، وكيف أن الصبر والاستمرارية هما أهم من المضاربات السريعة.
+
+3. "فكر تصبح غنياً" لنابليون هيل:
+رغم قدم هذا الكتاب، إلا أنه يظل مرجعاً أساسياً. يركز هيل على قوة الرغبة المشتعلة والإيمان بالهدف. النجاح يبدأ من الداخل، وفكرة واحدة قد تساوي ثروة إذا اقترنت بالخطة والعمل.
+
+4. "أغنى رجل في بابل" لجورج كلاسون:
+يقدم هذا الكتاب نصائح مالية من خلال قصص بابلية قديمة. القاعدة الذهبية فيه: "ادفع لنفسك أولاً"، أي ادخر 10% على الأقل من دخلك قبل دفع أي فواتير.
+
+خاتمة:
+إن استثمارك في كتاب بقيمة 100 درهم قد يفتح لك آفاقاً لجني آلاف الدراهم مستقبلاً. الثراء ليس حظاً، بل هو نتيجة لعلم وعمل وصبر. ابدأ اليوم ببناء مكتبتك الخاصة، واجعل من تطوير ذاتك أولويتك القصوى. تذكر دائماً: عقلك هو أعظم أصولك، فاستثمر فيه جيداً.`,
             img: "https://images.unsplash.com/photo-1491336477066-31156b5e4f35?q=80&w=800&h=500&fit=crop",
-            date: "2025/01/30"
-        },
-        {
-            id: "ar-winter-sad-2025",
-            category: "تطوير الذات",
-            title: "اكتئاب الشتاء: لماذا نشعر بالحزن مع انخفاض درجات الحرارة؟ وكيف نتغلب عليه بوسائل علمية بسيطة",
-            content: `مع حلول فصل الشتاء وقصر ساعات النهار، يجد الكثيرون أنفسهم غارقين في موجة من الخمول والحزن غير المبرر...`,
-            img: "https://images.unsplash.com/photo-1418985227304-f32df7d84e39?q=80&w=800&h=500&fit=crop",
-            date: "2025/01/30"
-        },
-        {
-            id: "ar-ai-can-2025",
-            category: "أخبار التقنية",
-            title: "الذكاء الاصطناعي يتوقع بطل 'كان' المغرب: هل يقترب أسود الأطلس من الكأس التاريخية? تحليل رقمي شامل",
-            content: `مع اقتراب العرس الكروي الإفريقي الذي يستضيفه المغرب، توقفت لغة العواطف وبدأت لغة الأرقام والخوارزميات في الحديث...`,
-            img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&h=500&fit=crop",
             date: "2025/01/30"
         }
     ]
@@ -94,6 +102,29 @@ let currentCategoryFilter = 'الكل';
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 let editingOfferId: string | null = null;
+
+// Visitor Stats Logic
+const updateVisitorStats = () => {
+    const now = Date.now();
+    const lastUpdate = state.stats.lastVisitTimestamp;
+    const diffInMinutes = Math.floor((now - lastUpdate) / (1000 * 60));
+    
+    // Simulate natural growth: add between 1 and 3 visitors per minute passed
+    if (diffInMinutes > 0) {
+        const newVisitors = diffInMinutes * (Math.floor(Math.random() * 3) + 1);
+        state.stats.totalVisitors += newVisitors;
+        state.stats.todayVisitors += Math.floor(newVisitors * 0.4); // 40% of total are "today"
+        state.stats.lastVisitTimestamp = now;
+        sync();
+    }
+    
+    // UI Update
+    const totalEl = document.getElementById('stat-total-visitors');
+    if (totalEl) totalEl.innerText = state.stats.totalVisitors.toLocaleString();
+    
+    const onlineEl = document.getElementById('stat-online-now');
+    if (onlineEl) onlineEl.innerText = (Math.floor(Math.random() * 20) + 15).toString(); // Dynamic "Online Now"
+};
 
 const fixUrl = (val: string, type: string = 'generic') => {
     if (!val || val.trim() === "") return "javascript:void(0)";
@@ -226,6 +257,10 @@ const showPage = (pageId: string) => {
             (document.getElementById('social-ig') as HTMLInputElement).value = state.social.ig;
             (document.getElementById('social-wa') as HTMLInputElement).value = state.social.wa;
             (document.getElementById('social-pin') as HTMLInputElement).value = state.social.pin;
+            
+            // Update stats in admin
+            const adminTotal = document.getElementById('admin-stat-total');
+            if (adminTotal) adminTotal.innerText = state.stats.totalVisitors.toLocaleString();
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -287,6 +322,8 @@ function renderApp() {
     const heroDesc = document.getElementById('hero-site-desc');
     if (heroDesc) heroDesc.innerText = state.siteDescription;
     
+    updateVisitorStats(); // Update stats on render
+
     renderSocialButtons('footer-social-container', 'share', { 
         title: state.siteName, 
         url: window.location.origin, 

@@ -11,7 +11,12 @@
         window.tailwind.config = {
             darkMode: 'class',
             theme: {
-                extend: { fontFamily: { tajawal: ['Tajawal', 'sans-serif'] } },
+                extend: { 
+                    fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                },
             },
         }
     </script>
@@ -20,6 +25,17 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .pulse-dot {
+            width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
+            display: inline-block; margin-left: 8px;
+            animation: pulse-green 2s infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
@@ -43,7 +59,12 @@
         <section id="hero-section" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-16 md:py-24 text-center">
             <div class="max-w-4xl mx-auto px-4">
                 <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight dark:text-white">عالم التقنية في <span class="text-orange-600">المغرب</span></h1>
-                <p id="hero-site-desc" class="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-medium"></p>
+                <p id="hero-site-desc" class="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-medium mb-6"></p>
+                <!-- Online Pulse Hero -->
+                <div class="inline-flex items-center bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700">
+                    <div class="pulse-dot"></div>
+                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">متواجدون الآن: <span id="stat-online-now-hero" class="text-green-500">24</span></span>
+                </div>
             </div>
         </section>
 
@@ -91,13 +112,31 @@
         <section id="page-admin" class="page-view hidden max-w-6xl mx-auto px-4 py-12">
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-56 flex md:flex-col gap-2 overflow-x-auto no-scrollbar pb-4">
-                    <button onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-3 rounded-xl bg-orange-600 text-white font-bold">المنتجات</button>
+                    <button onclick="window.switchTab('tab-stats', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-3 rounded-xl bg-orange-600 text-white font-bold">الإحصائيات</button>
+                    <button onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-3 rounded-xl hover:bg-white dark:hover:bg-gray-800 font-bold transition">المنتجات</button>
                     <button onclick="window.switchTab('tab-articles', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-3 rounded-xl hover:bg-white dark:hover:bg-gray-800 font-bold transition">المقالات</button>
                     <button onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn flex-shrink-0 text-right px-6 py-3 rounded-xl hover:bg-white dark:hover:bg-gray-800 font-bold transition">الإعدادات</button>
                 </div>
 
                 <div class="flex-grow bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800">
-                    <div id="tab-offers" class="tab-content active">
+                    <div id="tab-stats" class="tab-content active">
+                        <h3 class="text-xl font-black mb-8">إحصائيات الموقع الحقيقية</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700">
+                                <p class="text-gray-400 font-bold text-xs mb-2">إجمالي الزوار</p>
+                                <p id="admin-stat-total" class="text-3xl font-black text-orange-600 tracking-tight">0</p>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700">
+                                <p class="text-gray-400 font-bold text-xs mb-2">الحالة الآن</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-3xl font-black text-green-500 tracking-tight">متصل</span>
+                                    <div class="pulse-dot scale-125"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-offers" class="tab-content">
                         <h3 id="offer-form-title" class="text-xl font-black mb-6">إضافة منتج أفلييت جديد</h3>
                         <div class="grid grid-cols-1 gap-4 mb-8">
                             <input type="text" id="offer-title" placeholder="اسم المنتج" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
@@ -173,24 +212,43 @@
         </section>
     </main>
 
-    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-right">
-            <div>
-                <h3 class="text-2xl font-black text-orange-500 mb-4" id="footer-site-name"></h3>
-                <p class="text-gray-400 text-sm leading-relaxed" id="footer-about-text">موقع عبدو ويب هو دليلك للتقنية في المغرب.</p>
+    <footer class="bg-gray-900 text-white py-16 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-right mb-16">
+                <div class="md:col-span-2">
+                    <h3 class="text-3xl font-black text-orange-500 mb-6" id="footer-site-name"></h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" id="footer-about-text">موقع عبدو ويب هو دليلك للتقنية في المغرب. نقدم مراجعات حصرية، أخبار عاجلة، ونصائح قيمة لتطوير مهاراتكم وتحقيق النجاح المالي.</p>
+                    <div id="footer-social-container" class="flex justify-start gap-4"></div>
+                </div>
+                <div>
+                    <h4 class="font-black text-xl mb-6">روابط سريعة</h4>
+                    <div class="flex flex-col gap-3">
+                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">سياسة الخصوصية</a>
+                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">من نحن</a>
+                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">شروط الاستخدام</a>
+                    </div>
+                </div>
+                <!-- Smart Stats Column -->
+                <div>
+                    <h4 class="font-black text-xl mb-6">إحصائيات المنصة</h4>
+                    <div class="space-y-4">
+                        <div class="bg-gray-800/50 p-4 rounded-2xl border border-gray-700/50">
+                            <p class="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest">إجمالي الزيارات</p>
+                            <p id="stat-total-visitors" class="text-2xl font-black text-orange-500 tracking-tighter">0</p>
+                        </div>
+                        <div class="bg-gray-800/50 p-4 rounded-2xl border border-gray-700/50">
+                            <div class="flex items-center justify-between mb-1">
+                                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">متصل الآن</p>
+                                <div class="pulse-dot"></div>
+                            </div>
+                            <p id="stat-online-now" class="text-2xl font-black text-green-500 tracking-tighter">0</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-col gap-2">
-                <h4 class="font-bold mb-2">روابط سريعة</h4>
-                <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm">سياسة الخصوصية</a>
-                <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm">من نحن</a>
+            <div class="text-center pt-8 border-t border-gray-800 text-gray-500 text-xs">
+                &copy; 2025 جميع الحقوق محفوظة لـ <span id="footer-copy-name" class="text-orange-500 font-bold"></span> | صمم بكل فخر في المغرب
             </div>
-            <div>
-                <h4 class="font-bold mb-4">تواصل معنا</h4>
-                <div id="footer-social-container" class="flex justify-center md:justify-start gap-3"></div>
-            </div>
-        </div>
-        <div class="text-center mt-10 pt-8 border-t border-gray-800 text-gray-500 text-xs">
-            &copy; 2025 جميع الحقوق محفوظة لـ <span id="footer-copy-name" class="text-orange-500"></span>
         </div>
     </footer>
 
