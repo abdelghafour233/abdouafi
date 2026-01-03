@@ -16,7 +16,7 @@ const DEFAULT_BLOG_DATA = {
         todayVisitors: 842
     },
     ads: {
-        general: "",
+        general: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
         top: "",
         sidebar: ""
     },
@@ -90,7 +90,7 @@ const DEFAULT_BLOG_DATA = {
 };
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
-if (!state.ads) state.ads = { general: "", top: "", sidebar: "" };
+if (!state.ads) state.ads = { general: DEFAULT_BLOG_DATA.ads.general, top: "", sidebar: "" };
 
 let isLoggedIn = false;
 let currentCategoryFilter = 'الكل';
