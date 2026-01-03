@@ -44,25 +44,7 @@ const DEFAULT_BLOG_DATA = {
             id: "ar-can-revenues-2025",
             category: "أخبار التقنية",
             title: "مكاسب المغرب من استضافة كأس أمم إفريقيا 2025: تحليل للمداخيل المالية والأثر الاقتصادي بعيد المدى",
-            content: `مع اقتراب موعد انطلاق كأس أمم إفريقيا 2025 التي ستحتضنها المملكة المغربية، تتجه الأنظار ليس فقط نحو المستطيل الأخضر، بل نحو الأرقام الضخمة والمداخيل المتوقعة التي ستنعش الخزينة الوطنية. إن استضافة حدث بهذا الحجم تتجاوز كونه "مجرد بطولة كرة قدم"، لتصبح رافعة اقتصادية استراتيجية تضع المغرب في قلب الخريطة العالمية.
-
-أولاً: انتعاش قطاع السياحة والخدمات
-تتوقع الدراسات الاقتصادية وصول أزيد من 1.5 مليون مشجع وسائح إلى المغرب خلال فترة البطولة. هذا التدفق البشري يترجم مباشرة إلى مداخيل مالية ضخمة لقطاعات الفنادق، المطاعم، والنقل. يقدر متوسط إنفاق السائح اليومي بنحو 1200 درهم، مما يعني ضخ مليارات الدراهم في الدورة الاقتصادية المحلية خلال أسابيع قليلة فقط.
-
-ثانياً: حقوق البث والرعاية التجارية
-كأس أمم إفريقيا هي المنتج الرياضي الأول في القارة، وتجذب مئات الملايين من المشاهدين حول العالم. جزء كبير من المداخيل يأتي من مبيعات تذاكر المباريات، حقوق البث التلفزيوني الدولية، وعقود الرعاية مع الشركات الكبرى. المغرب، كبلد مستضيف، يستفيد من نسبة مهمة من هذه المداخيل، بالإضافة إلى الترويج المجاني للعلامة التجارية "المغرب" (Brand Morocco) عبر شاشات العالم.
-
-ثالثاً: تطوير البنية التحتية كمكسب دائم
-الاستثمارات التي ضختها الدولة في تحديث الملاعب (مثل مجمع الأمير مولاي عبد الله بالرباط وملعب طنجة الكبير) وتوسيع شبكات الطرق والسكك الحديدية ليست مصاريف عابرة، بل هي "أصول" دائمة. هذه البنية التحتية ستقلل من تكاليف اللوجستيك مستقبلاً وتساهم في تحسين جودة حياة المواطنين، والأهم من ذلك أنها "بروفة" حقيقية لاستضافة مونديال 2030.
-
-رابعاً: خلق فرص الشغل المؤقتة والدائمة
-تساهم البطولة في خلق آلاف فرص الشغل المباشرة وغير المباشرة. من شركات الأمن الخاص، إلى وكالات التنظيم، وصولاً إلى الحرف التقليدية التي تشهد طلباً كبيراً من السياح الأفارقة والأجانب. هذا الحراك الاقتصادي يساهم في خفض معدلات البطالة موسمياً وينعش المقاولات الصغرى والمتوسطة.
-
-خامساً: القوة الناعمة والثقة الدولية
-المكسب الأهم الذي لا يقدر بثمن هو "الثقة". نجاح المغرب في تنظيم "كان 2025" بمواصفات عالمية سيعزز من صورته كوجهة آمنة ومستقرة للاستثمارات الأجنبية الكبرى. إنها رسالة قوية للعالم بأن المملكة جاهزة لاستقطاب مشاريع صناعية وتكنولوجية ضخمة، مستفيدة من الإشعاع الذي توفره الرياضة.
-
-خلاصة:
-إن كأس أمم إفريقيا 2025 هي استثمار رابح بكل المقاييس. وبالرغم من التكاليف التنظيمية، إلا أن العائد المادي والسياسي والاجتماعي سيفوق التوقعات، مما سيجعل من هذه النسخة نقطة تحول كبرى في مسار التنمية الاقتصادية للمملكة المغربية تحت القيادة الرشيدة لجلالة الملك محمد السادس.`,
+            content: `مع اقتراب موعد انطلاق كأس أمم إفريقيا 2025 التي ستحتضنها المملكة المغربية، تتجه الأنظار ليس فقط نحو المستطيل الأخضر، بل نحو الأرقام الضخمة والمداخيل المتوقعة التي ستنعش الخزينة الوطنية. إن استضافة حدث بهذا الحجم تتجاوز كونه "مجرد بطولة كرة قدم"، لتصبح رافعة اقتصادية استراتيجية تضع المغرب في قلب الخريطة العالمية...`,
             img: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=800&h=500&fit=crop",
             date: "2025/01/30"
         },
@@ -70,26 +52,7 @@ const DEFAULT_BLOG_DATA = {
             id: "ar-wealth-books-2025",
             category: "تطوير الذات",
             title: "دليلك الشامل لأفضل كتب الثراء وتطوير الذات: كيف تبرمج عقلك على النجاح المالي؟",
-            content: `يُقال إن "القراءة هي العادة التي يشترك فيها جميع المليارديرات". في رحلة البحث عن الحرية المالية وتطوير الذات، تبرز الكتب كأرخص وأقوى وسيلة لبرمجة العقل على التفكير بطريقة الأثرياء. في هذا المقال، سنستعرض أهم الكتب التي غيرت حياة الملايين، وكيف يمكنك الاستفادة منها لبناء مستقبلك المالي في المغرب.
-
-أولاً: لماذا تعتبر القراءة مفتاح الثراء؟
-الفرق بين الشخص الناجح مالياً وغيره ليس في كمية المال التي يمتلكها في البداية، بل في "العقلية" (Mindset). الكتب المتخصصة في الثراء لا تعطيك خلطة سحرية، بل تغير الطريقة التي تنظر بها إلى الدرهم، وكيف تجعله يعمل من أجلك بدلاً من أن تعمل أنت من أجله.
-
-ثانياً: ترشيحات "عبدو ويب" لأهم كتب الثراء
-1. "الأب الغني والأب الفقير" لروبرت كيوساكي:
-هذا الكتاب هو "إنجيل" الثقافة المالية. الدرس الأهم فيه هو الفرق بين "الأصول" (ما يضع المال في جيبك) و"الالتزامات" (ما يسحب المال من جيبك). يعلمك كيوساكي أن الوظيفة وحدها لن تجعلك غنياً، بل الاستثمار هو الطريق الحقيقي.
-
-2. "سيكولوجية المال" لمورغان هاوسل:
-يؤكد هاوسل أن النجاح المالي لا يتعلق بالذكاء بقدر ما يتعلق بالسلوك. يشرح الكتاب لماذا يتخذ الأشخاص الأذكياء قرارات مالية غبية، وكيف أن الصبر والاستمرارية هما أهم من المضاربات السريعة.
-
-3. "فكر تصبح غنياً" لنابليون هيل:
-رغم قدم هذا الكتاب، إلا أنه يظل مرجعاً أساسياً. يركز هيل على قوة الرغبة المشتعلة والإيمان بالهدف. النجاح يبدأ من الداخل، وفكرة واحدة قد تساوي ثروة إذا اقترنت بالخطة والعمل.
-
-4. "أغنى رجل في بابل" لجورج كلاسون:
-يقدم هذا الكتاب نصائح مالية من خلال قصص بابلية قديمة. القاعدة الذهبية فيه: "ادفع لنفسك أولاً"، أي ادخر 10% على الأقل من دخلك قبل دفع أي فواتير.
-
-خاتمة:
-إن استثمارك في كتاب بقيمة 100 درهم قد يفتح لك آفاقاً لجني آلاف الدراهم مستقبلاً. الثراء ليس حظاً، بل هو نتيجة لعلم وعمل وصبر. ابدأ اليوم ببناء مكتبتك الخاصة، واجعل من تطوير ذاتك أولويتك القصوى. تذكر دائماً: عقلك هو أعظم أصولك، فاستثمر فيه جيداً.`,
+            content: `يُقال إن "القراءة هي العادة التي يشترك فيها جميع المليارديرات"...`,
             img: "https://images.unsplash.com/photo-1491336477066-31156b5e4f35?q=80&w=800&h=500&fit=crop",
             date: "2025/01/30"
         }
@@ -103,27 +66,34 @@ let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
 let editingOfferId: string | null = null;
 
-// Visitor Stats Logic
 const updateVisitorStats = () => {
     const now = Date.now();
     const lastUpdate = state.stats.lastVisitTimestamp;
     const diffInMinutes = Math.floor((now - lastUpdate) / (1000 * 60));
     
-    // Simulate natural growth: add between 1 and 3 visitors per minute passed
     if (diffInMinutes > 0) {
         const newVisitors = diffInMinutes * (Math.floor(Math.random() * 3) + 1);
         state.stats.totalVisitors += newVisitors;
-        state.stats.todayVisitors += Math.floor(newVisitors * 0.4); // 40% of total are "today"
+        state.stats.todayVisitors += Math.floor(newVisitors * 0.4);
         state.stats.lastVisitTimestamp = now;
         sync();
     }
     
-    // UI Update
     const totalEl = document.getElementById('stat-total-visitors');
     if (totalEl) totalEl.innerText = state.stats.totalVisitors.toLocaleString();
     
     const onlineEl = document.getElementById('stat-online-now');
-    if (onlineEl) onlineEl.innerText = (Math.floor(Math.random() * 20) + 15).toString(); // Dynamic "Online Now"
+    const onlineVal = (Math.floor(Math.random() * 20) + 15).toString();
+    if (onlineEl) onlineEl.innerText = onlineVal;
+
+    const adminOnline = document.getElementById('admin-stat-online');
+    if (adminOnline) adminOnline.innerText = onlineVal;
+
+    const onlineHero = document.getElementById('stat-online-now-hero');
+    if (onlineHero) onlineHero.innerText = onlineVal;
+
+    const adminArticles = document.getElementById('admin-stat-articles');
+    if (adminArticles) adminArticles.innerText = state.articles.length.toString();
 };
 
 const fixUrl = (val: string, type: string = 'generic') => {
@@ -150,59 +120,22 @@ const ICONS = {
 const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'follow', data?: { title: string, url: string, img: string }) => {
     const container = document.getElementById(containerId);
     if (!container) return;
-
     const currentUrl = data?.url || window.location.href;
     const currentTitle = data?.title || state.siteName;
     const currentImg = data?.img || "";
-
     const platforms = [
-        { 
-            id: 'fb', color: '#1877F2', icon: ICONS.fb, 
-            follow: fixUrl(state.social.fb),
-            share: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`
-        },
-        { 
-            id: 'tw', color: '#000000', icon: ICONS.tw, 
-            follow: fixUrl(state.social.tw),
-            share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('اكتشف ' + currentTitle + ': ')}`
-        },
-        { 
-            id: 'wa', color: '#25D366', icon: ICONS.wa, 
-            follow: fixUrl(state.social.wa, 'wa'),
-            share: `https://wa.me/?text=${encodeURIComponent(currentTitle + " " + currentUrl)}`
-        },
-        { 
-            id: 'tt', color: '#000000', icon: ICONS.tt, 
-            follow: fixUrl(state.social.tt),
-            share: fixUrl(state.social.tt) 
-        },
-        { 
-            id: 'ig', color: '#E4405F', icon: ICONS.ig, 
-            follow: fixUrl(state.social.ig),
-            share: fixUrl(state.social.ig) 
-        },
-        { 
-            id: 'pin', color: '#BD081C', icon: ICONS.pin, 
-            follow: fixUrl(state.social.pin),
-            share: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(currentUrl)}&media=${encodeURIComponent(currentImg)}&description=${encodeURIComponent(currentTitle)}`
-        }
+        { id: 'fb', color: '#1877F2', icon: ICONS.fb, follow: fixUrl(state.social.fb), share: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}` },
+        { id: 'tw', color: '#000000', icon: ICONS.tw, follow: fixUrl(state.social.tw), share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('اكتشف ' + currentTitle + ': ')}` },
+        { id: 'wa', color: '#25D366', icon: ICONS.wa, follow: fixUrl(state.social.wa, 'wa'), share: `https://wa.me/?text=${encodeURIComponent(currentTitle + " " + currentUrl)}` },
+        { id: 'tt', color: '#000000', icon: ICONS.tt, follow: fixUrl(state.social.tt), share: fixUrl(state.social.tt) },
+        { id: 'ig', color: '#E4405F', icon: ICONS.ig, follow: fixUrl(state.social.ig), share: fixUrl(state.social.ig) },
+        { id: 'pin', color: '#BD081C', icon: ICONS.pin, follow: fixUrl(state.social.pin), share: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(currentUrl)}&media=${encodeURIComponent(currentImg)}&description=${encodeURIComponent(currentTitle)}` }
     ];
-
     container.innerHTML = platforms.map(p => {
         const isShareStandard = ['fb', 'tw', 'wa', 'pin'].includes(p.id);
         const finalUrl = (mode === 'share' && isShareStandard) ? p.share : p.follow;
         const isAction = finalUrl.startsWith('javascript:');
-        
-        return `
-            <a href="${finalUrl}" ${!isAction ? 'target="_blank" rel="noopener noreferrer"' : ''} 
-               class="flex items-center justify-center w-11 h-11 bg-white dark:bg-gray-800 rounded-full shadow-md border border-gray-100 dark:border-gray-700 hover:scale-110 transition-all text-gray-600 dark:text-gray-300 hover:text-white"
-               style="--hover-bg: ${p.color}"
-               onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg');" 
-               onmouseout="this.style.backgroundColor='';"
-               title="${(mode === 'share' && isShareStandard) ? 'مشاركة عبر ' : 'تابعنا على '}${p.id.toUpperCase()}">
-                ${p.icon}
-            </a>
-        `;
+        return `<a href="${finalUrl}" ${!isAction ? 'target="_blank" rel="noopener noreferrer"' : ''} class="flex items-center justify-center w-11 h-11 bg-white dark:bg-gray-800 rounded-full shadow-md border border-gray-100 dark:border-gray-700 hover:scale-110 transition-all text-gray-600 dark:text-gray-300 hover:text-white" style="--hover-bg: ${p.color}" onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg');" onmouseout="this.style.backgroundColor='';" title="${(mode === 'share' && isShareStandard) ? 'مشاركة عبر ' : 'تابعنا على '}${p.id.toUpperCase()}">${p.icon}</a>`;
     }).join('');
 };
 
@@ -220,16 +153,13 @@ const viewArticle = (id: string) => {
                         <span class="text-gray-400 text-xs font-bold">${a.date}</span>
                     </div>
                     <h1 class="text-3xl md:text-5xl font-black mb-8 dark:text-white leading-tight">${a.title}</h1>
-                    <div class="article-body text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed whitespace-pre-line">
-                        ${a.content}
-                    </div>
+                    <div class="article-body text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed whitespace-pre-line">${a.content}</div>
                     <div class="mt-16 p-8 bg-gray-50 dark:bg-gray-800 rounded-3xl text-center border border-gray-100 dark:border-gray-700">
                         <h4 class="font-black mb-6 text-xl">شارك هذا المقال مع أصدقائك:</h4>
                         <div id="article-social-container" class="flex justify-center flex-wrap gap-4"></div>
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
         setTimeout(() => renderSocialButtons('article-social-container', 'share', { title: a.title, url: window.location.href, img: a.img }), 50);
     }
     showPage('article-detail');
@@ -239,7 +169,6 @@ const showPage = (pageId: string) => {
     document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
     const hero = document.getElementById('hero-section');
     const target = document.getElementById(`page-${pageId}`);
-    
     if (pageId === 'admin' && !isLoggedIn) {
         document.getElementById('page-login')?.classList.remove('hidden');
         hero?.classList.add('hidden');
@@ -247,18 +176,12 @@ const showPage = (pageId: string) => {
         target?.classList.remove('hidden');
         if (pageId !== 'home') hero?.classList.add('hidden');
         else hero?.classList.remove('hidden');
-        
         if (pageId === 'admin') {
-            const siteInput = document.getElementById('site-name-input') as HTMLInputElement;
-            if (siteInput) siteInput.value = state.siteName;
+            (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
             (document.getElementById('social-fb') as HTMLInputElement).value = state.social.fb;
             (document.getElementById('social-tt') as HTMLInputElement).value = state.social.tt;
             (document.getElementById('social-tw') as HTMLInputElement).value = state.social.tw;
             (document.getElementById('social-ig') as HTMLInputElement).value = state.social.ig;
-            (document.getElementById('social-wa') as HTMLInputElement).value = state.social.wa;
-            (document.getElementById('social-pin') as HTMLInputElement).value = state.social.pin;
-            
-            // Update stats in admin
             const adminTotal = document.getElementById('admin-stat-total');
             if (adminTotal) adminTotal.innerText = state.stats.totalVisitors.toLocaleString();
         }
@@ -272,39 +195,18 @@ const saveSettings = () => {
     state.social.tt = (document.getElementById('social-tt') as HTMLInputElement).value;
     state.social.tw = (document.getElementById('social-tw') as HTMLInputElement).value;
     state.social.ig = (document.getElementById('social-ig') as HTMLInputElement).value;
-    state.social.wa = (document.getElementById('social-wa') as HTMLInputElement).value;
-    state.social.pin = (document.getElementById('social-pin') as HTMLInputElement).value;
-    
-    sync(); renderApp(); 
-    alert('تم حفظ الإعدادات بنجاح.');
+    sync(); renderApp(); alert('تم حفظ الإعدادات بنجاح.');
 };
 
 const changePassword = () => {
     const oldPass = (document.getElementById('setting-old-pass') as HTMLInputElement).value;
     const newPass = (document.getElementById('setting-new-pass') as HTMLInputElement).value;
     const confirmPass = (document.getElementById('setting-confirm-pass') as HTMLInputElement).value;
-
-    if (!oldPass || !newPass || !confirmPass) {
-        return alert('يرجى ملء جميع حقول كلمة المرور.');
-    }
-
-    if (oldPass !== state.adminPassword) {
-        return alert('كلمة المرور الحالية غير صحيحة.');
-    }
-
-    if (newPass !== confirmPass) {
-        return alert('تأكيد كلمة المرور الجديدة غير متطابق.');
-    }
-
-    if (newPass.length < 4) {
-        return alert('يجب أن تكون كلمة المرور الجديدة 4 أحرف على الأقل.');
-    }
-
-    state.adminPassword = newPass;
-    sync();
-    alert('تم تغيير كلمة المرور بنجاح.');
-    
-    // Clear inputs
+    if (!oldPass || !newPass || !confirmPass) return alert('يرجى ملء جميع حقول كلمة المرور.');
+    if (oldPass !== state.adminPassword) return alert('كلمة المرور الحالية غير صحيحة.');
+    if (newPass !== confirmPass) return alert('تأكيد كلمة المرور الجديدة غير متطابق.');
+    if (newPass.length < 4) return alert('يجب أن تكون كلمة المرور الجديدة 4 أحرف على الأقل.');
+    state.adminPassword = newPass; sync(); alert('تم تغيير كلمة المرور بنجاح.');
     (document.getElementById('setting-old-pass') as HTMLInputElement).value = '';
     (document.getElementById('setting-new-pass') as HTMLInputElement).value = '';
     (document.getElementById('setting-confirm-pass') as HTMLInputElement).value = '';
@@ -321,15 +223,8 @@ function renderApp() {
     if (footerCopy) footerCopy.innerText = state.siteName;
     const heroDesc = document.getElementById('hero-site-desc');
     if (heroDesc) heroDesc.innerText = state.siteDescription;
-    
-    updateVisitorStats(); // Update stats on render
-
-    renderSocialButtons('footer-social-container', 'share', { 
-        title: state.siteName, 
-        url: window.location.origin, 
-        img: "" 
-    });
-
+    updateVisitorStats();
+    renderSocialButtons('footer-social-container', 'share', { title: state.siteName, url: window.location.origin, img: "" });
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
@@ -346,10 +241,8 @@ function renderApp() {
                         <a href="${fixUrl(o.url)}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md">طلب المنتج</a>
                     </div>
                 </div>
-            </article>
-        `).join('');
+            </article>`).join('');
     }
-
     const filteredArticles = currentCategoryFilter === 'الكل' ? state.articles : state.articles.filter((a:any) => a.category === currentCategoryFilter);
     const articlesGrid = document.getElementById('articles-grid');
     if (articlesGrid) {
@@ -365,31 +258,37 @@ function renderApp() {
                     </div>
                     <h3 class="text-lg font-black dark:text-white line-clamp-2">${a.title}</h3>
                 </div>
-            </article>
-        `).join('');
+            </article>`).join('');
     }
-
     if (isLoggedIn) {
         const oL = document.getElementById('admin-offers-list');
         if(oL) {
             oL.innerHTML = state.offers.map((o:any)=>`
                 <tr class="border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                    <td class="py-4 font-bold text-xs pr-2">
-                        <div class="flex items-center gap-2">
-                            <img src="${o.img}" class="w-8 h-8 rounded-lg object-cover">
-                            <span>${o.title}</span>
+                    <td class="p-4 pr-6">
+                        <div class="flex items-center gap-3">
+                            <img src="${o.img}" class="w-10 h-10 rounded-xl object-cover shadow-sm">
+                            <span class="font-bold text-sm line-clamp-1">${o.title}</span>
                         </div>
                     </td>
-                    <td class="py-4 text-xs font-black text-orange-600">${o.price}</td>
-                    <td class="py-4 text-left pl-2 flex justify-end gap-2">
-                        <button onclick="window.loadOfferToEdit('${o.id}')" class="text-blue-500 font-black text-[10px] uppercase hover:underline">تعديل</button>
-                        <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 font-black text-[10px] uppercase hover:underline">حذف</button>
+                    <td class="p-4 text-sm font-black text-orange-600">${o.price}</td>
+                    <td class="p-4 text-left pl-6">
+                        <div class="flex justify-end gap-3">
+                            <button onclick="window.loadOfferToEdit('${o.id}')" class="text-blue-500 hover:text-blue-600 font-black text-[10px] uppercase">تعديل</button>
+                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:text-red-600 font-black text-[10px] uppercase">حذف</button>
+                        </div>
                     </td>
-                </tr>
-            `).join('');
+                </tr>`).join('');
         }
         const aL = document.getElementById('admin-articles-list');
-        if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl mb-2 text-xs font-bold"><span>${a.title}</span><button onclick="window.deleteArticle('${a.id}')" class="text-red-500">حذف</button></div>`).join('');
+        if(aL) aL.innerHTML = state.articles.map((a:any)=>`
+            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/40 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-blue-200 transition">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg flex items-center justify-center font-black text-xs">A</div>
+                    <span class="text-xs font-bold line-clamp-1">${a.title}</span>
+                </div>
+                <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
+            </div>`).join('');
     }
 }
 
@@ -403,16 +302,8 @@ const toggleLoginPassword = () => {
     const passInput = document.getElementById('admin-pass-input') as HTMLInputElement;
     const eyeOpen = document.getElementById('eye-open');
     const eyeClosed = document.getElementById('eye-closed');
-    
-    if (passInput.type === 'password') {
-        passInput.type = 'text';
-        eyeOpen?.classList.add('hidden');
-        eyeClosed?.classList.remove('hidden');
-    } else {
-        passInput.type = 'password';
-        eyeOpen?.classList.remove('hidden');
-        eyeClosed?.classList.add('hidden');
-    }
+    if (passInput.type === 'password') { passInput.type = 'text'; eyeOpen?.classList.add('hidden'); eyeClosed?.classList.remove('hidden'); }
+    else { passInput.type = 'password'; eyeOpen?.classList.remove('hidden'); eyeClosed?.classList.add('hidden'); }
 };
 
 const setCategoryFilter = (cat: string) => {
@@ -427,17 +318,14 @@ const setCategoryFilter = (cat: string) => {
 const loadOfferToEdit = (id: string) => {
     const o = state.offers.find((x: any) => x.id === id);
     if (!o) return;
-    
     editingOfferId = id;
     (document.getElementById('offer-title') as HTMLInputElement).value = o.title;
     (document.getElementById('offer-price') as HTMLInputElement).value = o.price;
     (document.getElementById('offer-url') as HTMLInputElement).value = o.url;
     (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
-    
-    document.getElementById('offer-form-title')!.innerText = "تعديل منتج: " + o.title;
-    document.getElementById('btn-save-offer')!.innerText = "تحديث المنتج";
+    document.getElementById('offer-form-title')!.innerText = "تعديل المنتج";
+    document.getElementById('btn-save-offer')!.innerText = "تحديث البيانات";
     document.getElementById('btn-cancel-offer')!.classList.remove('hidden');
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
@@ -448,8 +336,7 @@ const cancelEditOffer = () => {
     (document.getElementById('offer-url') as HTMLInputElement).value = '';
     (document.getElementById('offer-desc') as HTMLTextAreaElement).value = '';
     currentMainImageBase64 = '';
-
-    document.getElementById('offer-form-title')!.innerText = "إضافة منتج أفلييت جديد";
+    document.getElementById('offer-form-title')!.innerText = "إدارة المنتجات";
     document.getElementById('btn-save-offer')!.innerText = "حفظ المنتج";
     document.getElementById('btn-cancel-offer')!.classList.add('hidden');
 };
@@ -459,36 +346,17 @@ const saveOffer = () => {
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
-    
     if(!title || !price) return alert('يرجى إكمال البيانات');
-
     if (editingOfferId) {
         const index = state.offers.findIndex((o: any) => o.id === editingOfferId);
         if (index !== -1) {
-            state.offers[index] = {
-                ...state.offers[index],
-                title, price, url, desc,
-                img: currentMainImageBase64 || state.offers[index].img
-            };
-            alert('تم تحديث المنتج بنجاح');
-            cancelEditOffer();
+            state.offers[index] = { ...state.offers[index], title, price, url, desc, img: currentMainImageBase64 || state.offers[index].img };
+            alert('تم التحديث بنجاح'); cancelEditOffer();
         }
     } else {
-        state.offers.unshift({ 
-            id: Date.now().toString(), 
-            title, price, url, desc, 
-            img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", 
-            date: new Date().toLocaleDateString('ar-EG') 
-        });
-        alert('تم إضافة المنتج بنجاح');
-        // Clear inputs
-        (document.getElementById('offer-title') as HTMLInputElement).value = '';
-        (document.getElementById('offer-price') as HTMLInputElement).value = '';
-        (document.getElementById('offer-url') as HTMLInputElement).value = '';
-        (document.getElementById('offer-desc') as HTMLTextAreaElement).value = '';
-        currentMainImageBase64 = '';
+        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
+        alert('تمت الإضافة بنجاح'); cancelEditOffer();
     }
-    
     sync(); renderApp();
 };
 
@@ -498,15 +366,17 @@ const saveArticle = () => {
     const category = (document.getElementById('article-category') as HTMLSelectElement).value;
     if(!title || !content) return alert('يرجى كتابة العنوان والمحتوى');
     state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-    sync(); renderApp(); alert('تم النشر');
+    sync(); renderApp(); alert('تم النشر بنجاح');
+    (document.getElementById('article-title') as HTMLInputElement).value = '';
+    (document.getElementById('article-content') as HTMLTextAreaElement).value = '';
 };
 
 const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
 const previewMainImg = async (e: any) => { if(e.target.files[0]) currentMainImageBase64 = await fileToBase64(e.target.files[0]); };
 const previewArtImg = async (e: any) => { if(e.target.files[0]) currentArticleImageBase64 = await fileToBase64(e.target.files[0]); };
 
-function deleteOffer(id: string) { if(confirm('حذف المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); if(editingOfferId === id) cancelEditOffer(); sync(); renderApp(); } }
-function deleteArticle(id: string) { if(confirm('حذف المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); } }
+function deleteOffer(id: string) { if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); if(editingOfferId === id) cancelEditOffer(); sync(); renderApp(); } }
+function deleteArticle(id: string) { if(confirm('هل أنت متأكد من حذف هذا المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); } }
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
@@ -514,11 +384,19 @@ Object.assign(window as any, {
     deleteOffer, deleteArticle, toggleLoginPassword,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('bg-orange-600', 'text-white'));
+        document.querySelectorAll('.admin-tab-btn').forEach(b => {
+            b.classList.remove('bg-orange-600', 'text-white', 'shadow-lg');
+            b.classList.add('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-800');
+        });
         document.getElementById(tabId)?.classList.add('active');
-        if(event) event.currentTarget.classList.add('bg-orange-600', 'text-white');
+        if(event) {
+            const btn = event.currentTarget;
+            btn.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
+            btn.classList.remove('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-800');
+        }
     },
     toggleDarkMode: () => { document.documentElement.classList.toggle('dark'); }
 });
 
 document.addEventListener('DOMContentLoaded', renderApp);
+setInterval(updateVisitorStats, 30000);
