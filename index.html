@@ -14,13 +14,17 @@
                 extend: { 
                     fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
                     animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forward',
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
                     },
                     keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
                         }
                     }
                 },
@@ -30,7 +34,7 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; }
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .tab-content.active { display: block; animation: slideUp 0.4s ease-out; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
         @keyframes pulse-green {
@@ -43,190 +47,173 @@
             display: inline-block; margin-left: 8px;
             animation: pulse-green 2s infinite;
         }
-        
-        /* Custom Admin Styles */
-        .admin-card {
+
+        .glass {
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(243, 244, 246, 1);
         }
-        .dark .admin-card {
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(31, 41, 55, 1);
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
+<body class="bg-[#F8FAFC] text-slate-900 dark:bg-[#0F172A] dark:text-slate-100 transition-colors duration-300 antialiased">
 
-    <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="javascript:void(0)" onclick="window.showPage('home')" class="flex items-center gap-2">
-                <div class="bg-orange-600 p-2 rounded-xl text-white shadow-lg">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <!-- Header -->
+    <header class="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="javascript:void(0)" onclick="window.showPage('home')" class="flex items-center gap-3">
+                <div class="bg-orange-600 p-2.5 rounded-2xl text-white shadow-lg">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                 </div>
-                <span id="display-site-name" class="text-xl font-black text-orange-600 tracking-tighter"></span>
+                <span id="display-site-name" class="text-2xl font-black text-slate-800 dark:text-white tracking-tight"></span>
             </a>
-            <div class="flex items-center gap-3">
-                <button onclick="window.toggleDarkMode()" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-                <button onclick="window.showPage('home')" class="text-gray-500 dark:text-gray-400 font-bold text-xs hover:text-orange-600 transition">عرض الموقع</button>
+            <div class="flex items-center gap-4">
+                <button onclick="window.toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <button onclick="window.showPage('admin')" class="bg-orange-600 text-white px-6 py-2.5 rounded-2xl font-bold text-sm shadow-xl shadow-orange-600/20 hover:scale-105 transition">لوحة الإدارة</button>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section (only shown on home) -->
-        <section id="hero-section" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-16 md:py-24 text-center">
+        <!-- Hero Section -->
+        <section id="hero-section" class="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 py-16 text-center">
             <div class="max-w-4xl mx-auto px-4">
-                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight dark:text-white">عالم التقنية في <span class="text-orange-600">المغرب</span></h1>
-                <p id="hero-site-desc" class="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-medium mb-6"></p>
-                <div class="inline-flex items-center bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700">
+                <h1 class="text-5xl font-black mb-6 dark:text-white leading-tight">عالم التقنية في <span class="text-orange-600">المغرب</span></h1>
+                <p id="hero-site-desc" class="text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-2xl mx-auto"></p>
+                <div class="inline-flex items-center bg-slate-100 dark:bg-slate-800 px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700">
                     <div class="pulse-dot"></div>
-                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">متواجدون الآن: <span id="stat-online-now-hero" class="text-green-500">24</span></span>
+                    <span class="text-sm font-bold">متصل الآن: <span id="stat-online-now-hero" class="text-green-500">0</span></span>
                 </div>
             </div>
         </section>
 
         <!-- Home Page -->
-        <section id="page-home" class="page-view max-w-6xl mx-auto px-4 py-12">
-            <div class="flex overflow-x-auto no-scrollbar gap-3 mb-12 pb-2">
-                <button onclick="window.setCategoryFilter('الكل')" class="cat-filter-btn flex-shrink-0 bg-orange-600 text-white px-6 py-2.5 rounded-2xl font-black text-sm shadow-lg">الكل</button>
-                <button onclick="window.setCategoryFilter('أخبار التقنية')" class="cat-filter-btn flex-shrink-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-6 py-2.5 rounded-2xl font-black text-sm">أخبار التقنية</button>
-                <button onclick="window.setCategoryFilter('تطوير الذات')" class="cat-filter-btn flex-shrink-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-6 py-2.5 rounded-2xl font-black text-sm">تطوير الذات</button>
-                <button onclick="window.setCategoryFilter('مراجعات المنتجات')" class="cat-filter-btn flex-shrink-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-6 py-2.5 rounded-2xl font-black text-sm">مراجعات المنتجات</button>
+        <section id="page-home" class="page-view max-w-7xl mx-auto px-4 py-12">
+            <div id="filter-container" class="flex gap-3 mb-12 overflow-x-auto no-scrollbar">
+                <button onclick="window.setCategoryFilter('الكل')" class="cat-filter-btn bg-orange-600 text-white px-8 py-3 rounded-2xl font-black text-sm shadow-lg">الكل</button>
+                <button onclick="window.setCategoryFilter('أخبار التقنية')" class="cat-filter-btn bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-8 py-3 rounded-2xl font-black text-sm">أخبار التقنية</button>
+                <button onclick="window.setCategoryFilter('تطوير الذات')" class="cat-filter-btn bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-8 py-3 rounded-2xl font-black text-sm">تطوير الذات</button>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-2">
-                    <h2 class="text-xl font-black mb-8 flex items-center gap-3"><span class="w-1.5 h-6 bg-orange-600 rounded-full"></span> آخر المقالات</h2>
-                    <div id="articles-grid" class="space-y-6"></div>
+                    <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><span class="w-2 h-8 bg-orange-600 rounded-full"></span> آخر المقالات</h2>
+                    <div id="articles-grid" class="space-y-8"></div>
                 </div>
                 <div>
-                    <h2 class="text-xl font-black mb-8 flex items-center gap-3"><span class="w-1.5 h-6 bg-gray-900 dark:bg-orange-600 rounded-full"></span> عروض الأفلييت</h2>
-                    <div id="offers-grid" class="space-y-6"></div>
+                    <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><span class="w-2 h-8 bg-slate-900 dark:bg-orange-600 rounded-full"></span> عروض الأفلييت</h2>
+                    <div id="offers-grid" class="space-y-8"></div>
                 </div>
             </div>
         </section>
 
         <!-- Article Detail -->
         <section id="page-article-detail" class="page-view hidden max-w-4xl mx-auto px-4 py-12">
-            <button onclick="window.showPage('home')" class="text-orange-600 font-bold mb-6 flex items-center gap-2">← العودة</button>
+            <button onclick="window.showPage('home')" class="text-orange-600 font-bold mb-8 flex items-center gap-2">← العودة للرئيسية</button>
             <div id="article-detail-content"></div>
         </section>
 
-        <!-- Login Page -->
-        <section id="page-login" class="page-view hidden max-w-sm mx-auto py-24 px-4">
-            <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-xl text-center border border-gray-100 dark:border-gray-800">
-                <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <!-- Login Section -->
+        <section id="page-login" class="page-view hidden max-w-md mx-auto py-24 px-4">
+            <div class="glass p-10 rounded-[2.5rem] shadow-2xl text-center border border-slate-200 dark:border-slate-800">
+                <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/30 rounded-3xl flex items-center justify-center mx-auto mb-8 text-orange-600">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
-                <h2 class="text-2xl font-black mb-2">مرحباً بك مجدداً</h2>
-                <p class="text-gray-400 text-xs mb-8 font-bold">أدخل كلمة المرور للوصول إلى لوحة التحكم</p>
-                <div class="relative mb-4">
-                    <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full p-4 border text-gray-900 dark:text-white dark:border-gray-700 dark:bg-gray-800 rounded-2xl text-center focus:ring-2 focus:ring-orange-600 outline-none transition-all">
-                    <button onclick="window.toggleLoginPassword()" id="pass-toggle-btn" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-600 transition-colors">
+                <h2 class="text-3xl font-black mb-2">دخول الإدارة</h2>
+                <p class="text-slate-400 text-sm mb-10 font-bold">يرجى إدخال كلمة المرور للمتابعة</p>
+                <div class="relative mb-6">
+                    <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full p-4 border text-slate-900 dark:text-white dark:border-slate-700 dark:bg-slate-800 rounded-2xl text-center focus:ring-2 focus:ring-orange-600 outline-none transition-all">
+                    <button onclick="window.toggleLoginPassword()" id="pass-toggle-btn" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-orange-600">
                         <svg id="eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path></svg>
                     </button>
                 </div>
-                <p id="login-error" class="text-red-500 text-xs mb-4 hidden font-bold">عذراً، كلمة المرور خاطئة</p>
-                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all active:scale-95">دخول الإدارة</button>
+                <p id="login-error" class="text-red-500 text-xs mb-6 hidden font-bold">عذراً، كلمة المرور خاطئة</p>
+                <button onclick="window.handleLogin()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all active:scale-95">دخول الآن</button>
             </div>
         </section>
 
-        <!-- Professional Admin Dashboard -->
-        <section id="page-admin" class="page-view hidden max-w-6xl mx-auto px-4 py-12">
+        <!-- Admin Dashboard Section -->
+        <section id="page-admin" class="page-view hidden max-w-7xl mx-auto px-4 py-12">
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Sidebar Nav -->
-                <nav class="w-full lg:w-64 flex lg:flex-col gap-2 overflow-x-auto no-scrollbar p-1 bg-white dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm self-start">
-                    <button onclick="window.switchTab('tab-stats', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-5 py-4 rounded-2xl bg-orange-600 text-white font-black transition-all">
+                <nav class="w-full lg:w-72 flex lg:flex-col gap-2 bg-white dark:bg-slate-900 p-4 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm self-start">
+                    <button onclick="window.switchTab('tab-stats', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-6 py-4 rounded-2xl bg-orange-600 text-white font-black transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                         <span>الإحصائيات</span>
                     </button>
-                    <button onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-5 py-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-gray-500 dark:text-gray-400 transition-all">
+                    <button onclick="window.switchTab('tab-offers', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-6 py-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-slate-500 dark:text-slate-400 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                         <span>المنتجات</span>
                     </button>
-                    <button onclick="window.switchTab('tab-articles', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-5 py-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-gray-500 dark:text-gray-400 transition-all">
+                    <button onclick="window.switchTab('tab-articles', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-6 py-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-slate-500 dark:text-slate-400 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l5 5v11a2 2 0 01-2 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4v5h5"></path></svg>
                         <span>المقالات</span>
                     </button>
-                    <button onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-5 py-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-gray-500 dark:text-gray-400 transition-all">
+                    <button onclick="window.switchTab('tab-settings', event)" class="admin-tab-btn flex items-center gap-3 w-full text-right px-6 py-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-slate-500 dark:text-slate-400 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         <span>الإعدادات</span>
                     </button>
+                    <button onclick="window.showPage('home')" class="mt-10 flex items-center gap-3 w-full text-right px-6 py-4 rounded-2xl text-red-500 font-bold hover:bg-red-50 dark:hover:bg-red-900/10 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <span>خروج</span>
+                    </button>
                 </nav>
 
-                <!-- Content Area -->
-                <div class="flex-grow admin-card p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden">
+                <!-- Admin Main Content Area -->
+                <div class="flex-grow bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
                     
                     <!-- Stats Tab -->
                     <div id="tab-stats" class="tab-content active">
-                        <div class="flex items-center justify-between mb-10">
-                            <div>
-                                <h3 class="text-2xl font-black mb-1">نظرة عامة</h3>
-                                <p class="text-gray-400 text-xs font-bold">أداء موقعك خلال الفترات الأخيرة</p>
+                        <h3 class="text-2xl font-black mb-8">نظرة عامة على الأداء</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-gradient-to-br from-orange-500 to-orange-700 p-8 rounded-[2rem] text-white shadow-lg">
+                                <p class="text-orange-100 font-bold text-sm mb-2">إجمالي الزيارات</p>
+                                <p id="admin-stat-total" class="text-4xl font-black">0</p>
                             </div>
-                            <div class="bg-green-100 dark:bg-green-900/30 text-green-600 px-4 py-1.5 rounded-full text-[10px] font-black flex items-center gap-2">
-                                <span class="pulse-dot !bg-green-500"></span>
-                                النظام يعمل بكفاءة
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                            <div class="relative overflow-hidden bg-gradient-to-br from-orange-500 to-orange-700 p-6 rounded-3xl text-white shadow-lg shadow-orange-600/20">
-                                <div class="relative z-10">
-                                    <p class="text-orange-100 font-bold text-xs mb-2">إجمالي الزوار</p>
-                                    <p id="admin-stat-total" class="text-4xl font-black tracking-tight">0</p>
-                                </div>
-                                <svg class="absolute -bottom-4 -left-4 w-32 h-32 text-white/10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"></path></svg>
-                            </div>
-                            <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
-                                <p class="text-gray-400 font-bold text-xs mb-2">متصل الآن</p>
-                                <div class="flex items-center gap-3">
-                                    <p id="admin-stat-online" class="text-4xl font-black text-green-500 tracking-tight">24</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700">
+                                <p class="text-slate-400 font-bold text-sm mb-2">متصل الآن</p>
+                                <div class="flex items-center gap-4">
+                                    <p id="admin-stat-online" class="text-4xl font-black text-green-500">0</p>
                                     <div class="pulse-dot scale-150"></div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
-                                <p class="text-gray-400 font-bold text-xs mb-2">المقالات المنشورة</p>
-                                <p id="admin-stat-articles" class="text-4xl font-black text-blue-500 tracking-tight">0</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700">
+                                <p class="text-slate-400 font-bold text-sm mb-2">المقالات المنشورة</p>
+                                <p id="admin-stat-articles" class="text-4xl font-black text-blue-500">0</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Products Tab -->
+                    <!-- Offers Tab -->
                     <div id="tab-offers" class="tab-content">
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center text-orange-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                            </div>
+                        <div class="flex items-center justify-between mb-10">
                             <h3 id="offer-form-title" class="text-2xl font-black">إدارة المنتجات</h3>
                         </div>
-
                         <div class="space-y-4 mb-12">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <input type="text" id="offer-title" placeholder="اسم المنتج الفاخر" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all font-bold">
-                                <input type="text" id="offer-price" placeholder="السعر (مثال: 500 درهم)" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all font-bold">
+                                <input type="text" id="offer-title" placeholder="اسم المنتج" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
+                                <input type="text" id="offer-price" placeholder="السعر" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold">
                             </div>
-                            <input type="text" id="offer-url" placeholder="رابط الأفلييت المباشر" class="w-full bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 transition-all">
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">صورة المنتج</label>
-                                <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="bg-gray-50 dark:bg-gray-800/50 p-3 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl cursor-pointer">
-                            </div>
-                            <textarea id="offer-desc" placeholder="اكتب وصفاً جذاباً للمنتج..." class="w-full bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl h-32 outline-none focus:ring-2 focus:ring-orange-500 transition-all"></textarea>
-                            <div class="flex gap-3">
-                                <button id="btn-save-offer" onclick="window.saveOffer()" class="flex-grow bg-gray-900 dark:bg-orange-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-black dark:hover:bg-orange-700 transition-all active:scale-95">حفظ المنتج</button>
-                                <button id="btn-cancel-offer" onclick="window.cancelEditOffer()" class="hidden bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-8 py-4 rounded-2xl font-black transition-all">إلغاء</button>
+                            <input type="text" id="offer-url" placeholder="رابط الأفلييت" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none">
+                            <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
+                            <textarea id="offer-desc" placeholder="وصف المنتج..." class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl h-32 outline-none"></textarea>
+                            <div class="flex gap-4">
+                                <button id="btn-save-offer" onclick="window.saveOffer()" class="flex-grow bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg">حفظ المنتج</button>
+                                <button id="btn-cancel-offer" onclick="window.cancelEditOffer()" class="hidden bg-slate-200 dark:bg-slate-700 px-8 py-4 rounded-2xl font-bold">إلغاء</button>
                             </div>
                         </div>
-
-                        <div class="overflow-hidden rounded-3xl border border-gray-100 dark:border-gray-800">
-                            <table class="w-full text-right border-collapse">
-                                <thead class="bg-gray-50 dark:bg-gray-800/80">
-                                    <tr class="text-gray-400 text-[10px] font-black uppercase">
-                                        <th class="p-5 pr-6">المنتج</th>
+                        <div class="overflow-x-auto rounded-3xl border border-slate-100 dark:border-slate-800">
+                            <table class="w-full text-right">
+                                <thead class="bg-slate-50 dark:bg-slate-800">
+                                    <tr class="text-slate-400 text-xs font-black">
+                                        <th class="p-5">المنتج</th>
                                         <th class="p-5">السعر</th>
-                                        <th class="p-5 text-left pl-6">الإجراءات</th>
+                                        <th class="p-5 text-left">الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-offers-list"></tbody>
@@ -236,69 +223,40 @@
 
                     <!-- Articles Tab -->
                     <div id="tab-articles" class="tab-content">
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            </div>
-                            <h3 class="text-2xl font-black">إدارة المحتوى</h3>
-                        </div>
-
+                        <h3 class="text-2xl font-black mb-10">إدارة المقالات</h3>
                         <div class="space-y-4 mb-12">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <input type="text" id="article-title" placeholder="عنوان المقال الجذاب" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all font-bold">
-                                <select id="article-category" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none font-black text-sm">
+                                <input type="text" id="article-title" placeholder="عنوان المقال" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none font-bold">
+                                <select id="article-category" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl outline-none font-bold">
                                     <option value="أخبار التقنية">أخبار التقنية</option>
                                     <option value="تطوير الذات">تطوير الذات</option>
                                     <option value="مراجعات المنتجات">مراجعات المنتجات</option>
                                 </select>
                             </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">صورة الغلاف</label>
-                                <input type="file" accept="image/*" onchange="window.previewArtImg(event)" class="bg-gray-50 dark:bg-gray-800/50 p-3 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl cursor-pointer">
-                            </div>
-                            <textarea id="article-content" placeholder="ابدأ بكتابة محتواك الإبداعي هنا..." class="w-full bg-gray-50 dark:bg-gray-800/50 p-6 border border-gray-100 dark:border-gray-700 rounded-3xl h-80 outline-none focus:ring-2 focus:ring-blue-500 transition-all leading-relaxed"></textarea>
-                            <button onclick="window.saveArticle()" class="w-full bg-gray-900 dark:bg-orange-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-black dark:hover:bg-orange-700 transition-all active:scale-95">نشر المقال الآن</button>
+                            <input type="file" accept="image/*" onchange="window.previewArtImg(event)" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
+                            <textarea id="article-content" placeholder="محتوى المقال..." class="w-full p-6 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-3xl h-80 outline-none leading-relaxed"></textarea>
+                            <button onclick="window.saveArticle()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">نشر المقال</button>
                         </div>
-                        
-                        <div class="mt-10">
-                            <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4 px-1">المقالات المنشورة مؤخراً</h4>
-                            <div id="admin-articles-list" class="grid grid-cols-1 gap-3"></div>
-                        </div>
+                        <div id="admin-articles-list" class="space-y-3"></div>
                     </div>
 
                     <!-- Settings Tab -->
                     <div id="tab-settings" class="tab-content">
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-gray-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
-                            </div>
-                            <h3 class="text-2xl font-black">إعدادات المنصة</h3>
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-8">
+                        <h3 class="text-2xl font-black mb-10">إعدادات الموقع</h3>
+                        <div class="space-y-10">
                             <div class="space-y-4">
-                                <h4 class="text-xs font-black text-gray-400 uppercase px-1 tracking-widest">المعلومات الأساسية</h4>
-                                <input type="text" id="site-name-input" placeholder="اسم الموقع" class="w-full bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none font-bold">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" id="social-fb" placeholder="فيسبوك" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none text-xs">
-                                    <input type="text" id="social-tt" placeholder="تيك توك" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none text-xs">
-                                    <input type="text" id="social-tw" placeholder="X (تويتر)" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none text-xs">
-                                    <input type="text" id="social-ig" placeholder="انستغرام" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none text-xs">
-                                </div>
-                                <button onclick="window.saveSettings()" class="w-full bg-gray-900 dark:bg-white dark:text-gray-900 text-white py-4 rounded-2xl font-black shadow-xl hover:opacity-90 transition-all">حفظ التغييرات</button>
+                                <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">المعلومات الأساسية</h4>
+                                <input type="text" id="site-name-input" placeholder="اسم الموقع" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl font-bold">
+                                <button onclick="window.saveSettings()" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-4 rounded-2xl font-black">حفظ التغييرات</button>
                             </div>
-
-                            <div class="pt-10 border-t border-gray-100 dark:border-gray-800 space-y-4">
-                                <h4 class="text-xs font-black text-orange-600 uppercase px-1 tracking-widest flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                    تغيير كلمة المرور
-                                </h4>
-                                <input type="password" id="setting-old-pass" placeholder="كلمة المرور الحالية" class="w-full bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none">
+                            <div class="pt-10 border-t dark:border-slate-800 space-y-4">
+                                <h4 class="text-sm font-black text-orange-600 uppercase tracking-widest">تغيير كلمة المرور</h4>
+                                <input type="password" id="setting-old-pass" placeholder="كلمة المرور الحالية" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="password" id="setting-new-pass" placeholder="كلمة المرور الجديدة" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none">
-                                    <input type="password" id="setting-confirm-pass" placeholder="تأكيد الكلمة الجديدة" class="bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none">
+                                    <input type="password" id="setting-new-pass" placeholder="كلمة المرور الجديدة" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl">
+                                    <input type="password" id="setting-confirm-pass" placeholder="تأكيد الجديدة" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-2xl">
                                 </div>
-                                <button onclick="window.changePassword()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all">تحديث الأمان</button>
+                                <button onclick="window.changePassword()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg">تحديث الأمان</button>
                             </div>
                         </div>
                     </div>
@@ -308,41 +266,40 @@
         </section>
     </main>
 
-    <footer class="bg-gray-900 text-white py-16 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-right mb-16">
-                <div class="md:col-span-2">
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-16 mt-24 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-right">
+                <div>
                     <h3 class="text-3xl font-black text-orange-500 mb-6" id="footer-site-name"></h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6" id="footer-about-text">موقع عبدو ويب هو دليلك للتقنية في المغرب. نقدم مراجعات حصرية، أخبار عاجلة، ونصائح قيمة لتطوير مهاراتكم وتحقيق النجاح المالي.</p>
-                    <div id="footer-social-container" class="flex justify-start gap-4"></div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8" id="footer-about-text">دليلك التقني الأول في المغرب. مراجعات صادقة، أخبار عاجلة، وفرص لا تعوض.</p>
+                    <div id="footer-social-container" class="flex gap-3"></div>
                 </div>
                 <div>
-                    <h4 class="font-black text-xl mb-6">روابط سريعة</h4>
-                    <div class="flex flex-col gap-3">
-                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">سياسة الخصوصية</a>
-                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">من نحن</a>
-                        <a href="javascript:void(0)" onclick="window.showPage('static')" class="text-gray-400 text-sm hover:text-orange-500 transition">شروط الاستخدام</a>
+                    <h4 class="font-black text-xl mb-6">روابط هامة</h4>
+                    <div class="flex flex-col gap-3 text-slate-400">
+                        <a href="#" class="hover:text-orange-500 transition">من نحن</a>
+                        <a href="#" class="hover:text-orange-500 transition">اتصل بنا</a>
+                        <a href="#" class="hover:text-orange-500 transition">سياسة الخصوصية</a>
                     </div>
                 </div>
                 <div>
                     <h4 class="font-black text-xl mb-6">إحصائيات المنصة</h4>
-                    <div class="space-y-4">
-                        <div class="bg-gray-800/50 p-4 rounded-2xl border border-gray-700/50">
-                            <p class="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest">إجمالي الزيارات</p>
-                            <p id="stat-total-visitors" class="text-2xl font-black text-orange-500 tracking-tighter">0</p>
+                    <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700 flex justify-between items-center mb-4">
+                        <span class="text-slate-500 text-sm font-bold uppercase">الزيارات</span>
+                        <span id="stat-total-visitors" class="text-2xl font-black text-orange-500">0</span>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-500 text-sm font-bold uppercase">أونلاين</span>
+                            <div class="pulse-dot"></div>
                         </div>
-                        <div class="bg-gray-800/50 p-4 rounded-2xl border border-gray-700/50">
-                            <div class="flex items-center justify-between mb-1">
-                                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">متصل الآن</p>
-                                <div class="pulse-dot"></div>
-                            </div>
-                            <p id="stat-online-now" class="text-2xl font-black text-green-500 tracking-tighter">0</p>
-                        </div>
+                        <span id="stat-online-now" class="text-2xl font-black text-green-500">0</span>
                     </div>
                 </div>
             </div>
-            <div class="text-center pt-8 border-t border-gray-800 text-gray-500 text-xs">
-                &copy; 2025 جميع الحقوق محفوظة لـ <span id="footer-copy-name" class="text-orange-500 font-bold"></span> | صمم بكل فخر في المغرب
+            <div class="text-center pt-12 mt-12 border-t border-slate-800 text-slate-500 text-xs">
+                &copy; 2025 جميع الحقوق محفوظة لـ <span id="footer-copy-name" class="text-orange-500 font-bold"></span>
             </div>
         </div>
     </footer>
