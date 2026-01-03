@@ -21,144 +21,140 @@
         body { font-family: 'Tajawal', sans-serif; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        /* منطقة الإعلانات المعزولة تماماً */
-        #ad-sandbox-container {
-            margin-top: 60px;
-            padding: 20px 0;
-            border-top: 1px solid #eee;
-            background: #fdfdfd;
+        
+        /* منطقة الإعلانات - معزولة تقنياً وبصرياً */
+        #safe-ad-footer-zone {
+            margin-top: auto;
+            border-top: 1px solid #f1f5f9;
+            background: #ffffff;
+            padding: 40px 0;
             text-align: center;
-            width: 100%;
         }
-        .dark #ad-sandbox-container {
+        .dark #safe-ad-footer-zone {
             background: #0f172a;
             border-top-color: #1e293b;
         }
-        .ad-iframe {
+        .ad-sandbox-iframe {
             border: none;
             width: 100%;
             max-width: 728px;
-            height: 120px;
-            margin: 10px auto;
+            height: 150px;
+            margin: 0 auto;
             display: block;
-            overflow: hidden;
         }
     </style>
 </head>
-<body class="bg-white dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+<body class="bg-[#f8fafc] dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-    <header class="border-b dark:border-gray-800 sticky top-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-50">
-        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
-                <div class="w-9 h-9 bg-orange-600 rounded-xl flex items-center justify-center text-white font-bold italic shadow-lg shadow-orange-600/20">A</div>
-                <span class="font-black text-xl tracking-tight">عبدو ويب</span>
+    <!-- Header -->
+    <header class="sticky top-0 z-[100] bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-black italic shadow-lg shadow-orange-600/30">A</div>
+                <span class="text-2xl font-black tracking-tight">عبدو ويب</span>
             </div>
-            <nav class="hidden md:flex gap-8 text-sm font-bold">
-                <button onclick="showPage('home')" class="hover:text-orange-600 transition">الرئيسية</button>
-                <button onclick="showPage('offers')" class="hover:text-orange-600 transition">العروض</button>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-extrabold uppercase tracking-wider">
+                <button onclick="showPage('home')" class="hover:text-orange-600 transition-colors">الرئيسية</button>
+                <button onclick="showPage('offers')" class="hover:text-orange-600 transition-colors">العروض</button>
             </nav>
-            <button onclick="showPage('admin')" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-5 py-2.5 rounded-xl font-bold transition">لوحة التحكم</button>
+
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDarkMode()" class="p-2.5 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <button onclick="showPage('admin')" class="bg-gray-900 dark:bg-orange-600 text-white px-6 py-2.5 rounded-xl font-black text-xs hover:scale-105 active:scale-95 transition">لوحة التحكم</button>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-10 flex-grow">
-        
+    <main class="flex-grow container mx-auto px-4 py-12">
         <!-- Home View -->
-        <div id="page-home" class="page-view animate-in fade-in duration-500">
-            <section class="text-center py-12">
-                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">أفضل مراجعات التقنية <br><span class="text-orange-600">والصفقات الحصرية</span></h1>
-                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg">نحن نختار لك أفضل المنتجات بعناية مع روابط شراء مباشرة وآمنة.</p>
+        <div id="page-home" class="page-view space-y-20">
+            <section class="text-center space-y-6 py-10">
+                <h1 class="text-5xl md:text-7xl font-black leading-tight">عالم التقنية في <span class="text-orange-600">متناول يدك</span></h1>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg font-medium">نقدم لك أفضل المراجعات والصفقات التي ننتقيها بعناية فائقة لتناسب احتياجاتك.</p>
             </section>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div class="lg:col-span-2 space-y-8" id="articles-list"></div>
-                <div class="space-y-6">
-                    <h3 class="font-black text-xl mb-6 flex items-center gap-2">
-                        <span class="w-2 h-6 bg-orange-600 rounded-full"></span> عروض مميزة
-                    </h3>
-                    <div id="offers-sidebar" class="space-y-6"></div>
-                </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-8 space-y-10" id="articles-list"></div>
+                <aside class="lg:col-span-4 space-y-8">
+                    <div class="bg-white dark:bg-gray-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800">
+                        <h3 class="text-xl font-black mb-6">عروض اليوم الحصرية</h3>
+                        <div id="offers-sidebar" class="space-y-6"></div>
+                    </div>
+                </aside>
             </div>
         </div>
 
-        <!-- Article Detail View -->
+        <!-- Details View -->
         <div id="page-article-detail" class="page-view hidden max-w-4xl mx-auto">
-            <button onclick="showPage('home')" class="group text-gray-500 font-bold mb-8 flex items-center gap-2 hover:text-orange-600 transition">
-                <span class="group-hover:-translate-x-1 transition-transform">←</span> العودة للرئيسية
+            <button onclick="showPage('home')" class="mb-10 flex items-center gap-2 font-black text-orange-600 hover:gap-4 transition-all">
+                <span>←</span> العودة للرئيسية
             </button>
             <div id="article-full-content"></div>
         </div>
 
-        <!-- Full Offers View -->
+        <!-- Offers View -->
         <div id="page-offers" class="page-view hidden">
-            <h2 class="text-3xl font-black mb-10">استكشف جميع العروض</h2>
-            <div id="offers-full-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+            <h2 class="text-4xl font-black mb-12">اكتشف أفضل الصفقات</h2>
+            <div id="offers-full-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </div>
 
         <!-- Login -->
-        <div id="page-login" class="page-view hidden max-w-md mx-auto py-20 text-center">
-            <div class="bg-gray-50 dark:bg-gray-900 p-10 rounded-[2.5rem] border dark:border-gray-800 shadow-2xl">
-                <h2 class="text-2xl font-black mb-8">تسجيل الدخول</h2>
-                <input type="password" id="admin-pass" class="w-full p-4 border rounded-2xl mb-4 dark:bg-gray-800 text-center font-bold focus:ring-2 ring-orange-600 outline-none" placeholder="كلمة المرور">
-                <button onclick="handleLogin()" class="w-full bg-orange-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-orange-600/30 hover:scale-[1.02] transition">دخول</button>
+        <div id="page-login" class="page-view hidden max-w-md mx-auto py-20">
+            <div class="bg-white dark:bg-gray-900 p-10 rounded-[3rem] shadow-2xl border border-gray-50 dark:border-gray-800 text-center">
+                <h2 class="text-2xl font-black mb-8">منطقة المدير</h2>
+                <input type="password" id="admin-pass" class="w-full p-4 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl mb-4 text-center text-xl font-black outline-none ring-2 ring-transparent focus:ring-orange-600 transition" placeholder="كلمة المرور">
+                <button onclick="handleLogin()" class="w-full bg-orange-600 text-white p-4 rounded-2xl font-black text-lg shadow-lg shadow-orange-600/30">دخول</button>
             </div>
         </div>
 
         <!-- Admin -->
         <div id="page-admin" class="page-view hidden">
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-72 space-y-3">
-                    <button onclick="switchTab('tab-content')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-orange-600 text-white font-bold shadow-md">إدارة المحتوى</button>
-                    <button onclick="switchTab('tab-ads')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-gray-100 dark:bg-gray-800 font-bold hover:bg-gray-200 dark:hover:bg-gray-700 transition">إعلانات التذييل (معزولة)</button>
-                    <button onclick="location.reload()" class="w-full p-4 text-right rounded-2xl text-red-500 font-bold bg-red-50 dark:bg-red-900/10 mt-10">خروج</button>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1 space-y-3">
+                    <button onclick="switchTab('tab-content')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-orange-600 text-white font-black">المحتوى</button>
+                    <button onclick="switchTab('tab-ads')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-white dark:bg-gray-800 font-black">الإعلانات المعزولة</button>
+                    <button onclick="location.reload()" class="w-full p-4 text-right rounded-2xl bg-red-50 dark:bg-red-900/10 text-red-600 font-black mt-10">تسجيل الخروج</button>
                 </div>
-                <div class="flex-1 bg-gray-50 dark:bg-gray-900 p-8 rounded-[2.5rem] border dark:border-gray-800 shadow-sm">
+                <div class="md:col-span-3 bg-white dark:bg-gray-900 p-10 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm">
                     <div id="tab-content" class="admin-tab active space-y-6">
                         <h3 class="text-xl font-black">إضافة مقال جديد</h3>
                         <div class="space-y-4">
-                            <input type="text" id="new-art-title" class="w-full p-4 border rounded-xl dark:bg-gray-800 focus:ring-2 ring-orange-600 outline-none" placeholder="عنوان المقال">
-                            <textarea id="new-art-body" class="w-full p-4 border rounded-xl dark:bg-gray-800 focus:ring-2 ring-orange-600 outline-none" rows="6" placeholder="محتوى المقال بالتفصيل..."></textarea>
-                            <button onclick="addArticle()" class="bg-gray-900 dark:bg-orange-600 text-white px-10 py-4 rounded-xl font-bold hover:opacity-90 transition">نشر المقال</button>
+                            <input type="text" id="new-art-title" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none" placeholder="عنوان المقال">
+                            <textarea id="new-art-body" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none" rows="8" placeholder="محتوى المقال..."></textarea>
+                            <button onclick="addArticle()" class="bg-gray-900 dark:bg-orange-600 text-white px-12 py-4 rounded-2xl font-black">نشر المقال الآن</button>
                         </div>
                     </div>
                     <div id="tab-ads" class="admin-tab hidden space-y-6">
-                        <h3 class="text-xl font-black text-orange-600">نظام عزل الإعلانات (Safe Ad System)</h3>
-                        <div class="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-2xl text-sm text-orange-800 dark:text-orange-200 leading-relaxed">
-                            <strong>ملاحظة هامة:</strong> الموقع الآن يستخدم تقنية <b>Iframe Sandboxing</b>. أي كود تضعه هنا سيتم "سجنه" في أسفل الصفحة. 
-                            هذا يعني أن الإعلانات لن تستطيع أبداً لمس أزرار موقعك أو إزعاج الزوار بنوافذ منبثقة عند النقر على المقالات.
+                        <h3 class="text-xl font-black text-orange-600">نظام الإعلانات المعزولة (Anti-Hijack)</h3>
+                        <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl text-blue-800 dark:text-blue-200 text-sm leading-relaxed">
+                            <strong>كيف يعمل النظام:</strong> الموقع يقوم بإنشاء <b>Sandbox Iframe</b> لكل كود إعلاني. هذا يعني أن الإعلان "مسجون" تقنياً داخل إطار في الأسفل، ولا يمكنه أبداً الشعور بنقرات المستخدم على أزرار "إقرأ المزيد" أو "شراء". 
                         </div>
                         <div class="space-y-4">
-                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">كود الإعلان العلوي في التذييل</label>
-                            <textarea id="ad-code-1" class="w-full p-4 border rounded-xl dark:bg-gray-800 font-mono text-xs focus:ring-2 ring-orange-600 outline-none" rows="4" placeholder="ألصق كود الإعلان الأول هنا"></textarea>
-                            
-                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">كود الإعلان السفلي في التذييل</label>
-                            <textarea id="ad-code-2" class="w-full p-4 border rounded-xl dark:bg-gray-800 font-mono text-xs focus:ring-2 ring-orange-600 outline-none" rows="4" placeholder="ألصق كود الإعلان الثاني هنا"></textarea>
-                            
-                            <button onclick="saveAds()" class="bg-orange-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-orange-600/20">تحديث الإعلانات المعزولة</button>
+                            <textarea id="ad-code-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-32" placeholder="ألصق كود الإعلان الأول هنا"></textarea>
+                            <textarea id="ad-code-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-32" placeholder="ألصق كود الإعلان الثاني هنا"></textarea>
+                            <button onclick="saveAds()" class="bg-orange-600 text-white px-12 py-4 rounded-2xl font-black shadow-lg shadow-orange-600/30">تحديث وحماية الموقع</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- SAFE AD ZONE (ONLY AREA WHERE ADS CAN EXIST) -->
-    <div id="ad-sandbox-container">
+    <!-- THE ONLY AD ZONE: STRICKLY AT THE BOTTOM -->
+    <div id="safe-ad-footer-zone">
         <div class="container mx-auto px-4">
-            <span class="text-[10px] text-gray-300 dark:text-gray-600 font-bold uppercase tracking-[0.3em] mb-4 block">مساحة إعلانية معزولة وآمنة</span>
-            <div id="ad-slot-1-wrapper"></div>
-            <div id="ad-slot-2-wrapper" class="mt-4"></div>
+            <div class="inline-block px-4 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 mb-8">محتوى إعلاني معزول</div>
+            <div id="ad-slot-1-safe-container" class="mb-6"></div>
+            <div id="ad-slot-2-safe-container"></div>
         </div>
     </div>
 
-    <footer class="py-12 text-center border-t dark:border-gray-800 bg-white dark:bg-gray-900">
-        <div class="container mx-auto px-4">
-            <h4 class="font-black text-lg mb-2">عبدو ويب</h4>
-            <p class="text-gray-400 text-xs tracking-wide">نظام أفلييت متطور - تجربة مستخدم نظيفة 100%</p>
-            <div class="mt-8 pt-8 border-t dark:border-gray-800 text-[10px] text-gray-300 dark:text-gray-600 uppercase font-bold">
-                جميع الحقوق محفوظة © 2025
-            </div>
+    <footer class="bg-white dark:bg-gray-900 py-12 border-t border-gray-100 dark:border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm font-black text-gray-400 uppercase tracking-widest">© 2025 عبدو ويب - منصة آمنة بنسبة 100%</p>
         </div>
     </footer>
 

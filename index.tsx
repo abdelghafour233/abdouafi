@@ -1,10 +1,10 @@
 
 /**
- * abdouweb - Ultimate Isolated Ads Edition
- * All ads are encapsulated in iframes to prevent global click hijacking.
+ * abdouweb - Absolute Ad Isolation Engine
+ * Prevents any ad script from hijacking page clicks.
  */
 
-const DB_KEY = 'abdouweb_isolated_v1';
+const STORAGE_KEY = 'abdouweb_pro_v1';
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب",
@@ -15,46 +15,50 @@ const INITIAL_DATA = {
     },
     articles: [
         { 
-            id: "1", 
-            title: "أفضل الهواتف الذكية في المغرب لعام 2025: دليل الشراء الكامل", 
-            body: "سوق الهواتف الذكية في المغرب يشهد منافسة شرسة هذا العام بين سامسونج وشاومي وآبل. إذا كنت تبحث عن القيمة مقابل السعر، فإن الفئة المتوسطة هي الأنسب حالياً...", 
-            category: "تقنية", 
+            id: "a1", 
+            title: "لماذا تسيطر الهواتف القابلة للطي على سوق 2025؟", 
+            body: "شهدت بداية عام 2025 ثورة حقيقية في عالم الهواتف الذكية، حيث أصبحت الشاشات المرنة أكثر متانة وأرخص سعراً. إذا كنت تفكر في الترقية، فإليك أهم الموديلات التي تستحق اهتمامك...", 
+            category: "مراجعات", 
             img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80" 
         }
     ],
     offers: [
         { 
             id: "o1", 
-            title: "تخفيضات جوميا: Samsung Galaxy A55", 
-            price: "3,800 درهم", 
-            img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&q=80", 
-            url: "https://www.jumia.ma" 
+            title: "تخفيض 40% على iPhone 15 Pro", 
+            price: "9,900 درهم", 
+            img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&q=80", 
+            url: "https://www.apple.com" 
         }
     ]
 };
 
-let state = JSON.parse(localStorage.getItem(DB_KEY) || 'null') || INITIAL_DATA;
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
 /**
- * CREATE SANDBOXED IFRAME FOR ADS
- * This is the magic part: the script inside the iframe cannot "see" the parent site buttons.
+ * CORE ISOLATION LOGIC
+ * Creates a sandboxed environment for scripts so they can't touch parent buttons.
  */
-const createAdIframe = (containerId: string, adCode: string) => {
-    const wrapper = document.getElementById(containerId);
-    if (!wrapper || !adCode.trim()) return;
+const injectSafeAd = (containerId: string, adCode: string) => {
+    const container = document.getElementById(containerId);
+    if (!container || !adCode.trim()) return;
 
-    wrapper.innerHTML = ''; // Clear previous
+    container.innerHTML = '';
     const iframe = document.createElement('iframe');
-    iframe.className = 'ad-iframe';
-    iframe.title = 'Advertisement';
+    iframe.className = 'ad-sandbox-iframe';
+    iframe.title = 'Isolated Ad';
     
-    // Construct the isolated document
-    const htmlContent = `
+    // sandbox attributes: 
+    // allow-scripts is needed for ads to load
+    // NO allow-top-navigation to prevent redirects
+    iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-forms allow-same-origin');
+
+    const html = `
         <!DOCTYPE html>
         <html dir="rtl">
         <head>
-            <style>body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100px; overflow: hidden; }</style>
+            <style>body { margin: 0; padding: 0; display: flex; justify-content: center; overflow: hidden; }</style>
         </head>
         <body>
             ${adCode}
@@ -62,20 +66,19 @@ const createAdIframe = (containerId: string, adCode: string) => {
         </html>
     `;
 
-    wrapper.appendChild(iframe);
+    container.appendChild(iframe);
     
-    // Inject content into iframe safely
     const doc = iframe.contentWindow?.document || iframe.contentDocument;
     if (doc) {
         doc.open();
-        doc.write(htmlContent);
+        doc.write(html);
         doc.close();
     }
 };
 
-const refreshAllAds = () => {
-    createAdIframe('ad-slot-1-wrapper', state.ads.code1);
-    createAdIframe('ad-slot-2-wrapper', state.ads.code2);
+const refreshAds = () => {
+    injectSafeAd('ad-slot-1-safe-container', state.ads.code1);
+    injectSafeAd('ad-slot-2-safe-container', state.ads.code2);
 };
 
 const showPage = (id: string) => {
@@ -96,20 +99,15 @@ const showPage = (id: string) => {
 
 const handleLogin = () => {
     const p = (document.getElementById('admin-pass') as HTMLInputElement).value;
-    if (p === state.adminPass) { 
-        isLogged = true; 
-        showPage('admin'); 
-    } else {
-        alert('كلمة مرور خاطئة');
-    }
+    if (p === state.adminPass) { isLogged = true; showPage('admin'); }
 };
 
 const saveAds = () => {
     state.ads.code1 = (document.getElementById('ad-code-1') as HTMLTextAreaElement).value;
     state.ads.code2 = (document.getElementById('ad-code-2') as HTMLTextAreaElement).value;
-    localStorage.setItem(DB_KEY, JSON.stringify(state));
-    refreshAllAds();
-    alert('تم تحديث الإعلانات داخل المنطقة المعزولة بنجاح.');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    refreshAds();
+    alert('تم تحديث نظام الحماية والإعلانات بنجاح.');
 };
 
 const viewArticle = (id: string) => {
@@ -118,16 +116,14 @@ const viewArticle = (id: string) => {
     const content = document.getElementById('article-full-content');
     if (content) {
         content.innerHTML = `
-            <div class="animate-in slide-in-from-bottom-4 duration-500">
-                <div class="relative rounded-[2.5rem] overflow-hidden mb-10 shadow-2xl">
-                    <img src="${a.img}" class="w-full h-[400px] object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-10">
-                        <span class="bg-orange-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase">${a.category}</span>
+            <div class="space-y-10 animate-in fade-in slide-in-from-bottom-5 duration-700">
+                <img src="${a.img}" class="w-full h-[450px] object-cover rounded-[3rem] shadow-2xl">
+                <div class="space-y-6">
+                    <span class="bg-orange-600 text-white px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">${a.category}</span>
+                    <h1 class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
+                    <div class="text-xl md:text-2xl leading-relaxed text-gray-600 dark:text-gray-300 whitespace-pre-line font-medium">
+                        ${a.body}
                     </div>
-                </div>
-                <h1 class="text-4xl md:text-5xl font-black mb-8 leading-tight text-gray-900 dark:text-white">${a.title}</h1>
-                <div class="prose prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed text-xl whitespace-pre-line">
-                    ${a.body}
                 </div>
             </div>
         `;
@@ -135,76 +131,65 @@ const viewArticle = (id: string) => {
     showPage('article-detail');
 };
 
-const renderMain = () => {
-    // 1. Articles
+const render = () => {
+    // Articles
     const artList = document.getElementById('articles-list');
     if (artList) {
         artList.innerHTML = state.articles.map(a => `
-            <div class="group bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:border-orange-200 dark:hover:border-orange-900/50 hover:shadow-xl transition-all duration-300">
-                <div class="w-full md:w-56 h-48 overflow-hidden rounded-2xl shrink-0">
-                    <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="group bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-10 hover:shadow-2xl hover:border-orange-100 dark:hover:border-orange-900/30 transition-all duration-500">
+                <div class="w-full md:w-64 h-56 overflow-hidden rounded-[2rem] shrink-0">
+                    <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 </div>
-                <div class="flex-1 flex flex-col justify-center">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
-                        <span class="text-orange-600 text-[10px] font-black uppercase tracking-widest">${a.category}</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-4 group-hover:text-orange-600 transition-colors">${a.title}</h3>
-                    <button onclick="window.viewArticle('${a.id}')" class="w-fit text-gray-900 dark:text-white font-black text-sm border-b-2 border-orange-600 pb-1 hover:text-orange-600 transition-colors">إقرأ التفاصيل الكاملة</button>
+                <div class="flex flex-col justify-center">
+                    <span class="text-orange-600 text-xs font-black uppercase tracking-widest mb-3">${a.category}</span>
+                    <h3 class="text-2xl md:text-3xl font-black mb-6 group-hover:text-orange-600 transition-colors">${a.title}</h3>
+                    <button onclick="window.viewArticle('${a.id}')" class="w-fit text-sm font-black border-b-2 border-orange-600 pb-1 hover:text-orange-600 transition-all">إقرأ المقال الكامل</button>
                 </div>
             </div>
         `).join('');
     }
 
-    // 2. Sidebar Offers
-    const sideOffers = document.getElementById('offers-sidebar');
-    if (sideOffers) {
-        sideOffers.innerHTML = state.offers.slice(0, 3).map(o => `
-            <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-3xl border border-gray-100 dark:border-gray-800 hover:shadow-md transition">
-                <img src="${o.img}" class="w-full h-32 object-cover rounded-2xl mb-4">
-                <h4 class="font-bold text-sm mb-3 line-clamp-1">${o.title}</h4>
-                <div class="flex items-center justify-between">
-                    <span class="text-orange-600 font-black">${o.price}</span>
-                    <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-xl text-[10px] font-black hover:opacity-90 transition">شراء الآن</a>
+    // Sidebar
+    const side = document.getElementById('offers-sidebar');
+    if (side) {
+        side.innerHTML = state.offers.slice(0, 3).map(o => `
+            <div class="group flex gap-4 items-center p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                <img src="${o.img}" class="w-20 h-20 object-cover rounded-xl">
+                <div>
+                    <h4 class="font-bold text-sm mb-1 line-clamp-1 group-hover:text-orange-600 transition">${o.title}</h4>
+                    <p class="text-orange-600 font-black text-xs mb-2">${o.price}</p>
+                    <a href="${o.url}" target="_blank" class="text-[10px] font-black underline uppercase tracking-tighter">رابط العرض</a>
                 </div>
             </div>
         `).join('');
     }
 
-    // 3. Full Offers Grid
+    // Full Offers
     const fullGrid = document.getElementById('offers-full-grid');
     if (fullGrid) {
         fullGrid.innerHTML = state.offers.map(o => `
-            <div class="bg-white dark:bg-gray-900 p-5 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition duration-300">
-                <img src="${o.img}" class="w-full h-40 object-cover rounded-2xl mb-4">
-                <h4 class="font-black mb-2">${o.title}</h4>
-                <p class="text-orange-600 font-black text-lg mb-4">${o.price}</p>
-                <a href="${o.url}" target="_blank" class="block w-full text-center bg-gray-100 dark:bg-gray-800 dark:text-white py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition">زيارة العرض</a>
+            <div class="bg-white dark:bg-gray-900 p-6 rounded-[2.5rem] border border-gray-50 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all">
+                <img src="${o.img}" class="w-full h-44 object-cover rounded-2xl mb-6">
+                <h4 class="font-black text-lg mb-3">${o.title}</h4>
+                <div class="flex items-center justify-between">
+                    <span class="text-orange-600 font-black text-xl">${o.price}</span>
+                    <a href="${o.url}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-6 py-2 rounded-xl text-xs font-black">اطلب الآن</a>
+                </div>
             </div>
         `).join('');
     }
 
-    // Initial Ad Load (Isolated)
-    refreshAllAds();
+    refreshAds();
 };
 
 const addArticle = () => {
     const t = (document.getElementById('new-art-title') as HTMLInputElement).value;
     const b = (document.getElementById('new-art-body') as HTMLTextAreaElement).value;
-    if(!t || !b) { alert('يرجى ملء جميع الحقول'); return; }
-    
-    state.articles.unshift({ 
-        id: Date.now().toString(), 
-        title: t, 
-        body: b, 
-        category: "جديد", 
-        img: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&q=80" 
-    });
-    
-    localStorage.setItem(DB_KEY, JSON.stringify(state));
-    renderMain();
+    if(!t || !b) return;
+    state.articles.unshift({ id: Date.now().toString(), title: t, body: b, category: "عام", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800" });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
     showPage('home');
-    alert('تم نشر المقال بنجاح!');
 };
 
 Object.assign(window as any, { 
@@ -212,17 +197,11 @@ Object.assign(window as any, {
     switchTab: (id: string) => {
         document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
         document.getElementById(id)?.classList.remove('hidden');
-        document.querySelectorAll('.admin-nav-btn').forEach(b => {
-            b.classList.remove('bg-orange-600', 'text-white', 'shadow-md');
-            b.classList.add('bg-gray-100', 'dark:bg-gray-800');
-        });
-        const activeBtn = Array.from(document.querySelectorAll('.admin-nav-btn')).find(b => b.getAttribute('onclick')?.includes(id));
-        if (activeBtn) {
-            activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-800');
-            activeBtn.classList.add('bg-orange-600', 'text-white', 'shadow-md');
-        }
+        document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.replace('bg-orange-600', 'bg-white'));
+        const active = Array.from(document.querySelectorAll('.admin-nav-btn')).find(b => b.getAttribute('onclick')?.includes(id));
+        if(active) active.classList.replace('bg-white', 'bg-orange-600');
     },
     toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 
-document.addEventListener('DOMContentLoaded', renderMain);
+document.addEventListener('DOMContentLoaded', render);
