@@ -255,11 +255,15 @@
                         <!-- Ad Management Section -->
                         <div class="bg-white dark:bg-gray-900 p-8 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800">
                             <h3 class="text-xl font-black mb-4">إدارة الإعلانات (Adsterra)</h3>
-                            <p class="text-gray-400 text-xs mb-8">كود الإعلان سيظهر فقط عند التفاعل مع الأزرار في أسفل الصفحة وأزرار الأفلييت.</p>
+                            <p class="text-gray-400 text-xs mb-8">كود الإعلان سيظهر فقط عند التفاعل مع الأزرار وفي منطقة أسفل الصفحة.</p>
                             <div class="space-y-6 max-w-lg">
                                 <div>
-                                    <label class="block text-xs font-black mb-2 text-orange-600">كود Adsterra (Pop-under / Social Bar)</label>
-                                    <textarea id="ad-general-input" rows="4" placeholder="<script>...</script>" class="w-full bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 outline-none text-xs font-mono"></textarea>
+                                    <label class="block text-xs font-black mb-2 text-orange-600">إعلان التفاعل (Social Bar / Pop-under)</label>
+                                    <textarea id="ad-general-input" rows="3" placeholder="<script>...</script>" class="w-full bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 outline-none text-xs font-mono"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-black mb-2 text-orange-600">إعلان أسفل الصفحة (Native Banner)</label>
+                                    <textarea id="ad-footer-input" rows="4" placeholder="<script>...</script><div id='...'></div>" class="w-full bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 outline-none text-xs font-mono"></textarea>
                                 </div>
                                 <button onclick="saveAdSettings()" class="bg-orange-600 text-white px-8 py-4 rounded-2xl font-black shadow-xl">تحديث الإعلانات</button>
                             </div>
@@ -305,7 +309,9 @@
                 <div id="footer-social-container" class="flex gap-4 justify-center"></div>
                 
                 <!-- Ad Script Injection Point (Only near requested areas) -->
-                <div id="ad-footer-slot" class="mt-8"></div>
+                <div id="ad-footer-slot" class="mt-8 ad-container min-h-[100px]"></div>
+                <!-- Banner Slot (Native Banner) -->
+                <div id="ad-banner-slot" class="mt-4 ad-container"></div>
             </div>
             
             <div class="border-t border-gray-100 dark:border-gray-800 pt-10">
