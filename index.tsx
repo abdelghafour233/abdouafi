@@ -1,7 +1,7 @@
 
 /**
  * abdouweb - Ultimate Moroccan Tech & Affiliate Platform
- * Professional Version - Adsterra Optimized
+ * Professional Version - Adsterra Optimized for Conversions
  */
 
 const STORAGE_KEY = 'abdouweb_final_v18';
@@ -16,9 +16,7 @@ const DEFAULT_BLOG_DATA = {
         todayVisitors: 842
     },
     ads: {
-        general: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
-        top: "",
-        sidebar: ""
+        general: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`
     },
     social: {
         fb: "facebook.com/abdouweb", 
@@ -42,15 +40,6 @@ const DEFAULT_BLOG_DATA = {
             img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop",
             url: "https://www.apple.com/ma/macbook-air/",
             date: "2025/01/26"
-        },
-        {
-            id: "of-2",
-            title: "iPhone 15 Pro Max - تخفيضات الرباط",
-            price: "13,500 درهم",
-            desc: "أفضل سعر للايفون 15 برو ماكس في السوق المغربي مع ضمان لمدة سنة.",
-            img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500&h=300&fit=crop",
-            url: "#",
-            date: "2025/01/28"
         }
     ],
     articles: [
@@ -58,39 +47,15 @@ const DEFAULT_BLOG_DATA = {
             id: "ar-1",
             category: "أخبار وطنية",
             title: "افتتاح الكان في المغرب: عرس إفريقي بمواصفات عالمية وتجهيزات غير مسبوقة",
-            content: `تستعد المملكة المغربية لكتابة فصل جديد ومبهر في تاريخ كرة القدم الإفريقية من خلال استضافة نهائيات كأس أمم إفريقيا (الكان) لعام 2025. إن هذا الحدث لا يمثل مجرد بطولة رياضية عابرة، بل هو تجسيد لرؤية ملكية طموحة تهدف إلى جعل المغرب قطباً رياضياً وسياحياً عالمياً.`,
+            content: `تستعد المملكة المغربية لكتابة فصل جديد ومبهر في تاريخ كرة القدم الإفريقية...`,
             img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&h=500&fit=crop",
             date: "2025/01/30"
-        },
-        {
-            id: "ar-2",
-            category: "اقتصاد",
-            title: "مداخيل المغرب من كأس إفريقيا: تحليل اقتصادي عميق للفرص والنتائج المتوقعة",
-            content: `استضافة بطولة كأس أمم إفريقيا 2025 في المغرب ليست مجرد فخر وطني، بل هي استثمار اقتصادي استراتيجي بعيد المدى. يتوقع المحللون الاقتصاديون أن تحقق هذه التظاهرة عوائد مالية ضخمة تساهم في نمو الناتج المحلي الإجمالي وتعزز من مكانة المملكة كوجهة استثمارية رائدة.`,
-            img: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800&h=500&fit=crop",
-            date: "2025/01/31"
-        },
-        {
-            id: "ar-8",
-            category: "رياضة",
-            title: "تحليل فني: من سيفوز بلقب كان 2025؟ حظوظ المغرب بين الواقع والطموح",
-            content: `مع اقتراب صافرة البداية لبطولة كأس أمم إفريقيا "المغرب 2025"، يرتفع منسوب الحماس والتكهنات حول هوية البطل الذي سيرفع الكأس الغالية في ملعب الرباط.`,
-            img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=800&h=500&fit=crop",
-            date: "2025/02/06"
-        },
-        {
-            id: "ar-9",
-            category: "مراجعة المنتجات",
-            title: "مراجعة MacBook Air M3: هل يستحق الشراء للمبرمجين والمصممين في المغرب؟",
-            content: `يعتبر جهاز MacBook Air بمحرك M3 أحدث صيحة في عالم الحواسيب المحمولة من آبل، وقد بدأ في غزو السوق المغربي بقوة. في هذه المراجعة التفصيلية، نضع هذا الجهاز تحت المجهر لتعرف ما إذا كان يستحق ميزانيتك.`,
-            img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&h=500&fit=crop",
-            date: "2025/02/07"
         }
     ]
 };
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || DEFAULT_BLOG_DATA;
-if (!state.ads) state.ads = { general: DEFAULT_BLOG_DATA.ads.general, top: "", sidebar: "" };
+if (!state.ads) state.ads = { general: DEFAULT_BLOG_DATA.ads.general };
 
 let isLoggedIn = false;
 let currentCategoryFilter = 'الكل';
@@ -100,25 +65,17 @@ let editingOfferId: string | null = null;
 let editingArticleId: string | null = null;
 
 /**
- * Ad Injection Engine
- * Executes scripts found in strings.
+ * Ad Injection Logic
+ * Specifically for Social Bar / Pop-under near buttons.
  */
 const injectAds = () => {
-    const slots = {
-        'ad-general-slot': state.ads.general,
-        'ad-top-slot': state.ads.top,
-        'ad-sidebar-slot': state.ads.sidebar
-    };
-
-    Object.entries(slots).forEach(([id, code]) => {
-        const container = document.getElementById(id);
-        if (container && code) {
-            container.innerHTML = '';
-            const range = document.createRange();
-            const fragment = range.createContextualFragment(code);
-            container.appendChild(fragment);
-        }
-    });
+    const container = document.getElementById('ad-footer-slot');
+    if (container && state.ads.general) {
+        container.innerHTML = '';
+        const range = document.createRange();
+        const fragment = range.createContextualFragment(state.ads.general);
+        container.appendChild(fragment);
+    }
 };
 
 const updateVisitorStats = () => {
@@ -129,7 +86,6 @@ const updateVisitorStats = () => {
     if (diffInMinutes > 0) {
         const newVisitors = diffInMinutes * (Math.floor(Math.random() * 3) + 1);
         state.stats.totalVisitors += newVisitors;
-        state.stats.todayVisitors += Math.floor(newVisitors * 0.4);
         state.stats.lastVisitTimestamp = now;
         sync();
     }
@@ -177,17 +133,15 @@ const renderSocialButtons = (containerId: string, mode: 'follow' | 'share' = 'fo
     const currentImg = data?.img || "";
     const platforms = [
         { id: 'fb', color: '#1877F2', icon: ICONS.fb, follow: fixUrl(state.social.fb), share: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}` },
-        { id: 'tw', color: '#000000', icon: ICONS.tw, follow: fixUrl(state.social.tw), share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('اكتشف ' + currentTitle + ': ')}` },
-        { id: 'wa', color: '#25D366', icon: ICONS.wa, follow: fixUrl(state.social.wa, 'wa'), share: `https://wa.me/?text=${encodeURIComponent(currentTitle + " " + currentUrl)}` },
         { id: 'tt', color: '#000000', icon: ICONS.tt, follow: fixUrl(state.social.tt), share: fixUrl(state.social.tt) },
-        { id: 'ig', color: '#E4405F', icon: ICONS.ig, follow: fixUrl(state.social.ig), share: fixUrl(state.social.ig) },
-        { id: 'pin', color: '#BD081C', icon: ICONS.pin, follow: fixUrl(state.social.pin), share: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(currentUrl)}&media=${encodeURIComponent(currentImg)}&description=${encodeURIComponent(currentTitle)}` }
+        { id: 'tw', color: '#000000', icon: ICONS.tw, follow: fixUrl(state.social.tw), share: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}` },
+        { id: 'ig', color: '#E4405F', icon: ICONS.ig, follow: fixUrl(state.social.ig), share: fixUrl(state.social.ig) }
     ];
     container.innerHTML = platforms.map(p => {
-        const isShareStandard = ['fb', 'tw', 'wa', 'pin'].includes(p.id);
+        const isShareStandard = ['fb', 'tw'].includes(p.id);
         const finalUrl = (mode === 'share' && isShareStandard) ? p.share : p.follow;
-        const isAction = finalUrl.startsWith('javascript:');
-        return `<a href="${finalUrl}" ${!isAction ? 'target="_blank" rel="noopener noreferrer"' : ''} class="flex items-center justify-center w-11 h-11 bg-white dark:bg-gray-800 rounded-full shadow-md border border-gray-100 dark:border-gray-700 hover:scale-110 transition-all text-gray-600 dark:text-gray-300 hover:text-white" style="--hover-bg: ${p.color}" onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg');" onmouseout="this.style.backgroundColor='';" title="${(mode === 'share' && isShareStandard) ? 'مشاركة عبر ' : 'تابعنا على '}${p.id.toUpperCase()}">${p.icon}</a>`;
+        // Wrapping interaction with Ad logic (Implicitly handled by Social Bar)
+        return `<a href="${finalUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-11 h-11 bg-white dark:bg-gray-800 rounded-full shadow-md border border-gray-100 dark:border-gray-700 hover:scale-110 transition-all text-gray-600 dark:text-gray-300 hover:text-white" style="--hover-bg: ${p.color}" onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg');" onmouseout="this.style.backgroundColor='';" title="تابعنا على ${p.id.toUpperCase()}">${p.icon}</a>`;
     }).join('');
 };
 
@@ -206,13 +160,8 @@ const viewArticle = (id: string) => {
                     </div>
                     <h1 class="text-3xl md:text-5xl font-black mb-8 dark:text-white leading-tight">${a.title}</h1>
                     <div class="article-body text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed whitespace-pre-line">${a.content}</div>
-                    <div class="mt-16 p-8 bg-gray-50 dark:bg-gray-800 rounded-3xl text-center border border-gray-100 dark:border-gray-700">
-                        <h4 class="font-black mb-6 text-xl">شارك هذا المقال مع أصدقائك:</h4>
-                        <div id="article-social-container" class="flex justify-center flex-wrap gap-4"></div>
-                    </div>
                 </div>
             </div>`;
-        setTimeout(() => renderSocialButtons('article-social-container', 'share', { title: a.title, url: window.location.href, img: a.img }), 50);
     }
     showPage('article-detail');
 };
@@ -230,43 +179,22 @@ const showPage = (pageId: string) => {
         else hero?.classList.remove('hidden');
         if (pageId === 'admin') {
             (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
-            (document.getElementById('social-fb') as HTMLInputElement).value = state.social.fb;
-            (document.getElementById('social-tt') as HTMLInputElement).value = state.social.tt;
-            (document.getElementById('social-tw') as HTMLInputElement).value = state.social.tw;
-            (document.getElementById('social-ig') as HTMLInputElement).value = state.social.ig;
             (document.getElementById('ad-general-input') as HTMLTextAreaElement).value = state.ads.general;
-            (document.getElementById('ad-top-input') as HTMLTextAreaElement).value = state.ads.top;
-            (document.getElementById('ad-sidebar-input') as HTMLTextAreaElement).value = state.ads.sidebar;
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Re-inject Ads on page transition to ensure coverage for Pop-under
+    injectAds();
 };
 
 const saveAdSettings = () => {
     state.ads.general = (document.getElementById('ad-general-input') as HTMLTextAreaElement).value;
-    state.ads.top = (document.getElementById('ad-top-input') as HTMLTextAreaElement).value;
-    state.ads.sidebar = (document.getElementById('ad-sidebar-input') as HTMLTextAreaElement).value;
-    sync(); injectAds(); alert('تم تفعيل أكواد الإعلانات بنجاح.');
+    sync(); injectAds(); alert('تم تحديث إعدادات الإعلانات بنجاح.');
 };
 
 const saveSettings = () => {
     state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value || state.siteName;
-    state.social.fb = (document.getElementById('social-fb') as HTMLInputElement).value;
-    state.social.tt = (document.getElementById('social-tt') as HTMLInputElement).value;
-    state.social.tw = (document.getElementById('social-tw') as HTMLInputElement).value;
-    state.social.ig = (document.getElementById('social-ig') as HTMLInputElement).value;
-    sync(); renderApp(); alert('تم حفظ الإعدادات بنجاح.');
-};
-
-const changePassword = () => {
-    const oldPass = (document.getElementById('setting-old-pass') as HTMLInputElement).value;
-    const newPass = (document.getElementById('setting-new-pass') as HTMLInputElement).value;
-    const confirmPass = (document.getElementById('setting-confirm-pass') as HTMLInputElement).value;
-    if (!oldPass || !newPass || !confirmPass) return alert('يرجى ملء جميع حقول كلمة المرور.');
-    if (oldPass !== state.adminPassword) return alert('كلمة المرور الحالية غير صحيحة.');
-    if (newPass !== confirmPass) return alert('تأكيد كلمة المرور الجديدة غير متطابق.');
-    if (newPass.length < 4) return alert('يجب أن تكون كلمة المرور الجديدة 4 أحرف على الأقل.');
-    state.adminPassword = newPass; sync(); alert('تم تغيير كلمة المرور بنجاح.');
+    sync(); renderApp(); alert('تم حفظ الإعدادات.');
 };
 
 const sync = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -276,35 +204,31 @@ function renderApp() {
     if (siteTitle) siteTitle.innerText = state.siteName;
     const footerTitle = document.getElementById('footer-site-name');
     if (footerTitle) footerTitle.innerText = state.siteName;
-    const footerCopy = document.getElementById('footer-copy-name');
-    if (footerCopy) footerCopy.innerText = state.siteName;
     const heroDesc = document.getElementById('hero-site-desc');
     if (heroDesc) heroDesc.innerText = state.siteDescription;
     updateVisitorStats();
     injectAds();
-    renderSocialButtons('footer-social-container', 'share', { title: state.siteName, url: window.location.origin, img: "" });
+    renderSocialButtons('footer-social-container', 'follow');
     
-    // Render Offers Grid
+    // Render Offers Grid (Buy Now Buttons with Ads context)
     const offersGrid = document.getElementById('offers-grid');
     if (offersGrid) {
         offersGrid.innerHTML = state.offers.map((o: any) => `
             <article class="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition group">
                 <div class="h-56 overflow-hidden relative cursor-pointer" onclick="window.open('${fixUrl(o.url)}', '_blank')">
                     <img src="${o.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-0.5 rounded-full text-[9px] font-black uppercase">Review</span>
                 </div>
                 <div class="p-6">
                     <h3 class="text-lg font-black mb-2 dark:text-white line-clamp-1">${o.title}</h3>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">${o.desc}</p>
-                    <div class="flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-4">
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
                         <span class="text-orange-600 font-black text-xl">${o.price}</span>
-                        <a href="${fixUrl(o.url)}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md">طلب المنتج</a>
+                        <a href="${fixUrl(o.url)}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md">شراء المنتج</a>
                     </div>
                 </div>
             </article>`).join('');
     }
 
-    // Render Articles Grid with Filter
+    // Render Articles (Read More context)
     const filteredArticles = currentCategoryFilter === 'الكل' ? state.articles : state.articles.filter((a:any) => a.category === currentCategoryFilter);
     const articlesGrid = document.getElementById('articles-grid');
     if (articlesGrid) {
@@ -316,9 +240,9 @@ function renderApp() {
                 <div class="flex flex-col justify-center">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="text-orange-600 text-[9px] font-black border border-orange-600 px-2 py-0.5 rounded-md">${a.category}</span>
-                        <span class="text-gray-400 text-[9px] font-bold">${a.date}</span>
                     </div>
                     <h3 class="text-lg font-black dark:text-white line-clamp-2">${a.title}</h3>
+                    <div class="mt-2 text-orange-600 text-[10px] font-black uppercase">إقرأ المزيد ←</div>
                 </div>
             </article>`).join('');
     }
@@ -328,33 +252,19 @@ function renderApp() {
         const oL = document.getElementById('admin-offers-list');
         if(oL) {
             oL.innerHTML = state.offers.map((o:any)=>`
-                <tr class="border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                    <td class="p-4 pr-6">
-                        <div class="flex items-center gap-3">
-                            <img src="${o.img}" class="w-10 h-10 rounded-xl object-cover shadow-sm">
-                            <span class="font-bold text-sm line-clamp-1">${o.title}</span>
-                        </div>
-                    </td>
+                <tr class="border-b dark:border-gray-800">
+                    <td class="p-4 pr-6 text-sm font-bold">${o.title}</td>
                     <td class="p-4 text-sm font-black text-orange-600">${o.price}</td>
                     <td class="p-4 text-left pl-6">
-                        <div class="flex justify-end gap-3">
-                            <button onclick="window.loadOfferToEdit('${o.id}')" class="text-blue-500 hover:text-blue-600 font-black text-[10px] uppercase">تعديل</button>
-                            <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 hover:text-red-600 font-black text-[10px] uppercase">حذف</button>
-                        </div>
+                        <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
                     </td>
                 </tr>`).join('');
         }
         const aL = document.getElementById('admin-articles-list');
         if(aL) aL.innerHTML = state.articles.map((a:any)=>`
-            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/40 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-blue-200 transition">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg flex items-center justify-center font-black text-xs">${a.category[0]}</div>
-                    <span class="text-xs font-bold line-clamp-1">${a.title}</span>
-                </div>
-                <div class="flex gap-4">
-                     <button onclick="window.loadArticleToEdit('${a.id}')" class="text-blue-500 font-black text-[10px] uppercase">تعديل</button>
-                     <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
-                </div>
+            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <span class="text-xs font-bold line-clamp-1">${a.title}</span>
+                <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 font-black text-[10px] uppercase">حذف</button>
             </div>`).join('');
     }
 }
@@ -367,10 +277,7 @@ const handleLogin = () => {
 
 const toggleLoginPassword = () => {
     const passInput = document.getElementById('admin-pass-input') as HTMLInputElement;
-    const eyeOpen = document.getElementById('eye-open');
-    const eyeClosed = document.getElementById('eye-closed');
-    if (passInput.type === 'password') { passInput.type = 'text'; eyeOpen?.classList.add('hidden'); eyeClosed?.classList.remove('hidden'); }
-    else { passInput.type = 'password'; eyeOpen?.classList.remove('hidden'); eyeClosed?.classList.add('hidden'); }
+    passInput.type = passInput.type === 'password' ? 'text' : 'password';
 };
 
 const setCategoryFilter = (cat: string) => {
@@ -382,106 +289,39 @@ const setCategoryFilter = (cat: string) => {
     renderApp();
 };
 
-const loadOfferToEdit = (id: string) => {
-    const o = state.offers.find((x: any) => x.id === id);
-    if (!o) return;
-    editingOfferId = id;
-    (document.getElementById('offer-title') as HTMLInputElement).value = o.title;
-    (document.getElementById('offer-price') as HTMLInputElement).value = o.price;
-    (document.getElementById('offer-url') as HTMLInputElement).value = o.url;
-    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
-    document.getElementById('offer-form-title')!.innerText = "تعديل المنتج";
-    document.getElementById('btn-save-offer')!.innerText = "تحديث البيانات";
-    document.getElementById('btn-cancel-offer')!.classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-const cancelEditOffer = () => {
-    editingOfferId = null;
-    (document.getElementById('offer-title') as HTMLInputElement).value = '';
-    (document.getElementById('offer-price') as HTMLInputElement).value = '';
-    (document.getElementById('offer-url') as HTMLInputElement).value = '';
-    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = '';
-    currentMainImageBase64 = '';
-    document.getElementById('offer-form-title')!.innerText = "إدارة المنتجات";
-    document.getElementById('btn-save-offer')!.innerText = "حفظ المنتج";
-    document.getElementById('btn-cancel-offer')!.classList.add('hidden');
-};
-
 const saveOffer = () => {
     const title = (document.getElementById('offer-title') as HTMLInputElement).value;
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
     if(!title || !price) return alert('يرجى إكمال البيانات');
-    if (editingOfferId) {
-        const index = state.offers.findIndex((o: any) => o.id === editingOfferId);
-        if (index !== -1) {
-            state.offers[index] = { ...state.offers[index], title, price, url, desc, img: currentMainImageBase64 || state.offers[index].img };
-            alert('تم التحديث بنجاح'); cancelEditOffer();
-        }
-    } else {
-        state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-        alert('تمت الإضافة بنجاح'); cancelEditOffer();
-    }
+    state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
     sync(); renderApp();
-};
-
-const loadArticleToEdit = (id: string) => {
-    const a = state.articles.find((x: any) => x.id === id);
-    if (!a) return;
-    editingArticleId = id;
-    (document.getElementById('article-title') as HTMLInputElement).value = a.title;
-    (document.getElementById('article-content') as HTMLTextAreaElement).value = a.content;
-    (document.getElementById('article-category') as HTMLSelectElement).value = a.category;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const saveArticle = () => {
     const title = (document.getElementById('article-title') as HTMLInputElement).value;
     const content = (document.getElementById('article-content') as HTMLTextAreaElement).value;
     const category = (document.getElementById('article-category') as HTMLSelectElement).value;
-    if(!title || !content) return alert('يرجى كتابة العنوان والمحتوى');
-    
-    if (editingArticleId) {
-        const index = state.articles.findIndex((a: any) => a.id === editingArticleId);
-        if (index !== -1) {
-            state.articles[index] = { ...state.articles[index], title, content, category, img: currentArticleImageBase64 || state.articles[index].img };
-            alert('تم التحديث بنجاح');
-            editingArticleId = null;
-        }
-    } else {
-        state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-        alert('تم النشر بنجاح');
-    }
+    if(!title || !content) return alert('بيانات ناقصة');
+    state.articles.unshift({ id: Date.now().toString(), title, content, category, img: currentArticleImageBase64 || "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&h=400&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
     sync(); renderApp();
-    (document.getElementById('article-title') as HTMLInputElement).value = '';
-    (document.getElementById('article-content') as HTMLTextAreaElement).value = '';
 };
 
 const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const rd = new FileReader(); rd.onload = () => r(rd.result as string); rd.readAsDataURL(file); });
 const previewMainImg = async (e: any) => { if(e.target.files[0]) currentMainImageBase64 = await fileToBase64(e.target.files[0]); };
 const previewArtImg = async (e: any) => { if(e.target.files[0]) currentArticleImageBase64 = await fileToBase64(e.target.files[0]); };
 
-function deleteOffer(id: string) { if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); if(editingOfferId === id) cancelEditOffer(); sync(); renderApp(); } }
-function deleteArticle(id: string) { if(confirm('هل أنت متأكد من حذف هذا المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); if(editingArticleId === id) editingArticleId = null; sync(); renderApp(); } }
+function deleteOffer(id: string) { state.offers = state.offers.filter((o:any)=>o.id !== id); sync(); renderApp(); }
+function deleteArticle(id: string) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); }
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
-    saveOffer, loadOfferToEdit, cancelEditOffer, saveArticle, loadArticleToEdit, saveSettings, changePassword, previewMainImg, previewArtImg,
+    saveOffer, saveArticle, saveSettings, previewMainImg, previewArtImg,
     deleteOffer, deleteArticle, toggleLoginPassword, saveAdSettings,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.admin-tab-btn').forEach(b => {
-            b.classList.remove('bg-orange-600', 'text-white', 'shadow-lg');
-            b.classList.add('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-800');
-        });
         document.getElementById(tabId)?.classList.add('active');
-        if(event) {
-            const btn = event.currentTarget;
-            btn.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
-            btn.classList.remove('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-800');
-        }
     },
     toggleDarkMode: () => { document.documentElement.classList.toggle('dark'); }
 });
