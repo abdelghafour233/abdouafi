@@ -128,7 +128,7 @@
 
                     <div id="tab-settings" class="tab-content">
                         <h3 class="text-xl font-black mb-6">إعدادات المنصة</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-1 gap-4 mb-10">
                             <input type="text" id="site-name-input" placeholder="اسم الموقع" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl">
                             <div class="grid grid-cols-2 gap-3">
                                 <input type="text" id="social-fb" placeholder="رابط فيسبوك" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl text-xs">
@@ -138,7 +138,17 @@
                                 <input type="text" id="social-wa" placeholder="رابط واتساب" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl text-xs">
                                 <input type="text" id="social-pin" placeholder="رابط بنتريست" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl text-xs">
                             </div>
-                            <button onclick="window.saveSettings()" class="bg-gray-900 text-white py-3 rounded-xl font-bold shadow-lg">حفظ الإعدادات</button>
+                            <button onclick="window.saveSettings()" class="bg-gray-900 text-white py-3 rounded-xl font-bold shadow-lg">حفظ إعدادات الموقع</button>
+                        </div>
+
+                        <hr class="border-gray-100 dark:border-gray-800 mb-10">
+
+                        <h3 class="text-xl font-black mb-6 flex items-center gap-2"><svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> إعدادات الأمان (تغيير كلمة المرور)</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <input type="password" id="setting-old-pass" placeholder="كلمة المرور الحالية" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
+                            <input type="password" id="setting-new-pass" placeholder="كلمة المرور الجديدة" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
+                            <input type="password" id="setting-confirm-pass" placeholder="تأكيد كلمة المرور الجديدة" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
+                            <button onclick="window.changePassword()" class="bg-orange-600 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-orange-700 transition">تحديث كلمة المرور</button>
                         </div>
                     </div>
                 </div>

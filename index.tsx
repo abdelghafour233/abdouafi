@@ -38,7 +38,7 @@ const DEFAULT_BLOG_DATA = {
         {
             id: "ar-ai-can-2025",
             category: "أخبار التقنية",
-            title: "الذكاء الاصطناعي يتوقع بطل 'كان' المغرب: هل يقترب أسود الأطلس من الكأس التاريخية؟ تحليل رقمي شامل",
+            title: "الذكاء الاصطناعي يتوقع بطل 'كان' المغرب: هل يقترب أسود الأطلس من الكأس التاريخية? تحليل رقمي شامل",
             content: `مع اقتراب العرس الكروي الإفريقي الذي يستضيفه المغرب، توقفت لغة العواطف وبدأت لغة الأرقام والخوارزميات في الحديث. بفضل تقنيات "التعلم الآلي" (Machine Learning) وتحليل البيانات الضخمة، أطلقت مراكز بحثية رياضية كبرى توقعاتها حول هوية البطل المحتمل لكأس أمم إفريقيا 2025.
 
 أولاً: كيف يتوقع الذكاء الاصطناعي النتائج؟
@@ -242,6 +242,37 @@ const saveSettings = () => {
     alert('تم حفظ الإعدادات بنجاح.');
 };
 
+const changePassword = () => {
+    const oldPass = (document.getElementById('setting-old-pass') as HTMLInputElement).value;
+    const newPass = (document.getElementById('setting-new-pass') as HTMLInputElement).value;
+    const confirmPass = (document.getElementById('setting-confirm-pass') as HTMLInputElement).value;
+
+    if (!oldPass || !newPass || !confirmPass) {
+        return alert('يرجى ملء جميع حقول كلمة المرور.');
+    }
+
+    if (oldPass !== state.adminPassword) {
+        return alert('كلمة المرور الحالية غير صحيحة.');
+    }
+
+    if (newPass !== confirmPass) {
+        return alert('تأكيد كلمة المرور الجديدة غير متطابق.');
+    }
+
+    if (newPass.length < 4) {
+        return alert('يجب أن تكون كلمة المرور الجديدة 4 أحرف على الأقل.');
+    }
+
+    state.adminPassword = newPass;
+    sync();
+    alert('تم تغيير كلمة المرور بنجاح.');
+    
+    // Clear inputs
+    (document.getElementById('setting-old-pass') as HTMLInputElement).value = '';
+    (document.getElementById('setting-new-pass') as HTMLInputElement).value = '';
+    (document.getElementById('setting-confirm-pass') as HTMLInputElement).value = '';
+};
+
 const sync = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
 function renderApp() {
@@ -366,7 +397,7 @@ function deleteArticle(id: string) { if(confirm('حذف المقال؟')) { stat
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
-    saveOffer, saveArticle, saveSettings, previewMainImg, previewArtImg,
+    saveOffer, saveArticle, saveSettings, changePassword, previewMainImg, previewArtImg,
     deleteOffer, deleteArticle, toggleLoginPassword,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
