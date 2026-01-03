@@ -98,16 +98,33 @@
 
                 <div class="flex-grow bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div id="tab-offers" class="tab-content active">
-                        <h3 class="text-xl font-black mb-6">إضافة منتج أفلييت</h3>
+                        <h3 id="offer-form-title" class="text-xl font-black mb-6">إضافة منتج أفلييت جديد</h3>
                         <div class="grid grid-cols-1 gap-4 mb-8">
                             <input type="text" id="offer-title" placeholder="اسم المنتج" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
                             <input type="text" id="offer-price" placeholder="السعر (مثال: 500 درهم)" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
                             <input type="text" id="offer-url" placeholder="رابط الأفلييت" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
-                            <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-bold text-gray-400 px-1">صورة المنتج (اتركها فارغة للمحافظة على الصورة الحالية عند التعديل)</label>
+                                <input type="file" accept="image/*" onchange="window.previewMainImg(event)" class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl outline-none">
+                            </div>
                             <textarea id="offer-desc" placeholder="وصف المنتج..." class="p-3 border dark:border-gray-700 dark:bg-gray-800 rounded-xl h-24"></textarea>
-                            <button onclick="window.saveOffer()" class="bg-orange-600 text-white py-3 rounded-xl font-bold shadow-lg">حفظ المنتج</button>
+                            <div class="flex gap-3">
+                                <button id="btn-save-offer" onclick="window.saveOffer()" class="flex-grow bg-orange-600 text-white py-3 rounded-xl font-bold shadow-lg">حفظ المنتج</button>
+                                <button id="btn-cancel-offer" onclick="window.cancelEditOffer()" class="hidden bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-6 py-3 rounded-xl font-bold transition">إلغاء</button>
+                            </div>
                         </div>
-                        <table class="w-full text-right"><tbody id="admin-offers-list"></tbody></table>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right">
+                                <thead>
+                                    <tr class="text-gray-400 text-xs border-b dark:border-gray-800">
+                                        <th class="pb-3 pr-2">المنتج</th>
+                                        <th class="pb-3">السعر</th>
+                                        <th class="pb-3 text-left pl-2">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-offers-list"></tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div id="tab-articles" class="tab-content">

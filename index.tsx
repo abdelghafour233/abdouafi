@@ -92,6 +92,7 @@ let isLoggedIn = false;
 let currentCategoryFilter = 'الكل';
 let currentMainImageBase64 = '';
 let currentArticleImageBase64 = '';
+let editingOfferId: string | null = null;
 
 const fixUrl = (val: string, type: string = 'generic') => {
     if (!val || val.trim() === "") return "javascript:void(0)";
@@ -332,7 +333,23 @@ function renderApp() {
 
     if (isLoggedIn) {
         const oL = document.getElementById('admin-offers-list');
-        if(oL) oL.innerHTML = state.offers.map((o:any)=>`<tr class="border-b dark:border-gray-800"><td class="py-3 font-bold text-xs">${o.title}</td><td class="text-left"><button onclick="window.deleteOffer('${o.id}')" class="text-red-500 font-black">حذف</button></td></tr>`).join('');
+        if(oL) {
+            oL.innerHTML = state.offers.map((o:any)=>`
+                <tr class="border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+                    <td class="py-4 font-bold text-xs pr-2">
+                        <div class="flex items-center gap-2">
+                            <img src="${o.img}" class="w-8 h-8 rounded-lg object-cover">
+                            <span>${o.title}</span>
+                        </div>
+                    </td>
+                    <td class="py-4 text-xs font-black text-orange-600">${o.price}</td>
+                    <td class="py-4 text-left pl-2 flex justify-end gap-2">
+                        <button onclick="window.loadOfferToEdit('${o.id}')" class="text-blue-500 font-black text-[10px] uppercase hover:underline">تعديل</button>
+                        <button onclick="window.deleteOffer('${o.id}')" class="text-red-500 font-black text-[10px] uppercase hover:underline">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
         const aL = document.getElementById('admin-articles-list');
         if(aL) aL.innerHTML = state.articles.map((a:any)=>`<div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl mb-2 text-xs font-bold"><span>${a.title}</span><button onclick="window.deleteArticle('${a.id}')" class="text-red-500">حذف</button></div>`).join('');
     }
@@ -369,14 +386,72 @@ const setCategoryFilter = (cat: string) => {
     renderApp();
 };
 
+const loadOfferToEdit = (id: string) => {
+    const o = state.offers.find((x: any) => x.id === id);
+    if (!o) return;
+    
+    editingOfferId = id;
+    (document.getElementById('offer-title') as HTMLInputElement).value = o.title;
+    (document.getElementById('offer-price') as HTMLInputElement).value = o.price;
+    (document.getElementById('offer-url') as HTMLInputElement).value = o.url;
+    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = o.desc;
+    
+    document.getElementById('offer-form-title')!.innerText = "تعديل منتج: " + o.title;
+    document.getElementById('btn-save-offer')!.innerText = "تحديث المنتج";
+    document.getElementById('btn-cancel-offer')!.classList.remove('hidden');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const cancelEditOffer = () => {
+    editingOfferId = null;
+    (document.getElementById('offer-title') as HTMLInputElement).value = '';
+    (document.getElementById('offer-price') as HTMLInputElement).value = '';
+    (document.getElementById('offer-url') as HTMLInputElement).value = '';
+    (document.getElementById('offer-desc') as HTMLTextAreaElement).value = '';
+    currentMainImageBase64 = '';
+
+    document.getElementById('offer-form-title')!.innerText = "إضافة منتج أفلييت جديد";
+    document.getElementById('btn-save-offer')!.innerText = "حفظ المنتج";
+    document.getElementById('btn-cancel-offer')!.classList.add('hidden');
+};
+
 const saveOffer = () => {
     const title = (document.getElementById('offer-title') as HTMLInputElement).value;
     const price = (document.getElementById('offer-price') as HTMLInputElement).value;
     const url = (document.getElementById('offer-url') as HTMLInputElement).value;
     const desc = (document.getElementById('offer-desc') as HTMLTextAreaElement).value;
+    
     if(!title || !price) return alert('يرجى إكمال البيانات');
-    state.offers.unshift({ id: Date.now().toString(), title, price, url, desc, img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", date: new Date().toLocaleDateString('ar-EG') });
-    sync(); renderApp(); alert('تم الحفظ');
+
+    if (editingOfferId) {
+        const index = state.offers.findIndex((o: any) => o.id === editingOfferId);
+        if (index !== -1) {
+            state.offers[index] = {
+                ...state.offers[index],
+                title, price, url, desc,
+                img: currentMainImageBase64 || state.offers[index].img
+            };
+            alert('تم تحديث المنتج بنجاح');
+            cancelEditOffer();
+        }
+    } else {
+        state.offers.unshift({ 
+            id: Date.now().toString(), 
+            title, price, url, desc, 
+            img: currentMainImageBase64 || "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500&h=300&fit=crop", 
+            date: new Date().toLocaleDateString('ar-EG') 
+        });
+        alert('تم إضافة المنتج بنجاح');
+        // Clear inputs
+        (document.getElementById('offer-title') as HTMLInputElement).value = '';
+        (document.getElementById('offer-price') as HTMLInputElement).value = '';
+        (document.getElementById('offer-url') as HTMLInputElement).value = '';
+        (document.getElementById('offer-desc') as HTMLTextAreaElement).value = '';
+        currentMainImageBase64 = '';
+    }
+    
+    sync(); renderApp();
 };
 
 const saveArticle = () => {
@@ -392,12 +467,12 @@ const fileToBase64 = (file: File): Promise<string> => new Promise((r) => { const
 const previewMainImg = async (e: any) => { if(e.target.files[0]) currentMainImageBase64 = await fileToBase64(e.target.files[0]); };
 const previewArtImg = async (e: any) => { if(e.target.files[0]) currentArticleImageBase64 = await fileToBase64(e.target.files[0]); };
 
-function deleteOffer(id: string) { if(confirm('حذف المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); sync(); renderApp(); } }
+function deleteOffer(id: string) { if(confirm('حذف المنتج؟')) { state.offers = state.offers.filter((o:any)=>o.id !== id); if(editingOfferId === id) cancelEditOffer(); sync(); renderApp(); } }
 function deleteArticle(id: string) { if(confirm('حذف المقال؟')) { state.articles = state.articles.filter((a:any)=>a.id !== id); sync(); renderApp(); } }
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, setCategoryFilter,
-    saveOffer, saveArticle, saveSettings, changePassword, previewMainImg, previewArtImg,
+    saveOffer, loadOfferToEdit, cancelEditOffer, saveArticle, saveSettings, changePassword, previewMainImg, previewArtImg,
     deleteOffer, deleteArticle, toggleLoginPassword,
     switchTab: (tabId: string, event: any) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
