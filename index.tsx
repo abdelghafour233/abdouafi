@@ -1,7 +1,7 @@
 
 /**
  * abdouweb - Ultimate Affiliate & Ad Engine
- * Special focus on Temu Morocco & Advanced Ad Injection
+ * Special focus on User Experience: Ads only in the middle of articles.
  */
 
 const STORAGE_KEY = 'abdouweb_pro_v5';
@@ -72,7 +72,7 @@ https://temu.to/k/u6zpr84k5n5`,
 ثالثاً: تطبيق Todoist - البساطة التي تصنع المعجزات
 السر في الإنتاجية ليس في كثرة الأدوات، بل في بساطتها. تودويست يساعدك على جدولة مهامك اليومية مع منبهات ذكية تعتمد ليس فقط على الوقت، بل وعلى موقعك الجغرافي أيضاً. تخيل أن هاتفك يذكرك بشراء مستلزمات المنزل بمجرد اقترابك من المتجر!
 
-نصيحة تقنية من فريق عبدو ويب: لا تحاول تحميل كل هذه التطبيقات مرة واحدة. ابدأ بتطبيق واحد فقط (وننصح بنوتشن) واستمر في استخدامه لمدة أسبوع كامل حتى تعتاد عليه، ثم انتقل للتالي. التدرج هو مفتاح النجاح المستدام في عالم الإنتاجية الرقمية.`, 
+نصيحة تقنية من فريق عبدو ويب: لا تحاول تحميل كل هذه التطبيقات مرة واحدة. ابدأ بتطبيق واحد فقط (وننصح بنوتشن) واستمر في استخدامه لمدة أسبوع كامل حتى تعتاد عليه، ثم انتقال للتالي. التدرج هو مفتاح النجاح المستدام في عالم الإنتاجية الرقمية.`, 
             category: "تطبيقات", 
             img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80" 
         },
@@ -191,6 +191,7 @@ const injectAd = (containerId: string, adCode: string) => {
 
 const refreshAds = () => {
     setTimeout(() => {
+        // Keep global safe slots but avoid aggressive internal content injection
         injectAd('ad-slot-1-safe-container', state.ads.code1);
         injectAd('ad-slot-2-safe-container', state.ads.code2);
         const hLink = document.getElementById('header-smart-link') as HTMLAnchorElement;
@@ -246,7 +247,6 @@ const viewArticle = (id: string) => {
         const firstHalf = paragraphs.slice(0, midIndex).join('\n\n');
         const secondHalf = paragraphs.slice(midIndex).join('\n\n');
         
-        // Define specific CTA for Temu if it's the temu article
         const isTemu = a.id === 'temu-morocco';
         const temuLink = "https://temu.to/k/u6zpr84k5n5";
 
@@ -258,6 +258,7 @@ const viewArticle = (id: string) => {
                     
                     <div class="text-lg md:text-xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${firstHalf}</div>
                     
+                    <!-- Only Ad Slot In The Middle of the Article -->
                     <div id="in-article-ad-mid" class="my-10 flex justify-center w-full min-h-[120px] bg-gray-50/50 dark:bg-gray-800/20 rounded-2xl"></div>
 
                     <div class="py-12 px-6 flex flex-col items-center gap-6 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/10 rounded-[3rem] border-2 border-orange-200 dark:border-orange-800/30 relative overflow-hidden group">
@@ -276,13 +277,12 @@ const viewArticle = (id: string) => {
                         ${getShareButtonsHtml(a.title)}
                     </div>
 
-                    <div id="in-article-ad-bottom" class="my-10 flex justify-center w-full min-h-[120px] bg-gray-50/50 dark:bg-gray-800/20 rounded-2xl"></div>
+                    <!-- Removed Bottom Ad to respect "Only in the middle" request -->
                 </div>
             </div>
         `;
         setTimeout(() => {
             injectAd('in-article-ad-mid', state.ads.inArticle1);
-            injectAd('in-article-ad-bottom', state.ads.inArticle2);
         }, 500);
     }
     showPage('article-detail');
@@ -330,32 +330,24 @@ const render = () => {
 
     const fullGrid = document.getElementById('offers-full-grid');
     if (fullGrid) {
-        let itemsHtml = state.offers.map((o, index) => {
-            let html = `
-                <div class="group bg-white dark:bg-gray-900 p-5 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all flex flex-col">
-                    <div class="overflow-hidden rounded-2xl mb-5 aspect-square">
-                        <img src="${o.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <h4 class="font-black text-lg mb-2 line-clamp-1">${o.title}</h4>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-orange-600 font-black text-xl">${o.price}</span>
-                    </div>
-                    <a href="${state.ads.smartlink1}" target="_blank" class="block w-full text-center bg-gray-900 dark:bg-orange-600 text-white py-3.5 rounded-xl font-black text-xs shadow-lg shadow-orange-600/20 transition-all mb-4">اطلب الآن</a>
-                    
-                    <div class="border-t border-gray-100 dark:border-gray-800 pt-3 mt-auto">
-                        <p class="text-center text-[10px] font-bold text-gray-400 mb-2">شارك العرض</p>
-                        ${getShareButtonsHtml(o.title)}
-                    </div>
+        fullGrid.innerHTML = state.offers.map((o) => `
+            <div class="group bg-white dark:bg-gray-900 p-5 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all flex flex-col">
+                <div class="overflow-hidden rounded-2xl mb-5 aspect-square">
+                    <img src="${o.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 </div>
-            `;
-            if (index === 1) html += `
-                <div id="grid-ad-slot" class="col-span-full py-8 flex justify-center w-full min-h-[120px] bg-gray-50 dark:bg-gray-800/20 rounded-[2rem] border-2 border-dashed border-gray-200 dark:border-gray-800">
-                    <p class="text-[10px] text-gray-400 self-center">مساحة إعلانية</p>
-                </div>`;
-            return html;
-        }).join('');
-        fullGrid.innerHTML = itemsHtml;
-        setTimeout(() => injectAd('grid-ad-slot', state.ads.inArticle1), 600);
+                <h4 class="font-black text-lg mb-2 line-clamp-1">${o.title}</h4>
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-orange-600 font-black text-xl">${o.price}</span>
+                </div>
+                <a href="${state.ads.smartlink1}" target="_blank" class="block w-full text-center bg-gray-900 dark:bg-orange-600 text-white py-3.5 rounded-xl font-black text-xs shadow-lg shadow-orange-600/20 transition-all mb-4">اطلب الآن</a>
+                
+                <div class="border-t border-gray-100 dark:border-gray-800 pt-3 mt-auto">
+                    <p class="text-center text-[10px] font-bold text-gray-400 mb-2">شارك العرض</p>
+                    ${getShareButtonsHtml(o.title)}
+                </div>
+            </div>
+        `).join('');
+        // Removed grid ad slot to prevent annoyance as per user request
     }
 };
 
