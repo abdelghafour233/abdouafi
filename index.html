@@ -38,9 +38,19 @@
             border: none;
             width: 100%;
             max-width: 728px;
-            height: 150px;
+            height: 280px; /* زيادة الطول لتناسب البنرات */
             margin: 0 auto;
             display: block;
+        }
+        .in-article-ad {
+            margin: 30px 0;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .dark .in-article-ad {
+            background: #1e293b;
         }
     </style>
 </head>
@@ -115,7 +125,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="md:col-span-1 space-y-3">
                     <button onclick="switchTab('tab-content')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-orange-600 text-white font-black">المحتوى</button>
-                    <button onclick="switchTab('tab-ads')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-white dark:bg-gray-800 font-black">الإعلانات المعزولة</button>
+                    <button onclick="switchTab('tab-ads')" class="admin-nav-btn w-full p-4 text-right rounded-2xl bg-white dark:bg-gray-800 font-black">نظام الإعلانات</button>
                     <button onclick="location.reload()" class="w-full p-4 text-right rounded-2xl bg-red-50 dark:bg-red-900/10 text-red-600 font-black mt-10">تسجيل الخروج</button>
                 </div>
                 <div class="md:col-span-3 bg-white dark:bg-gray-900 p-10 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm">
@@ -128,13 +138,18 @@
                         </div>
                     </div>
                     <div id="tab-ads" class="admin-tab hidden space-y-6">
-                        <h3 class="text-xl font-black text-orange-600">نظام الإعلانات المعزولة (Anti-Hijack)</h3>
-                        <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl text-blue-800 dark:text-blue-200 text-sm leading-relaxed">
-                            <strong>كيف يعمل النظام:</strong> الموقع يقوم بإنشاء <b>Sandbox Iframe</b> لكل كود إعلاني. هذا يعني أن الإعلان "مسجون" تقنياً داخل إطار في الأسفل، ولا يمكنه أبداً الشعور بنقرات المستخدم على أزرار "إقرأ المزيد" أو "شراء". 
-                        </div>
-                        <div class="space-y-4">
-                            <textarea id="ad-code-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-32" placeholder="ألصق كود الإعلان الأول هنا"></textarea>
-                            <textarea id="ad-code-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-32" placeholder="ألصق كود الإعلان الثاني هنا"></textarea>
+                        <h3 class="text-xl font-black text-orange-600">توزيع الإعلانات المعزولة</h3>
+                        <div class="space-y-8">
+                            <div>
+                                <h4 class="font-black mb-3 text-sm">إعلانات ثابتة (أسفل الموقع):</h4>
+                                <textarea id="ad-code-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-24 mb-3" placeholder="كود الإعلان السفلي 1"></textarea>
+                                <textarea id="ad-code-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-24" placeholder="كود الإعلان السفلي 2"></textarea>
+                            </div>
+                            <div>
+                                <h4 class="font-black mb-3 text-sm">إعلانات داخل المقال (Adsterra):</h4>
+                                <textarea id="ad-in-article-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-24 mb-3" placeholder="كود الإعلان وسط المقال"></textarea>
+                                <textarea id="ad-in-article-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs h-24" placeholder="كود الإعلان نهاية المقال"></textarea>
+                            </div>
                             <button onclick="saveAds()" class="bg-orange-600 text-white px-12 py-4 rounded-2xl font-black shadow-lg shadow-orange-600/30">تحديث وحماية الموقع</button>
                         </div>
                     </div>
