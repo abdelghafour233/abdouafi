@@ -1,10 +1,10 @@
 
 /**
  * abdouweb - Ultimate Affiliate & Ad Engine
- * Special focus on Social Sharing & In-Article Ad Injection
+ * Special focus on Temu Morocco & Advanced Ad Injection
  */
 
-const STORAGE_KEY = 'abdouweb_pro_v4';
+const STORAGE_KEY = 'abdouweb_pro_v5';
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب",
@@ -37,6 +37,27 @@ const INITIAL_DATA = {
         smartlink1: "https://bouncingbuzz.com/ctpynfts0?key=a6c7eb53025d8d39c467b947581bb153"
     },
     articles: [
+        { 
+            id: "temu-morocco", 
+            title: "تيمو في المغرب: كيف تستفيد من التوصيل المجاني وقسيمة 1000 درهم للهدايا؟", 
+            body: `لقد أحدثت منصة تيمو (Temu) ثورة حقيقية في عالم التسوق الإلكتروني بالمغرب مؤخراً. بفضل أسعارها التنافسية وتشكيلة المنتجات الهائلة، أصبح المغاربة يفضلونها على منصات عالمية أخرى. في هذا المقال، سنشرح لكم كيف تحققون أقصى استفادة من هذا المتجر العملاق وكيف تحصلون على هداياكم مجاناً.
+
+أولاً: ميزة التوصيل المجاني إلى باب البيت بالمغرب
+من أكبر العوائق التي كانت تواجه المتسوق المغربي هي تكاليف الشحن الدولي والجمارك المعقدة. تيمو قدمت حلاً سحرياً من خلال التوصيل المجاني لأغلب الطلبيات المتجهة للمغرب. ليس هذا فحسب، بل إن نظام تيمو اللوجستي الجديد أصبح يتعامل مع إجراءات الجمارك بشكل مسبق وسلس، مما يضمن وصول مشترياتك في وقت قياسي ودون دفع مبالغ خيالية عند الاستلام.
+
+ثانياً: قسيمة 1000 درهم للمنخرطين الجدد
+هذا هو الجزء الأهم! إذا كنت مستخدماً جديداً أو لم تقم بتحميل التطبيق بعد، فأنت مؤهل للحصول على حزمة قسائم شراء (Coupons) تصل قيمتها الإجمالية إلى 1000 درهم مغربي. هذه القسيمة ليست مجرد رقم، بل هي خصومات حقيقية تمكنك من شراء ملابس، أدوات منزلية، أو إكسسوارات إلكترونية بأسعار قد لا تتجاوز 10 دراهم للقطعة الواحدة.
+
+ثالثاً: هدايا متنوعة ومجانية بالكامل
+تيمو لا تكتفي بالخصومات، بل لديها نظام هدايا "مجانية تماماً". عبر المشاركة في بعض الأنشطة البسيطة داخل التطبيق أو التسجيل من الروابط الترويجية الرسمية، يمكنك اختيار منتجات معينة ليتم شحنها لك بالمجان كهدية ترحيبية.
+
+نصيحة عبدو ويب: العروض في تيمو المغرب تتغير يومياً، لذا ننصح دائماً بالتسجيل فوراً وتفعيل قسيمة الـ 1000 درهم لضمان عدم ضياع الفرصة عليك.
+
+اغتنم الفرصة الآن: احصل على قسيمة 1000 درهم وهداياك المجانية من الرابط الرسمي أدناه 👇
+https://temu.to/k/u6zpr84k5n5`, 
+            category: "تسوق", 
+            img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=80" 
+        },
         { 
             id: "a1", 
             title: "دليل أفضل 5 تطبيقات لزيادة الإنتاجية في عام 2025", 
@@ -158,10 +179,8 @@ const injectAd = (containerId: string, adCode: string) => {
     const scripts = Array.from(wrapper.querySelectorAll('script'));
     const nonScripts = Array.from(wrapper.childNodes).filter(node => node.nodeName !== 'SCRIPT');
     
-    // Append non-script elements
     nonScripts.forEach(node => container.appendChild(node.cloneNode(true)));
     
-    // Append and execute scripts
     scripts.forEach(oldScript => {
         const newScript = document.createElement('script');
         Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -227,6 +246,10 @@ const viewArticle = (id: string) => {
         const firstHalf = paragraphs.slice(0, midIndex).join('\n\n');
         const secondHalf = paragraphs.slice(midIndex).join('\n\n');
         
+        // Define specific CTA for Temu if it's the temu article
+        const isTemu = a.id === 'temu-morocco';
+        const temuLink = "https://temu.to/k/u6zpr84k5n5";
+
         content.innerHTML = `
             <div class="space-y-8 animate-in fade-in duration-500">
                 <img src="${a.img}" class="w-full h-[300px] md:h-[500px] object-cover rounded-[2.5rem] shadow-2xl">
@@ -237,9 +260,13 @@ const viewArticle = (id: string) => {
                     
                     <div id="in-article-ad-mid" class="my-10 flex justify-center w-full min-h-[120px] bg-gray-50/50 dark:bg-gray-800/20 rounded-2xl"></div>
 
-                    <div class="py-10 px-6 flex flex-col items-center gap-6 bg-orange-50 dark:bg-orange-900/10 rounded-[3rem] border border-orange-100 dark:border-orange-800/30">
-                        <p class="text-xl font-black text-center">اغتنم العرض الحصري من عبدو ويب!</p>
-                        <a href="${state.ads.smartlink1}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-12 py-4 rounded-2xl font-black text-lg hover:scale-105 transition shadow-2xl shadow-orange-600/30">مشاهدة العرض الآن ←</a>
+                    <div class="py-12 px-6 flex flex-col items-center gap-6 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/10 rounded-[3rem] border-2 border-orange-200 dark:border-orange-800/30 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 bg-orange-600 text-white text-[10px] font-black rounded-bl-3xl shadow-lg">حصري للمغاربة 🇲🇦</div>
+                        <p class="text-2xl font-black text-center text-gray-900 dark:text-white">${isTemu ? '🎁 احصل على قسيمتك وهداياك الآن!' : 'اغتنم العرض الحصري من عبدو ويب!'}</p>
+                        <p class="text-sm text-center font-bold text-gray-600 dark:text-gray-400">توصيل مجاني + قسيمة شراء بقيمة 1000 درهم للمنخرطين الجدد عبر هذا الرابط فقط</p>
+                        <a href="${isTemu ? temuLink : state.ads.smartlink1}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-14 py-5 rounded-2xl font-black text-xl hover:scale-110 transition-all shadow-2xl shadow-orange-600/40 ring-4 ring-orange-400/20">
+                            ${isTemu ? 'اضغط هنا لتفعيل العرض ⚡' : 'مشاهدة العرض الآن ←'}
+                        </a>
                     </div>
 
                     <div class="text-lg md:text-xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${secondHalf}</div>
@@ -253,7 +280,6 @@ const viewArticle = (id: string) => {
                 </div>
             </div>
         `;
-        // Delay to ensure DOM is ready for script injection
         setTimeout(() => {
             injectAd('in-article-ad-mid', state.ads.inArticle1);
             injectAd('in-article-ad-bottom', state.ads.inArticle2);
@@ -322,7 +348,6 @@ const render = () => {
                     </div>
                 </div>
             `;
-            // Add an ad slot after the second offer
             if (index === 1) html += `
                 <div id="grid-ad-slot" class="col-span-full py-8 flex justify-center w-full min-h-[120px] bg-gray-50 dark:bg-gray-800/20 rounded-[2rem] border-2 border-dashed border-gray-200 dark:border-gray-800">
                     <p class="text-[10px] text-gray-400 self-center">مساحة إعلانية</p>
