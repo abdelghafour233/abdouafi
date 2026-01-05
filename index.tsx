@@ -1,7 +1,7 @@
 
 /**
- * abdouweb - Absolute Ad Isolation Engine with In-Article Ads
- * Supports dynamic injection of ads into content.
+ * abdouweb - Absolute Ad Isolation & Direct Injection Engine
+ * Updated to support Adsterra and modern ad networks.
  */
 
 const STORAGE_KEY = 'abdouweb_pro_v2';
@@ -10,10 +10,20 @@ const INITIAL_DATA = {
     siteName: "عبدو ويب",
     adminPass: "admin",
     ads: {
-        code1: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
-        code2: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script><div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
-        inArticle1: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
-        inArticle2: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script>`
+        code1: `<!-- Adsterra Native Banner Placeholder -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : '188b2d4248e4748cda209b5a7c18dcb0',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/188b2d4248e4748cda209b5a7c18dcb0/invoke.js"></script>`,
+        code2: `<div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
+        inArticle1: `<!-- In-Article Ad 1 -->`,
+        inArticle2: `<!-- In-Article Ad 2 -->`
     },
     articles: [
         { 
@@ -49,46 +59,37 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-const injectSafeAd = (containerId: string, adCode: string) => {
+/**
+ * Injects ad code directly into the DOM. 
+ * This is necessary for Adsterra/AdSense to run their scripts correctly.
+ */
+const injectAd = (containerId: string, adCode: string) => {
     const container = document.getElementById(containerId);
-    if (!container || !adCode || !adCode.trim()) return;
+    if (!container || !adCode || !adCode.trim()) {
+        if (container) container.style.display = 'none';
+        return;
+    }
 
+    container.style.display = 'block';
     container.innerHTML = '';
-    const iframe = document.createElement('iframe');
-    iframe.className = 'ad-sandbox-iframe';
-    iframe.title = 'Isolated Ad Content';
-    // Use sandbox to prevent top-level redirects and other hijacking
-    iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-forms allow-same-origin');
-
-    const html = `
-        <!DOCTYPE html>
-        <html dir="rtl">
-        <head>
-            <style>
-                body { margin: 0; padding: 0; display: flex; justify-content: center; overflow: hidden; height: 100%; }
-                #ad-wrapper { width: 100%; text-align: center; }
-            </style>
-        </head>
-        <body>
-            <div id="ad-wrapper">${adCode}</div>
-        </body>
-        </html>
-    `;
-
-    container.appendChild(iframe);
-    const doc = iframe.contentWindow?.document || iframe.contentDocument;
-    if (doc) {
-        doc.open();
-        doc.write(html);
-        doc.close();
+    
+    try {
+        const range = document.createRange();
+        const fragment = range.createContextualFragment(adCode);
+        container.appendChild(fragment);
+    } catch (e) {
+        console.error("Ad Injection Error:", e);
+        // Fallback to basic innerHTML if range fails
+        container.innerHTML = adCode;
     }
 };
 
 const refreshAds = () => {
+    // Small delay to ensure placeholders are in DOM
     setTimeout(() => {
-        injectSafeAd('ad-slot-1-safe-container', state.ads.code1);
-        injectSafeAd('ad-slot-2-safe-container', state.ads.code2);
-    }, 600);
+        injectAd('ad-slot-1-safe-container', state.ads.code1);
+        injectAd('ad-slot-2-safe-container', state.ads.code2);
+    }, 300);
 };
 
 const shareTo = (platform: string, title: string, url: string = window.location.href) => {
@@ -119,6 +120,7 @@ const showPage = (id: string) => {
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    refreshAds();
 };
 
 const handleLogin = () => {
@@ -133,7 +135,7 @@ const saveAds = () => {
     state.ads.inArticle2 = (document.getElementById('ad-in-article-2') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshAds();
-    alert('تم تحديث جميع الوحدات الإعلانية بنجاح.');
+    alert('تم تحديث الوحدات الإعلانية. إذا لم تظهر فوراً، يرجى التأكد من أنك لا تستخدم AdBlocker.');
 };
 
 const viewArticle = (id: string) => {
@@ -141,7 +143,6 @@ const viewArticle = (id: string) => {
     if (!a) return;
     const content = document.getElementById('article-full-content');
     if (content) {
-        // Split body to inject ad after first paragraph
         const paragraphs = a.body.split('\n\n');
         const firstPara = paragraphs[0];
         const restOfParas = paragraphs.slice(1).join('\n\n');
@@ -158,14 +159,14 @@ const viewArticle = (id: string) => {
                     </div>
 
                     <!-- IN-ARTICLE AD 1 -->
-                    <div id="in-article-ad-slot-1" class="in-article-ad"></div>
+                    <div id="in-article-ad-slot-1" class="in-article-ad min-h-[100px] empty:hidden"></div>
 
                     <div class="text-xl md:text-2xl leading-relaxed text-gray-600 dark:text-gray-300 whitespace-pre-line font-medium">
                         ${restOfParas}
                     </div>
 
                     <!-- IN-ARTICLE AD 2 -->
-                    <div id="in-article-ad-slot-2" class="in-article-ad"></div>
+                    <div id="in-article-ad-slot-2" class="in-article-ad min-h-[100px] empty:hidden"></div>
                     
                     <div class="pt-10 border-t dark:border-gray-800">
                         <h4 class="text-xl font-black mb-6">شارك هذه المعلومات:</h4>
@@ -179,11 +180,11 @@ const viewArticle = (id: string) => {
             </div>
         `;
         
-        // Inject Ads after rendering placeholders
+        // Dynamic injection into article slots
         setTimeout(() => {
-            injectSafeAd('in-article-ad-slot-1', state.ads.inArticle1);
-            injectSafeAd('in-article-ad-slot-2', state.ads.inArticle2);
-        }, 100);
+            injectAd('in-article-ad-slot-1', state.ads.inArticle1);
+            injectAd('in-article-ad-slot-2', state.ads.inArticle2);
+        }, 300);
     }
     showPage('article-detail');
 };
