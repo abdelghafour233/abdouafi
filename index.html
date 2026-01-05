@@ -7,6 +7,8 @@
     <title>عبدو ويب abdouweb | تقنية وأفلييت</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Anti-Adblock Script -->
+    <script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>
     <script>
         window.tailwind.config = {
             darkMode: 'class',
@@ -82,8 +84,11 @@
         <!-- Home View -->
         <div id="page-home" class="page-view space-y-12 md:y-20">
             <section class="text-center space-y-4 py-6 md:py-10">
-                <h1 class="text-4xl md:text-7xl font-black leading-tight">عالم التقنية في <span class="text-orange-600">متناول يدك</span></h1>
+                <h1 class="text-4xl md:text-7xl font-black leading-tight text-gray-900 dark:text-white">عالم التقنية في <span class="text-orange-600">متناول يدك</span></h1>
                 <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-base md:text-lg font-medium">أفضل المراجعات والصفقات التي ننتقيها بعناية لتناسب احتياجاتك.</p>
+                <div class="pt-4">
+                    <a id="header-smart-link" href="#" target="_blank" class="inline-block bg-orange-600 text-white px-8 py-3 rounded-full font-black text-sm shadow-xl shadow-orange-600/30 hover:scale-105 transition-transform">اكتشف عرض اليوم الحصري</a>
+                </div>
             </section>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
@@ -92,6 +97,7 @@
                     <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
                         <h3 class="text-lg md:text-xl font-black mb-6">عروض اليوم الحصرية</h3>
                         <div id="offers-sidebar" class="space-y-4"></div>
+                        <a id="sidebar-smart-link" href="#" target="_blank" class="mt-6 block w-full text-center bg-gray-100 dark:bg-gray-800 py-3 rounded-xl font-black text-[10px] text-orange-600">مشاهدة المزيد من العروض ←</a>
                     </div>
                 </aside>
             </div>
@@ -108,7 +114,7 @@
         <!-- Offers View -->
         <div id="page-offers" class="page-view hidden">
             <h2 class="text-3xl md:text-4xl font-black mb-10">اكتشف أفضل الصفقات</h2>
-            <div id="offers-full-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"></div>
+            <div id="offers-full-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"></div>
         </div>
 
         <!-- Login -->
@@ -141,14 +147,18 @@
                         <h3 class="text-lg font-black text-orange-600">نظام الإعلانات (Adsterra)</h3>
                         <div class="space-y-8">
                             <div>
-                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات أسفل الموقع:</h4>
-                                <textarea id="ad-code-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود البانر 728x90"></textarea>
-                                <textarea id="ad-code-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود البانر 300x250"></textarea>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات الموقع العامة:</h4>
+                                <textarea id="ad-code-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود البانر الرئيسي"></textarea>
+                                <textarea id="ad-code-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود البانر الجانبي"></textarea>
                             </div>
                             <div>
-                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات داخل المقال:</h4>
-                                <textarea id="ad-in-article-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود الإعلان العلوي"></textarea>
-                                <textarea id="ad-in-article-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود الإعلان السفلي"></textarea>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات داخل المقالات والمنتجات:</h4>
+                                <textarea id="ad-in-article-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود الإعلان في المنتصف (Native)"></textarea>
+                                <textarea id="ad-in-article-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود الإعلان في النهاية"></textarea>
+                            </div>
+                            <div>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">رابط مباشر (Smartlink):</h4>
+                                <input type="text" id="ad-smartlink-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs outline-none border border-orange-600/20" placeholder="https://your-smartlink-url.com">
                             </div>
                             <button onclick="saveAds()" class="bg-orange-600 text-white px-10 py-3 rounded-xl font-black shadow-lg shadow-orange-600/30 text-sm">حفظ وتنشيط</button>
                         </div>
