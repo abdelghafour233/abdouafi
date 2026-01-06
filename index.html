@@ -7,8 +7,8 @@
     <title>عبدو ويب abdouweb | تقنية وأفلييت</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- Anti-Adblock Script -->
-    <script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>
+    <!-- Anti-Adblock & Social Bar Script Placeholder -->
+    <div id="social-bar-container"></div>
     <script>
         window.tailwind.config = {
             darkMode: 'class',
@@ -24,30 +24,14 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .in-article-ad {
-            margin: 25px 0;
-            width: 100%;
+        .ad-slot {
+            margin: 15px auto;
             display: flex;
             justify-content: center;
-        }
-
-        #ad-slot-1-safe-container, #ad-slot-2-safe-container {
-            display: flex;
-            justify-content: center;
+            align-items: center;
+            min-height: 90px;
             width: 100%;
             overflow: hidden;
-        }
-
-        #safe-ad-footer-zone {
-            margin-top: auto;
-            border-top: 1px solid #f1f5f9;
-            background: #ffffff;
-            padding: 30px 0;
-            text-align: center;
-        }
-        .dark #safe-ad-footer-zone {
-            background: #0f172a;
-            border-top-color: #1e293b;
         }
         
         /* Custom Scrollbar */
@@ -57,6 +41,9 @@
     </style>
 </head>
 <body class="bg-[#f8fafc] dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Top Banner Ad -->
+    <div id="top-global-ad" class="ad-slot bg-gray-50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-800"></div>
 
     <!-- Header -->
     <header class="sticky top-0 z-[100] bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
@@ -92,13 +79,18 @@
             </section>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
-                <div class="lg:col-span-8 space-y-8 md:space-y-10" id="articles-list"></div>
+                <div class="lg:col-span-8 space-y-8 md:space-y-10">
+                    <div id="home-native-ad" class="ad-slot"></div>
+                    <div id="articles-list"></div>
+                </div>
                 <aside class="lg:col-span-4 space-y-8">
                     <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
                         <h3 class="text-lg md:text-xl font-black mb-6">عروض اليوم الحصرية</h3>
                         <div id="offers-sidebar" class="space-y-4"></div>
                         <a id="sidebar-smart-link" href="#" target="_blank" class="mt-6 block w-full text-center bg-gray-100 dark:bg-gray-800 py-3 rounded-xl font-black text-[10px] text-orange-600">مشاهدة المزيد من العروض ←</a>
                     </div>
+                    <!-- Sidebar Banner Ad -->
+                    <div id="sidebar-ad-slot" class="ad-slot bg-white dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800"></div>
                 </aside>
             </div>
         </div>
@@ -109,6 +101,8 @@
                 <span>←</span> العودة للرئيسية
             </button>
             <div id="article-full-content"></div>
+            <!-- End of Article Native Ad -->
+            <div id="end-article-ad" class="ad-slot my-12 min-h-[250px] bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-100 dark:border-gray-800"></div>
         </div>
 
         <!-- Offers View -->
@@ -147,20 +141,24 @@
                         <h3 class="text-lg font-black text-orange-600">نظام الإعلانات (Adsterra)</h3>
                         <div class="space-y-8">
                             <div>
-                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات الموقع العامة:</h4>
-                                <textarea id="ad-code-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود البانر الرئيسي"></textarea>
-                                <textarea id="ad-code-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود البانر الجانبي"></textarea>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات الموقع العامة (Banners):</h4>
+                                <textarea id="ad-code-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود البانر العلوي (728x90)"></textarea>
+                                <textarea id="ad-code-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود البانر الجانبي (300x250)"></textarea>
                             </div>
                             <div>
-                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات داخل المقالات والمنتجات:</h4>
-                                <textarea id="ad-in-article-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود الإعلان في المنتصف (Native)"></textarea>
-                                <textarea id="ad-in-article-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود الإعلان في النهاية"></textarea>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">إعلانات داخل المقالات والنهاية (Native/In-Feed):</h4>
+                                <textarea id="ad-in-article-1" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24 mb-3" placeholder="كود الإعلان في منتصف المقال"></textarea>
+                                <textarea id="ad-in-article-2" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="كود الإعلان في نهاية المقال (Native)"></textarea>
+                            </div>
+                            <div>
+                                <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">كود الـ Social Bar (أعلى أرباح):</h4>
+                                <textarea id="ad-social-bar" class="w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-[10px] h-24" placeholder="ألصق كود Social Bar هنا"></textarea>
                             </div>
                             <div>
                                 <h4 class="font-black mb-3 text-xs uppercase tracking-widest text-gray-400">رابط مباشر (Smartlink):</h4>
                                 <input type="text" id="ad-smartlink-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl font-mono text-xs outline-none border border-orange-600/20" placeholder="https://your-smartlink-url.com">
                             </div>
-                            <button onclick="saveAds()" class="bg-orange-600 text-white px-10 py-3 rounded-xl font-black shadow-lg shadow-orange-600/30 text-sm">حفظ وتنشيط</button>
+                            <button onclick="saveAds()" class="bg-orange-600 text-white px-10 py-3 rounded-xl font-black shadow-lg shadow-orange-600/30 text-sm">حفظ وتفعيل الأرباح</button>
                         </div>
                     </div>
                 </div>
@@ -168,16 +166,9 @@
         </div>
     </main>
 
-    <!-- FOOTER AD ZONE -->
-    <div id="safe-ad-footer-zone">
-        <div class="container mx-auto px-4">
-            <div id="ad-slot-1-safe-container" class="mb-6"></div>
-            <div id="ad-slot-2-safe-container"></div>
-        </div>
-    </div>
-
     <footer class="bg-white dark:bg-gray-900 py-10 border-t border-gray-100 dark:border-gray-800">
         <div class="container mx-auto px-4 text-center">
+            <div id="footer-ad-slot" class="ad-slot opacity-50 hover:opacity-100 transition mb-6"></div>
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">© 2025 عبدو ويب - جميع الحقوق محفوظة</p>
         </div>
     </footer>
