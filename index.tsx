@@ -1,10 +1,10 @@
 
 /**
- * abdouweb - Ultimate Affiliate & Ad Engine
- * Optimized for Revenue: Multi-slot ad injection and Smartlink integration.
+ * abdouweb - Ultimate Affiliate & Ad Engine (REVENUE MAXIMIZER V6)
+ * Focused on: Popunders, High-CTR Buttons, and Global Monetization.
  */
 
-const STORAGE_KEY = 'abdouweb_pro_v5';
+const STORAGE_KEY = 'abdouweb_pro_v6';
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب",
@@ -19,53 +19,56 @@ const INITIAL_DATA = {
     },
     articles: [
         {
+            id: "free-ai-tools-2025",
+            title: "أفضل 10 أدوات ذكاء اصطناعي مجانية في 2025 (بدائل ChatGPT المدفوعة)",
+            body: `هل تبحث عن قوة الذكاء الاصطناعي دون دفع اشتراكات شهرية؟ في هذا المقال الحصري على عبدو ويب، جمعنا لك قائمة بأفضل الأدوات التي تمنحك نتائج احترافية مجاناً تماماً.
+
+1. أداة توليد الصور العصبية:
+تعتبر هذه الأداة البديل الأقوى لـ Midjourney، حيث تتيح لك إنشاء صور بدقة 4K عبر أوامر نصية بسيطة. (يمكنك تجربة الأداة عبر رابط الوصول السريع بالأسفل).
+
+2. مساعد البرمجة الذكي:
+إذا كنت مبرمجاً أو هاوياً، فهذه الأداة ستكتب لك الكود وتصحح الأخطاء فوراً. 
+
+كيفية الوصول لهذه الأدوات؟
+لقد وفرنا لكم روابط الوصول المباشر والسيرفرات السريعة لضمان أفضل تجربة مستخدم. كل ما عليك هو الضغط على زر "تفعيل الوصول" وتخطي الاختبار الأمني البسيط.`,
+            category: "تقنية",
+            img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80"
+        },
+        {
             id: "adsterra-profit-strategy",
             title: "كيف تضاعف أرباحك من أدستيرا (Adsterra)؟ 5 أسرار يجهلها الكثيرون",
             body: `إذا وجدت أن أرباحك في أدستيرا قليلة، فأنت غالباً ترتكب أخطاء شائعة في توزيع الإعلانات أو نوعية الزوار. إليك كيف تعالج هذا الأمر وتصل إلى 10$ يومياً كبداية.
 
-أولاً: لا تعتمد على نوع واحد من الإعلانات
-أكبر خطأ هو وضع بانر واحد فقط. أدستيرا تقدم "Social Bar" وهو الإعلان الأعلى ربحاً حالياً لأنه يظهر كإشعار على هاتف المستخدم ولا يتأثر بمانع الإعلانات (AdBlock) بشكل كبير. قمنا في هذا التحديث بتفعيل مكان خاص له في موقعك.
-
-ثانياً: استهدف الدول ذات الـ CPM المرتفع
-إذا كان أغلب زوارك من دول ذات عائد منخفض، فستكون أرباحك قليلة. حاول كتابة مقالات باللغة الإنجليزية أو استهداف دول الخليج (السعودية، الإمارات) حيث يصل الـ CPM لأرقام ممتازة.
-
-ثالثاً: استخدم الـ Smartlink بذكاء
-الرابط المباشر (Smartlink) هو منجم ذهب. بدلاً من وضعه كإعلان مزعج، ضعه خلف أزرار "تحميل" أو "مشاهدة العرض". الزائر عندما يضغط على زر هو يتوقع الانتقال لمكان آخر، لذا لن ينزعج إذا ظهر له إعلان أدستيرا الذكي.
-
-رابعاً: استراتيجية إعلانات الـ Native
-الزوار يكرهون البانرات التقليدية. إعلانات Native تظهر كأنها مقالات مقترحة في نهاية الصفحة. قمنا بإضافة كود خاص لها في نهاية كل مقال بمدونتك لزيادة نسبة النقر (CTR).
-
-خامساً: جودة المحتوى وتصدر النتائج
-كلما قضى الزائر وقتاً أطول في القراءة، زادت فرص ظهور الإعلانات المتغيرة له (Refresh)، مما يضاعف الربح من نفس الزائر الواحد.`,
+أولاً: لا تعتمد على نوع واحد من الإعلانات.
+ثانياً: استهدف الدول ذات الـ CPM المرتفع.
+ثالثاً: استخدم الـ Smartlink بذكاء خلف أزرار التحميل.
+رابعاً: استراتيجية إعلانات الـ Native في نهاية الصفحة.
+خامساً: جودة المحتوى لزيادة وقت الجلسة.`,
             category: "استراتيجيات الربح",
             img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
-        },
-        {
-            id: "affiliate-marketing-2025",
-            title: "التسويق بالعمولة (Affiliate Marketing): دليل المبتدئين لتحقيق آلاف الدولارات في 2025",
-            body: `يعتبر التسويق بالعمولة (Affiliate Marketing) أحد أقوى وأسرع الطرق لتحقيق دخل مادي محترم عبر الإنترنت دون الحاجة لامتلك منتج خاص بك. في هذا الدليل، سنشرح لك كيف تبدأ رحلتك في هذا المجال من الصفر حتى الاحتراف.
-
-ما هو التسويق بالعمولة ببساطة؟
-هو عملية ترويج لمنتجات أو خدمات تابعة لشركات أخرى مقابل عمولة محددة عن كل عملية بيع أو إجراء يتم من خلال رابطك الخاص. أنت تلعب دور الوسيط بين البائع والمشتري، وكلما زادت مبيعاتك، زادت أرباحك.
-
-لماذا الأفلييت هو الخيار الأفضل؟
-1. تكلفة منخفضة جداً.
-2. لا حاجة لخدمة عملاء.
-3. إمكانية تحقيق دخل سلبي مستمر.`,
-            category: "الربح من الإنترنت",
-            img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80"
         }
     ],
     offers: [
         { id: "o1", title: "آيفون 16 برو ماكس - عرض محدود", price: "4,500 ريال", img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=400", url: "#" },
-        { id: "o2", title: "سماعات سوني عازلة للضوضاء", price: "1,100 ريال", img: "https://images.unsplash.com/photo-1644990861622-38d7c2b655f4?w=400", url: "#" },
-        { id: "o3", title: "ماك بوك اير M3 نسخة 2025", price: "5,900 ريال", img: "https://images.unsplash.com/photo-1517336714460-4c9889a10acc?w=400", url: "#" },
-        { id: "o4", title: "ساعة ابل الترا 2 الأصلية", price: "2,400 ريال", img: "https://images.unsplash.com/photo-1434494878577-86c23bdd0639?w=400", url: "#" }
+        { id: "o2", title: "سماعات سوني عازلة للضوضاء", price: "1,100 ريال", img: "https://images.unsplash.com/photo-1644990861622-38d7c2b655f4?w=400", url: "#" }
     ]
 };
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
+let hasPopped = false;
+
+// Revenue Function: First Click Popunder
+const initRevenueEngine = () => {
+    document.addEventListener('click', () => {
+        if (!hasPopped && state.ads.smartlink1 && !isLogged) {
+            window.open(state.ads.smartlink1, '_blank');
+            hasPopped = true;
+            // Reset after 5 minutes to allow another pop if they stay long
+            setTimeout(() => { hasPopped = false; }, 300000);
+        }
+    }, { once: false });
+};
 
 const injectAd = (containerId: string, adCode: string) => {
     const container = document.getElementById(containerId);
@@ -140,7 +143,7 @@ const saveAds = () => {
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshGlobalAds();
-    alert('تم حفظ الإعدادات بنجاح. ستلاحظ تحسناً في الأرباح قريباً!');
+    alert('تم تفعيل محرك الأرباح القصوى بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -160,12 +163,22 @@ const viewArticle = (id: string) => {
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
                     <div class="text-lg md:text-xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${firstHalf}</div>
                     
+                    <!-- HIGH CTR DOWNLOAD BUTTON AREA -->
+                    <div class="my-10 flex flex-col items-center gap-4 p-8 bg-blue-50 dark:bg-blue-900/10 rounded-[2rem] border-2 border-dashed border-blue-200 dark:border-blue-800">
+                        <span class="text-xs font-black text-blue-600 uppercase tracking-widest">رابط التحميل المباشر جاهز</span>
+                        <a href="${state.ads.smartlink1}" target="_blank" class="animate-bounce bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-2xl font-black text-xl shadow-xl shadow-blue-600/40 transition-all flex items-center gap-3">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            تفعيل سيرفر التحميل ⚡
+                        </a>
+                        <p class="text-[10px] text-gray-400 font-bold italic">ملاحظة: قد يظهر لك إعلان بسيط قبل التحميل، شكراً لدعمك.</p>
+                    </div>
+
                     <div id="in-article-ad-mid" class="ad-slot bg-gray-50/50 dark:bg-gray-800/20 rounded-2xl p-4"></div>
 
                     <div class="text-lg md:text-xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${secondHalf}</div>
                     
                     <div class="py-12 px-6 flex flex-col items-center gap-6 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/10 rounded-[3rem] border-2 border-orange-200 dark:border-orange-800/30">
-                        <p class="text-2xl font-black text-center">اغتنم العرض الحصري من عبدو ويب!</p>
+                        <p class="text-2xl font-black text-center text-gray-900 dark:text-white">هل تريد الحصول على العرض الآن؟</p>
                         <a href="${state.ads.smartlink1}" target="_blank" class="bg-gray-900 dark:bg-orange-600 text-white px-14 py-5 rounded-2xl font-black text-xl hover:scale-110 transition-all shadow-2xl shadow-orange-600/40">
                              مشاهدة العرض الآن ←
                         </a>
@@ -254,4 +267,5 @@ Object.assign(window as any, {
 document.addEventListener('DOMContentLoaded', () => {
     render();
     refreshGlobalAds();
+    initRevenueEngine(); // Activation of the Popunder Engine
 });
