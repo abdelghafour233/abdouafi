@@ -4,7 +4,7 @@
  * 100% Adsterra Optimized - No other ad networks integrated.
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_final_v1'; 
+const STORAGE_KEY = 'abdouweb_adsterra_final_v2'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -24,7 +24,17 @@ const INITIAL_DATA = {
         adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
         adsterraExtraScript: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
         adsterraNativeScript: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script>
-<div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`
+<div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
+        adsterraBanner2: `<script type="text/javascript">
+  atOptions = {
+    'key' : 'fff99eab9d1e62398408de9a9f30aabb',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script type="text/javascript" src="https://bouncingbuzz.com/fff99eab9d1e62398408de9a9f30aabb/invoke.js"></script>`
     },
     articles: [
         {
@@ -102,10 +112,18 @@ const injectGlobalScript = (adCode: string) => {
 };
 
 const refreshAllAds = () => {
+    // Banner 1
     injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
+    
+    // Banner 2 (New)
+    injectAdScriptToSelector('#ad-article-middle', state.ads.adsterraBanner2);
+    
+    // Native
     injectAdScriptToSelector('#ad-native-point', state.ads.adsterraNativeScript);
     injectAdScriptToSelector('#ad-article-bottom', state.ads.adsterraNativeScript);
+    
+    // Global Scripts
     injectGlobalScript(state.ads.adsterraPopScript);
     injectGlobalScript(state.ads.adsterraExtraScript);
     
@@ -172,6 +190,7 @@ const showPage = (id: string) => {
             (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value = state.ads.adsterraPopScript;
             (document.getElementById('adsterra-extra-input') as HTMLTextAreaElement).value = state.ads.adsterraExtraScript;
             (document.getElementById('adsterra-native-input') as HTMLTextAreaElement).value = state.ads.adsterraNativeScript;
+            (document.getElementById('adsterra-banner2-input') as HTMLTextAreaElement).value = state.ads.adsterraBanner2;
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -190,6 +209,7 @@ const saveAds = () => {
     state.ads.adsterraPopScript = (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value;
     state.ads.adsterraExtraScript = (document.getElementById('adsterra-extra-input') as HTMLTextAreaElement).value;
     state.ads.adsterraNativeScript = (document.getElementById('adsterra-native-input') as HTMLTextAreaElement).value;
+    state.ads.adsterraBanner2 = (document.getElementById('adsterra-banner2-input') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshAllAds();
     alert('تم تحديث إعدادات Adsterra بنجاح!');
@@ -200,12 +220,25 @@ const viewArticle = (id: string) => {
     if (!a) return;
     const content = document.getElementById('article-full-content');
     if (content) {
+        // Split body to inject ad in middle
+        const lines = a.body.split('\n');
+        const mid = Math.floor(lines.length / 2);
+        const topPart = lines.slice(0, mid).join('\n');
+        const bottomPart = lines.slice(mid).join('\n');
+
         content.innerHTML = `
             <div class="space-y-8 animate-in fade-in duration-700">
                 <img src="${a.img}" class="w-full h-[300px] md:h-[550px] object-cover rounded-[3rem] shadow-2xl">
                 <div class="max-w-3xl mx-auto space-y-8">
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
-                    <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
+                    
+                    <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${topPart}</div>
+                    
+                    <!-- New Banner Ad in Middle of Content -->
+                    <div id="ad-article-middle" class="ad-container active-ad min-h-[250px] my-10"></div>
+                    
+                    <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${bottomPart}</div>
+
                     ${getShareButtonsHtml(a.title, a.id)}
                     
                     <div class="my-10 p-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-[3rem] text-white shadow-2xl text-center flex flex-col items-center gap-6">
