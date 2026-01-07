@@ -53,7 +53,7 @@ let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_D
 let isLogged = false;
 let hasPopped = false;
 
-// SOCIAL PROOF SYSTEM: Increases trust and clicks
+// SOCIAL PROOF SYSTEM
 const winners = [
     { name: "محمد ع.", action: "حصل على بطاقة جوجل 50$", time: "قبل دقيقتين" },
     { name: "سارة م.", action: "فازت بآيفون 16 برو", time: "الآن" },
@@ -83,27 +83,25 @@ const showSocialProof = () => {
     }, 5000);
 };
 
-// VIRAL ENGINE
+// VIRAL ENGINE - CLEANED (No Ad/Unlock text)
 const getShareButtonsHtml = (title: string, id: string) => {
     const url = `${window.location.origin}?art=${id}`;
     const encodedTitle = encodeURIComponent(title);
     const encodedUrl = encodeURIComponent(url);
     
     return `
-        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-blue-600/20 rounded-[2rem] p-6 text-center my-8 shadow-xl">
+        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-blue-600/10 rounded-[2rem] p-6 text-center my-8 shadow-sm">
             <h4 class="text-sm font-black mb-4 flex items-center justify-center gap-2">
-                <span class="flex h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
-                شارك لفتح الرابط المباشر
+                شارك هذا المحتوى مع أصدقائك
             </h4>
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#25D366] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg">
+                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-md">
                     واتساب
                 </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#1877F2] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-md">
                     فيسبوك
                 </a>
             </div>
-            <p class="text-[10px] text-gray-400 mt-4 font-medium italic">المشاركة تضمن تفعيل رابط السيرفر المباشر</p>
         </div>
     `;
 };
@@ -118,7 +116,6 @@ const initRevenueEngine = () => {
         }
     }, { once: false });
     
-    // Start Social Proof Toasts
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
 };
@@ -184,9 +181,10 @@ const saveAds = () => {
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshGlobalAds();
-    alert('تم تحديث نظام الأرباح الهجين بنجاح!');
+    alert('تم تحديث نظام الأرباح بنجاح!');
 };
 
+// VIEW ARTICLE - REMOVED AD FROM TOP
 const viewArticle = (id: string) => {
     const a = state.articles.find((x: any) => x.id === id);
     if (!a) return;
@@ -197,9 +195,13 @@ const viewArticle = (id: string) => {
                 <img src="${a.img}" class="w-full h-[300px] md:h-[550px] object-cover rounded-[3rem] shadow-2xl">
                 <div class="max-w-3xl mx-auto space-y-8">
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
-                    <div id="top-article-ad" class="ad-slot bg-gray-100/30 dark:bg-gray-800/20 rounded-2xl h-[100px]"></div>
+                    
+                    <!-- Ad removed from here -->
+
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
+                    
                     ${getShareButtonsHtml(a.title, a.id)}
+                    
                     <div class="my-10 flex flex-col items-center gap-6 p-10 bg-gradient-to-br from-blue-700 to-blue-900 rounded-[3rem] text-white shadow-2xl">
                         <div class="text-center space-y-2">
                             <span class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-4 py-1 rounded-full">حصري لزوار عبدو ويب</span>
@@ -213,7 +215,6 @@ const viewArticle = (id: string) => {
                 </div>
             </div>
         `;
-        setTimeout(() => injectAd('top-article-ad', state.ads.code1), 300);
     }
     showPage('article-detail');
 };
