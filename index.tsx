@@ -1,7 +1,7 @@
 
 /**
  * abdouweb - Affiliate Revenue Platform
- * Strategy: Monetag (Direct Link) - CLEAN PERFORMANCE
+ * Strategy: Monetag (Direct Link + Global Tag) - CLEAN PERFORMANCE
  */
 
 const STORAGE_KEY = 'abdouweb_hybrid_v14'; 
@@ -10,7 +10,8 @@ const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
     ads: {
-        smartlink1: "https://otieu.com/4/10428641"
+        smartlink1: "https://otieu.com/4/10428641",
+        monetagTag: `<script>(function(s){s.dataset.zone='10430750',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>`
     },
     articles: [
         {
@@ -48,6 +49,22 @@ const INITIAL_DATA = {
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
+
+// Helpers to inject scripts dynamically
+const injectScriptTag = (adCode: string) => {
+    if (!adCode) return;
+    const container = document.getElementById('monetag-injection-point');
+    if (!container) return;
+    
+    container.innerHTML = adCode;
+    const scripts = container.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+        newScript.innerHTML = oldScript.innerHTML;
+        oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+};
 
 // SOCIAL PROOF SYSTEM
 const winners = [
@@ -112,6 +129,7 @@ const getShareButtonsHtml = (title: string, id: string) => {
 const initRevenueEngine = () => {
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
+    injectScriptTag(state.ads.monetagTag);
 };
 
 const refreshGlobalAds = () => {
@@ -128,7 +146,8 @@ const showPage = (id: string) => {
     else if (target) {
         target.classList.remove('hidden');
         if (id === 'admin') {
-            (document.getElementById('ad-smartlink-1') as HTMLInputElement).value = state.ads.smartlink1;
+            (document.getElementById('ad-smartlink-1') as HTMLInputElement).value = state.ads.smartlink1 || "";
+            (document.getElementById('ad-monetag-tag') as HTMLTextAreaElement).value = state.ads.monetagTag || "";
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -143,8 +162,9 @@ const handleLogin = () => {
 
 const saveAds = () => {
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
+    state.ads.monetagTag = (document.getElementById('ad-monetag-tag') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    refreshGlobalAds();
+    injectScriptTag(state.ads.monetagTag);
     alert('تم تحديث الإعدادات بنجاح!');
 };
 
