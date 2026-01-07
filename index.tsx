@@ -1,22 +1,20 @@
 
 /**
- * abdouweb - Ultimate Revenue Machine (REVENUE MAXIMIZER V12)
- * Fully Integrated with Monetag Smartlink: https://otieu.com/4/10428459
+ * abdouweb - Ultimate Revenue Machine (HYBRID MAXIMIZER V13)
+ * Strategy: Monetag (Popunder & Smartlink) + Adsterra (Social Bar & Banners)
  */
 
-const STORAGE_KEY = 'abdouweb_monetag_v12_final'; 
+const STORAGE_KEY = 'abdouweb_hybrid_v13'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
     ads: {
-        // Adsterra Banners
+        // Adsterra Passive Ads (Banners/Social Bar)
         code1: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script><div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
         code2: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
-        inArticle1: ``,
-        inArticle2: ``,
         socialBar: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
-        // YOUR MONETAG SMARTLINK - VERIFIED
+        // Monetag Active Ads (Direct Link/Popunder)
         smartlink1: "https://otieu.com/4/10428459"
     },
     articles: [
@@ -64,32 +62,34 @@ const getShareButtonsHtml = (title: string, id: string) => {
     const encodedUrl = encodeURIComponent(url);
     
     return `
-        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-orange-600/20 rounded-[2rem] p-6 text-center my-8 shadow-xl">
+        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-blue-600/20 rounded-[2rem] p-6 text-center my-8 shadow-xl">
             <h4 class="text-sm font-black mb-4 flex items-center justify-center gap-2">
                 <span class="flex h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
                 شارك لفتح الرابط المباشر
             </h4>
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#25D366] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg shadow-green-500/30">
+                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#25D366] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg">
                     واتساب
                 </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#1877F2] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg shadow-blue-600/30">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" onclick="window.recordShare()" class="bg-[#1877F2] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-lg">
                     فيسبوك
                 </a>
             </div>
-            <p class="text-[10px] text-gray-400 mt-4 font-medium italic">بعد النقر على "مشاركة"، ستظهر لك روابط التحميل</p>
+            <p class="text-[10px] text-gray-400 mt-4 font-medium italic">المشاركة تضمن تفعيل رابط السيرفر المباشر</p>
         </div>
     `;
 };
 
-// Revenue Engine: Trigger popunder on ANY interaction
+// HYBRID REVENUE ENGINE: Managed Popunder to avoid conflicts
 const initRevenueEngine = () => {
-    document.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+        // Only trigger pop if it's not a logged admin and haven't popped recently
         if (!hasPopped && state.ads.smartlink1 && !isLogged) {
+            // Priority given to Monetag for the main popunder
             window.open(state.ads.smartlink1, '_blank');
             hasPopped = true;
-            // Short timeout to increase pop frequency safely
-            setTimeout(() => { hasPopped = false; }, 90000); 
+            // Anti-spam timeout: won't pop again for 2 minutes to keep users happy
+            setTimeout(() => { hasPopped = false; }, 120000); 
         }
     }, { once: false });
 };
@@ -127,22 +127,24 @@ const injectAd = (containerId: string, adCode: string) => {
 
 const refreshGlobalAds = () => {
     setTimeout(() => {
+        // Adsterra Slots
         injectAd('top-global-ad', state.ads.code1);
         injectAd('sidebar-ad-slot', state.ads.code2);
         injectAd('social-bar-container', state.ads.socialBar);
-        injectAd('home-native-ad', state.ads.inArticle2);
         
-        // Link all buttons to the verified Monetag link
-        const smartlink = state.ads.smartlink1;
+        // Monetag Slots (Direct Links)
+        const monetagLink = state.ads.smartlink1;
         document.querySelectorAll('.revenue-link').forEach((el: any) => {
-            el.href = smartlink;
+            el.href = monetagLink;
         });
         
         const hLink = document.getElementById('header-smart-link') as HTMLAnchorElement;
         const tLink = document.getElementById('ticker-link') as HTMLAnchorElement;
-        if (hLink) hLink.href = smartlink;
-        if (tLink) tLink.href = smartlink;
-    }, 300);
+        const qLink = document.getElementById('footer-smart-link') as HTMLAnchorElement;
+        if (hLink) hLink.href = monetagLink;
+        if (tLink) tLink.href = monetagLink;
+        if (qLink) qLink.href = monetagLink;
+    }, 400);
 };
 
 const showPage = (id: string) => {
@@ -176,7 +178,7 @@ const saveAds = () => {
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshGlobalAds();
-    alert('تم تحديث نظام الأرباح بنجاح!');
+    alert('تم تحديث نظام الأرباح الهجين (Monetag + Adsterra) بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -196,14 +198,15 @@ const viewArticle = (id: string) => {
                     
                     ${getShareButtonsHtml(a.title, a.id)}
 
-                    <div class="my-10 flex flex-col items-center gap-6 p-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[3rem] text-white shadow-2xl">
+                    <div class="my-10 flex flex-col items-center gap-6 p-10 bg-gradient-to-br from-blue-700 to-blue-900 rounded-[3rem] text-white shadow-2xl">
                         <div class="text-center space-y-2">
-                            <span class="text-xs font-black uppercase tracking-widest bg-white/20 px-4 py-1 rounded-full">تنبيه: السيرفر المباشر جاهز</span>
-                            <h3 class="text-2xl md:text-3xl font-black">تحميل الملفات الآن؟</h3>
+                            <span class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-4 py-1 rounded-full">حصري لزوار عبدو ويب</span>
+                            <h3 class="text-2xl md:text-3xl font-black">الرابط المباشر جاهز الآن</h3>
                         </div>
-                        <a href="${state.ads.smartlink1}" target="_blank" class="revenue-link w-full text-center bg-white text-blue-700 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
-                             مشاهدة الرابط الآن 🚀
+                        <a href="${state.ads.smartlink1}" target="_blank" class="revenue-link w-full text-center bg-white text-blue-800 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+                             انتقل للعرض الآن 🚀
                         </a>
+                        <p class="text-[10px] opacity-60">سيتم فتح العرض في نافذة جديدة</p>
                     </div>
 
                     <div id="in-article-ad-mid" class="ad-slot bg-gray-50/50 dark:bg-gray-800/20 rounded-2xl p-4 min-h-[100px]"></div>
@@ -211,7 +214,6 @@ const viewArticle = (id: string) => {
             </div>
         `;
         setTimeout(() => {
-            injectAd('in-article-ad-mid', state.ads.inArticle1);
             injectAd('top-article-ad', state.ads.code1);
         }, 300);
     }
@@ -222,19 +224,19 @@ const render = () => {
     const artList = document.getElementById('articles-list');
     if (artList) {
         artList.innerHTML = state.articles.map(a => `
-            <div class="group bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:shadow-2xl transition-all mb-10 relative">
+            <div class="group bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:shadow-2xl transition-all mb-10 relative overflow-hidden">
                 <div class="w-full md:w-72 h-60 overflow-hidden rounded-[2.5rem] shrink-0 cursor-pointer" onclick="window.viewArticle('${a.id}')">
                     <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 </div>
                 <div class="flex flex-col justify-center flex-1">
                     <div onclick="window.viewArticle('${a.id}')" class="cursor-pointer">
-                        <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-600 text-[10px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-widest">${a.category}</span>
-                        <h3 class="text-2xl md:text-3xl font-black mb-4 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight">${a.title}</h3>
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-700 text-[10px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-widest">${a.category}</span>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 group-hover:text-blue-700 transition-colors line-clamp-2 leading-tight">${a.title}</h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed font-medium">${a.body}</p>
                     </div>
                     <div class="flex items-center justify-between mt-auto">
-                        <button onclick="window.viewArticle('${a.id}')" class="bg-blue-600 text-white px-8 py-3 rounded-2xl font-black text-xs hover:scale-105 transition-all">
-                            تفاصيل العرض
+                        <button onclick="window.viewArticle('${a.id}')" class="bg-blue-700 text-white px-8 py-3 rounded-2xl font-black text-xs hover:scale-105 transition-all">
+                            دخول العرض
                         </button>
                     </div>
                 </div>
@@ -245,7 +247,7 @@ const render = () => {
     const side = document.getElementById('offers-sidebar');
     if (side) {
         side.innerHTML = state.offers.map(o => `
-            <div class="group flex gap-4 items-center p-4 rounded-[1.5rem] bg-gray-50 dark:bg-gray-800/40 hover:bg-blue-600 hover:text-white transition cursor-pointer mb-3" onclick="window.open('${state.ads.smartlink1}', '_blank')">
+            <div class="group flex gap-4 items-center p-4 rounded-[1.5rem] bg-gray-50 dark:bg-gray-800/40 hover:bg-blue-700 hover:text-white transition cursor-pointer mb-3" onclick="window.open('${state.ads.smartlink1}', '_blank')">
                 <img src="${o.img}" class="w-16 h-16 object-cover rounded-2xl shrink-0">
                 <div class="flex-1 overflow-hidden">
                     <h4 class="font-black text-sm mb-1 truncate">${o.title}</h4>
@@ -258,14 +260,9 @@ const render = () => {
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, saveAds,
-    switchTab: (id: string) => {
-        document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-        document.getElementById(id)?.classList.remove('hidden');
-    },
     toggleDarkMode: () => document.documentElement.classList.toggle('dark'),
     recordShare: () => {
-        console.log("Viral Monetag Share Recorded");
-        // User could be redirected here too if you want to force it
+        console.log("Hybrid Viral Share Logged.");
     }
 });
 
