@@ -74,6 +74,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16">
                 <div class="lg:col-span-8">
                     <div id="articles-list" class="space-y-10"></div>
+                    <!-- Native Ad Injection on Home -->
+                    <div id="ad-native-point" class="ad-container active-ad mt-10 min-h-[150px]"></div>
                 </div>
                 <aside class="lg:col-span-4 space-y-10">
                     <!-- Adsterra Sidebar Injection -->
@@ -138,8 +140,12 @@
                             <textarea id="adsterra-pop-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-green-600/20" placeholder="لصق سكريبت الشريط الاجتماعي هنا..."></textarea>
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">سكريبت إضافي 2 (New ID):</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">سكريبت إضافي 2 (General Script):</label>
                             <textarea id="adsterra-extra-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-purple-600/20" placeholder="لصق سكريبت إضافي هنا..."></textarea>
+                        </div>
+                        <div class="space-y-4 md:col-span-2">
+                            <label class="text-[10px] font-black uppercase text-gray-400">سكريبت Native / Container (المعقد):</label>
+                            <textarea id="adsterra-native-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-orange-600/20" placeholder="لصق سكريبت Native والحاوية (div) هنا..."></textarea>
                         </div>
                     </div>
                     <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg hover:bg-blue-700 transition-colors">حفظ وتفعيل كافة الإعلانات 🚀</button>
