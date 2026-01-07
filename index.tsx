@@ -4,7 +4,7 @@
  * Optimized for maximum CTR and Ad Activation
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_v4'; 
+const STORAGE_KEY = 'abdouweb_adsterra_v5'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -21,7 +21,8 @@ const INITIAL_DATA = {
 	};
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/28265724/invoke.js"></script>`,
-        adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`
+        adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
+        adsterraExtraScript: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`
     },
     articles: [
         {
@@ -86,6 +87,9 @@ const injectGlobalScript = (adCode: string) => {
     temp.innerHTML = adCode;
     const scripts = temp.querySelectorAll('script');
     scripts.forEach(oldScript => {
+        // Prevent double injection if script already exists with same src
+        if (oldScript.src && document.querySelector(`script[src="${oldScript.src}"]`)) return;
+
         const newScript = document.createElement('script');
         Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
         if (oldScript.src) {
@@ -104,6 +108,7 @@ const refreshAllAds = () => {
     
     // Global/Pop-under/Social Bar Ads
     injectGlobalScript(state.ads.adsterraPopScript);
+    injectGlobalScript(state.ads.adsterraExtraScript);
     
     // Refresh Direct Links
     document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
@@ -169,6 +174,7 @@ const showPage = (id: string) => {
             (document.getElementById('adsterra-link-input') as HTMLInputElement).value = state.ads.adsterraLink;
             (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value = state.ads.adsterraScript;
             (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value = state.ads.adsterraPopScript;
+            (document.getElementById('adsterra-extra-input') as HTMLTextAreaElement).value = state.ads.adsterraExtraScript;
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -185,6 +191,7 @@ const saveAds = () => {
     state.ads.adsterraLink = (document.getElementById('adsterra-link-input') as HTMLInputElement).value;
     state.ads.adsterraScript = (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value;
     state.ads.adsterraPopScript = (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value;
+    state.ads.adsterraExtraScript = (document.getElementById('adsterra-extra-input') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshAllAds();
     alert('تم تفعيل كافة مناطق إعلانات Adsterra بنجاح!');
