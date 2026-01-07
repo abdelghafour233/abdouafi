@@ -10,7 +10,6 @@
     <title>عبدو ويب abdouweb | صفقات وتقنية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <div id="social-bar-container"></div>
     <script>
         window.tailwind.config = {
             darkMode: 'class',
@@ -23,7 +22,6 @@
     </script>
     <style>
         body { font-family: 'Tajawal', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
-        .ad-slot { margin: 15px auto; display: flex; justify-content: center; align-items: center; min-height: 50px; width: 100%; overflow: hidden; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
@@ -42,8 +40,6 @@
             <p class="text-[9px] text-gray-400 winner-time">...</p>
         </div>
     </div>
-
-    <div id="top-global-ad" class="ad-slot bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800"></div>
 
     <header class="sticky top-0 z-[100] bg-white/90 dark:bg-gray-900/90 backdrop-blur-2xl border-b border-gray-100 dark:border-gray-800">
         <div class="container mx-auto px-4 h-16 md:h-24 flex items-center justify-between">
@@ -88,7 +84,6 @@
                         <h3 class="text-xl font-black mb-8 border-r-4 border-blue-600 pr-4">صفقات سريعة</h3>
                         <div id="offers-sidebar"></div>
                     </div>
-                    <div id="sidebar-ad-slot" class="ad-slot bg-gray-50 dark:bg-gray-900/50 rounded-[3rem] min-h-[300px] border border-dashed border-gray-200 dark:border-gray-700"></div>
                 </aside>
             </div>
         </div>
@@ -126,25 +121,9 @@
                     <button onclick="location.reload()" class="text-red-600 font-bold text-xs uppercase tracking-widest">خروج</button>
                 </div>
                 <div class="space-y-10">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">رابط الأفلييت الرئيسي:</label>
-                            <input type="text" id="ad-smartlink-1" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-600/20">
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Social Bar:</label>
-                            <textarea id="ad-social-bar" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32"></textarea>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-10">
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان علوي:</label>
-                            <textarea id="ad-code-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32"></textarea>
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان جانبي:</label>
-                            <textarea id="ad-code-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32"></textarea>
-                        </div>
+                    <div class="space-y-4 max-w-xl">
+                        <label class="text-[10px] font-black uppercase text-gray-400">رابط الأفلييت الرئيسي (Monetag Smartlink):</label>
+                        <input type="text" id="ad-smartlink-1" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-600/20">
                     </div>
                     <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg">حفظ التغييرات</button>
                 </div>

@@ -1,7 +1,7 @@
 
 /**
- * abdouweb - Ultimate Revenue Machine (HYBRID MAXIMIZER V14 - ELITE EDITION)
- * Strategy: Monetag (Direct Link) + Adsterra (Banners) - CLEAN NAVIGATION
+ * abdouweb - Affiliate Revenue Platform
+ * Strategy: Monetag (Direct Link) - CLEAN PERFORMANCE
  */
 
 const STORAGE_KEY = 'abdouweb_hybrid_v14'; 
@@ -10,9 +10,6 @@ const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
     ads: {
-        code1: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script><div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
-        code2: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
-        socialBar: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
         smartlink1: "https://otieu.com/4/10428641"
     },
     articles: [
@@ -22,7 +19,7 @@ const INITIAL_DATA = {
             body: `بمناسبة العام الجديد، نطلق أكبر مسابقة لتوزيع الجوائز التقنية. الشروط بسيطة جداً ولا تتطلب دفع أي رسوم.
 
 1. التسجيل في القائمة البريدية للحصول على رقم الاشتراك.
-2. مشاركة المقال مع 5 من أصدقائك عبر الواتساب.
+2. مشاركة المقال مع أصدقائك عبر المنصات الاجتماعية.
 3. النقر على زر "تأكيد الاشتراك" بالأسفل.
 
 لماذا نقوم بذلك؟ نحن في عبدو ويب نسعى لبناء أكبر مجتمع تقني عربي، ودعمكم هو الوقود الذي يحركنا.`,
@@ -82,7 +79,7 @@ const showSocialProof = () => {
     }, 5000);
 };
 
-// VIRAL ENGINE - UPDATED with more share buttons
+// VIRAL ENGINE
 const getShareButtonsHtml = (title: string, id: string) => {
     const url = `${window.location.origin}?art=${id}`;
     const encodedTitle = encodeURIComponent(title);
@@ -112,34 +109,13 @@ const getShareButtonsHtml = (title: string, id: string) => {
     `;
 };
 
-// CLEAN REVENUE ENGINE - NO POPUNDERS
 const initRevenueEngine = () => {
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
 };
 
-const injectAd = (containerId: string, adCode: string) => {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    if (!adCode || adCode.trim() === "") { container.style.display = 'none'; return; }
-    container.style.display = 'flex';
-    container.innerHTML = adCode;
-    const scripts = Array.from(container.querySelectorAll('script'));
-    scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-        if (oldScript.innerHTML) newScript.innerHTML = oldScript.innerHTML;
-        else if (oldScript.src) newScript.src = oldScript.src;
-        oldScript.parentNode?.replaceChild(newScript, oldScript);
-    });
-};
-
 const refreshGlobalAds = () => {
     setTimeout(() => {
-        injectAd('top-global-ad', state.ads.code1);
-        injectAd('sidebar-ad-slot', state.ads.code2);
-        injectAd('social-bar-container', state.ads.socialBar);
-        
         const monetagLink = state.ads.smartlink1;
         document.querySelectorAll('.revenue-link').forEach((el: any) => el.href = monetagLink);
     }, 400);
@@ -152,9 +128,6 @@ const showPage = (id: string) => {
     else if (target) {
         target.classList.remove('hidden');
         if (id === 'admin') {
-            (document.getElementById('ad-code-1') as HTMLTextAreaElement).value = state.ads.code1;
-            (document.getElementById('ad-code-2') as HTMLTextAreaElement).value = state.ads.code2;
-            (document.getElementById('ad-social-bar') as HTMLTextAreaElement).value = state.ads.socialBar;
             (document.getElementById('ad-smartlink-1') as HTMLInputElement).value = state.ads.smartlink1;
         }
     }
@@ -169,9 +142,6 @@ const handleLogin = () => {
 };
 
 const saveAds = () => {
-    state.ads.code1 = (document.getElementById('ad-code-1') as HTMLTextAreaElement).value;
-    state.ads.code2 = (document.getElementById('ad-code-2') as HTMLTextAreaElement).value;
-    state.ads.socialBar = (document.getElementById('ad-social-bar') as HTMLTextAreaElement).value;
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshGlobalAds();
