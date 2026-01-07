@@ -1,14 +1,26 @@
 
 /**
- * abdouweb - Clean Tech Platform
- * Removed all ad networks and affiliate tracking.
+ * abdouweb - Adsterra Revenue Engine
  */
 
-const STORAGE_KEY = 'abdouweb_clean_v1'; 
+const STORAGE_KEY = 'abdouweb_adsterra_v2'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
+    ads: {
+        adsterraLink: "https://bouncingbuzz.com/wga5mrxfz?key=2d97310179e241819b7915da9473f01d",
+        adsterraScript: `<script type="text/javascript">
+	atOptions = {
+		'key' : '28265724',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/28265724/invoke.js"></script>`
+    },
     articles: [
         {
             id: "win-iphone-2025",
@@ -17,7 +29,7 @@ const INITIAL_DATA = {
 
 1. التسجيل في القائمة البريدية للحصول على رقم الاشتراك.
 2. مشاركة المقال مع أصدقائك عبر المنصات الاجتماعية.
-3. تابعنا للحصول على النتائج.
+3. النقر على زر "تأكيد الاشتراك" بالأسفل للمتابعة.
 
 لماذا نقوم بذلك؟ نحن في عبدو ويب نسعى لبناء أكبر مجتمع تقني عربي، ودعمكم هو الوقود الذي يحركنا.`,
             category: "مسابقات",
@@ -29,8 +41,10 @@ const INITIAL_DATA = {
             body: `العمل الحر، الأفلييت، وإنشاء المحتوى.. هذه هي الأعمدة الثلاثة للثراء الرقمي اليوم. في هذا الدليل، نكشف لك كيف تبدأ أول مشروع لك وتجني أول 100 دولار.
 
 - استغلال منصات الـ Short-form content.
-- استراتيجية توجيه الترافيك.
-- الذكاء الاصطناعي وكيف يختصر عليك 90% من الجهد.`,
+- استراتيجية توجيه الترافيك الذكي.
+- الذكاء الاصطناعي وكيف يختصر عليك 90% من الجهد.
+
+اضغط على الزر بالأسفل للبدء في دليلك العملي.`,
             category: "استراتيجيات الربح",
             img: "https://images.unsplash.com/photo-1554224155-16974a4ea2b5?w=800&q=80"
         }
@@ -44,12 +58,28 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-// SOCIAL PROOF SYSTEM (Kept for engagement, no ads)
+// Helpers to inject scripts dynamically
+const injectAdScript = (adCode: string) => {
+    if (!adCode) return;
+    const container = document.getElementById('ad-sidebar-point');
+    if (!container) return;
+    
+    container.innerHTML = adCode;
+    const scripts = container.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+        newScript.innerHTML = oldScript.innerHTML;
+        oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+};
+
+// SOCIAL PROOF SYSTEM
 const winners = [
     { name: "محمد ع.", action: "حصل على بطاقة جوجل 50$", time: "قبل دقيقتين" },
     { name: "سارة م.", action: "فازت بآيفون 16 برو", time: "الآن" },
     { name: "أحمد ك.", action: "استلم كود خصم 90%", time: "قبل 5 دقائق" },
-    { name: "ياسين هـ.", action: "قام بتحميل الملف", time: "قبل ثوانٍ" }
+    { name: "ياسين هـ.", action: "قام بالاشتراك في المسابقة", time: "قبل ثوانٍ" }
 ];
 
 const showSocialProof = () => {
@@ -82,31 +112,13 @@ const getShareButtonsHtml = (title: string, id: string) => {
     
     return `
         <div class="viral-box bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] p-6 text-center my-8">
-            <h4 class="text-sm font-black mb-4">شارك هذا المحتوى عبر منصاتك المفضلة</h4>
+            <h4 class="text-sm font-black mb-4">شارك لفتح القفل عن الجائزة</h4>
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
-                    واتساب
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
-                    فيسبوك
-                </a>
-                <a href="https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}" target="_blank" class="bg-black text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
-                    تويتر (X)
-                </a>
-                <a href="https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}" target="_blank" class="bg-[#0088cc] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
-                    تلغرام
-                </a>
-                <a href="https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}" target="_blank" class="bg-[#BD081C] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
-                    بنتريست
-                </a>
+                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">واتساب</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">فيسبوك</a>
             </div>
         </div>
     `;
-};
-
-const initSite = () => {
-    setInterval(showSocialProof, 25000); 
-    setTimeout(showSocialProof, 3000);
 };
 
 const showPage = (id: string) => {
@@ -115,6 +127,10 @@ const showPage = (id: string) => {
     if (id === 'admin' && !isLogged) document.getElementById('page-login')?.classList.remove('hidden');
     else if (target) {
         target.classList.remove('hidden');
+        if (id === 'admin') {
+            (document.getElementById('adsterra-link-input') as HTMLInputElement).value = state.ads.adsterraLink;
+            (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value = state.ads.adsterraScript;
+        }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     render();
@@ -123,6 +139,14 @@ const showPage = (id: string) => {
 const handleLogin = () => {
     const p = (document.getElementById('admin-pass') as HTMLInputElement).value;
     if (p === state.adminPass) { isLogged = true; showPage('admin'); }
+};
+
+const saveAds = () => {
+    state.ads.adsterraLink = (document.getElementById('adsterra-link-input') as HTMLInputElement).value;
+    state.ads.adsterraScript = (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    injectAdScript(state.ads.adsterraScript);
+    alert('تم حفظ إعدادات Adsterra بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -137,6 +161,16 @@ const viewArticle = (id: string) => {
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
                     ${getShareButtonsHtml(a.title, a.id)}
+                    
+                    <div class="my-10 p-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-[3rem] text-white shadow-2xl text-center flex flex-col items-center gap-6">
+                        <div class="space-y-2">
+                            <h3 class="text-2xl md:text-3xl font-black italic underline decoration-yellow-400">الرابط الحصري جاهز</h3>
+                            <p class="text-sm opacity-90">اضغط بالأسفل للمتابعة وتأكيد اشتراكك الآن</p>
+                        </div>
+                        <a href="${state.ads.adsterraLink}" target="_blank" class="w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl">
+                            انتقل للعرض الآن ⚡
+                        </a>
+                    </div>
                 </div>
             </div>
         `;
@@ -179,13 +213,16 @@ const render = () => {
 };
 
 Object.assign(window as any, { 
-    showPage, handleLogin, viewArticle,
+    showPage, handleLogin, viewArticle, saveAds,
     toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     render();
-    initSite(); 
+    injectAdScript(state.ads.adsterraScript);
+    setInterval(showSocialProof, 25000); 
+    setTimeout(showSocialProof, 3000);
+
     const urlParams = new URLSearchParams(window.location.search);
     const artId = urlParams.get('art');
     if (artId) setTimeout(() => viewArticle(artId), 500);
