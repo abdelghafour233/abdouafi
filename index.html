@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Monetag Verification -->
     <meta name="monetag" content="f5065c98458d2b49914f6278f512b256">
     <title>عبدو ويب abdouweb | صفقات وتقنية</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,22 +26,32 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .ticker-text { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; }
+        .ticker-text { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Top Ticker for Monetag Smartlink -->
+    <!-- Social Proof Toast -->
+    <div id="social-proof-toast" class="fixed bottom-6 right-6 z-[1000] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-4 rounded-2xl shadow-2xl flex items-center gap-4 transition-all duration-500 transform translate-y-full opacity-0 pointer-events-none max-w-xs">
+        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+        </div>
+        <div>
+            <p class="text-[10px] font-black text-blue-600 uppercase mb-0.5">نشاط مباشر</p>
+            <p class="text-xs font-bold"><span class="winner-name">...</span> <span class="winner-action font-normal text-gray-500 dark:text-gray-400">...</span></p>
+            <p class="text-[9px] text-gray-400 winner-time">...</p>
+        </div>
+    </div>
+
+    <!-- Top Ticker -->
     <a id="ticker-link" href="https://otieu.com/4/10428641" target="_blank" class="bg-blue-600 text-white py-2 overflow-hidden flex font-black text-[10px] md:text-xs z-[200]">
         <div class="ticker-text">
             🔥 عرض Monetag الحصري: احصل على اشتراك مجاني الآن.. انقر هنا للتفاصيل 🔥 • 🔥 مسابقة الآيفون لا تزال جارية.. شارك الآن 🔥 • 🔥 صفقات عبدو ويب الحصرية بانتظارك 🔥
         </div>
     </a>
 
-    <!-- Top Banner Ad -->
     <div id="top-global-ad" class="ad-slot bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800"></div>
 
-    <!-- Header -->
     <header class="sticky top-0 z-[100] bg-white/90 dark:bg-gray-900/90 backdrop-blur-2xl border-b border-gray-100 dark:border-gray-800">
         <div class="container mx-auto px-4 h-16 md:h-24 flex items-center justify-between">
             <div class="flex items-center gap-4 cursor-pointer group" onclick="showPage('home')">
@@ -69,7 +78,6 @@
     </header>
 
     <main class="flex-grow container mx-auto px-4 py-10 md:py-16">
-        <!-- Home View -->
         <div id="page-home" class="page-view space-y-16">
             <section class="text-center space-y-6 max-w-4xl mx-auto">
                 <h1 class="text-5xl md:text-8xl font-black leading-[1.1] text-gray-900 dark:text-white">أفضل <span class="text-blue-600">العروض</span> والتقنيات</h1>
@@ -82,7 +90,6 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16">
                 <div class="lg:col-span-8">
-                    <div id="home-native-ad" class="ad-slot mb-10"></div>
                     <div id="articles-list" class="space-y-10"></div>
                 </div>
                 <aside class="lg:col-span-4 space-y-10">
@@ -90,27 +97,30 @@
                         <h3 class="text-xl font-black mb-8 border-r-4 border-blue-600 pr-4">صفقات ساخنة</h3>
                         <div id="offers-sidebar"></div>
                     </div>
-                    <!-- Sidebar Banner Ad -->
                     <div id="sidebar-ad-slot" class="ad-slot bg-gray-50 dark:bg-gray-900/50 rounded-[3rem] min-h-[300px] border border-dashed border-gray-200 dark:border-gray-700"></div>
                 </aside>
             </div>
         </div>
 
-        <!-- Details View -->
         <div id="page-article-detail" class="page-view hidden">
             <div id="article-full-content"></div>
         </div>
 
-        <!-- Offers View -->
-        <div id="page-offers" class="page-view hidden">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-6xl font-black mb-4">كوبونات Monetag</h2>
-                <p class="text-gray-500 font-medium">عروض ترويجية حصرية لمتابعي عبدو ويب</p>
+        <div id="page-offers" class="page-view hidden text-center py-20">
+            <h2 class="text-4xl font-black mb-4 uppercase">عروض Monetag الحصرية</h2>
+            <p class="text-gray-400 mb-10">جميع الأكواد أدناه تفتح بوابات الهدايا المباشرة</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border-2 border-dashed border-blue-600/30">
+                    <h3 class="font-black text-xl mb-4">كود: ABDOU2025</h3>
+                    <a href="https://otieu.com/4/10428641" target="_blank" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-black">تفعيل الكوبون</a>
+                </div>
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border-2 border-dashed border-blue-600/30">
+                    <h3 class="font-black text-xl mb-4">كود: FREE-SMART</h3>
+                    <a href="https://otieu.com/4/10428641" target="_blank" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-black">تفعيل الكوبون</a>
+                </div>
             </div>
-            <div id="offers-full-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </div>
 
-        <!-- Login -->
         <div id="page-login" class="page-view hidden max-w-md mx-auto py-24">
             <div class="bg-white dark:bg-gray-900 p-10 md:p-12 rounded-[3.5rem] shadow-2xl border border-gray-50 dark:border-gray-800 text-center">
                 <h2 class="text-3xl font-black mb-10">تسجيل دخول المدير</h2>
@@ -119,7 +129,6 @@
             </div>
         </div>
 
-        <!-- Admin -->
         <div id="page-admin" class="page-view hidden">
             <div class="bg-white dark:bg-gray-900 p-8 md:p-12 rounded-[3.5rem] border border-gray-100 dark:border-gray-800">
                 <div class="flex items-center justify-between mb-10">
@@ -129,7 +138,7 @@
                 <div class="space-y-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">رابط Monetag الذكي (الرئيسي):</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">رابط Monetag الذكي:</label>
                             <input type="text" id="ad-smartlink-1" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-600/20">
                         </div>
                         <div class="space-y-4">
@@ -139,15 +148,15 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-10">
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Banner Top:</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">Banner 1:</label>
                             <textarea id="ad-code-1" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32"></textarea>
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Pop/Banner Sidebar:</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">Banner 2:</label>
                             <textarea id="ad-code-2" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32"></textarea>
                         </div>
                     </div>
-                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg">حفظ ومزامنة محرك الأرباح</button>
+                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg">حفظ ومزامنة</button>
                 </div>
             </div>
         </div>
@@ -157,9 +166,7 @@
         <div class="container mx-auto px-4 text-center space-y-4">
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">عبدو ويب © 2025 - Monetag Engine Active</p>
             <div class="flex justify-center gap-4 text-[10px] text-blue-600 font-bold">
-                <span>Verified Affiliate</span>
-                <span>•</span>
-                <span>Pro Strategy</span>
+                <a href="#">Privacy Policy</a>
                 <span>•</span>
                 <a id="footer-smart-link" href="https://otieu.com/4/10428641" target="_blank">Direct Access</a>
             </div>
