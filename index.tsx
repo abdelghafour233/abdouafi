@@ -1,10 +1,10 @@
 
 /**
- * abdouweb - Adsterra Revenue Engine PRO + Multi-Zone Support
- * Optimized for maximum CTR and Ad Activation
+ * abdouweb - Adsterra Revenue Engine PRO
+ * 100% Adsterra Optimized - No other ad networks integrated.
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_v6'; 
+const STORAGE_KEY = 'abdouweb_adsterra_final_v1'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -63,7 +63,6 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-// Helpers to inject scripts dynamically to multiple locations
 const injectAdScriptToSelector = (selector: string, adCode: string) => {
     if (!adCode) return;
     const containers = document.querySelectorAll(selector);
@@ -103,26 +102,19 @@ const injectGlobalScript = (adCode: string) => {
 };
 
 const refreshAllAds = () => {
-    // In-page Banner Ads
     injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
-    
-    // Native/Container Ads
     injectAdScriptToSelector('#ad-native-point', state.ads.adsterraNativeScript);
     injectAdScriptToSelector('#ad-article-bottom', state.ads.adsterraNativeScript);
-
-    // Global/Pop-under/Social Bar Ads
     injectGlobalScript(state.ads.adsterraPopScript);
     injectGlobalScript(state.ads.adsterraExtraScript);
     
-    // Refresh Direct Links
     document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
         el.href = state.ads.adsterraLink;
         el.target = "_blank";
     });
 };
 
-// SOCIAL PROOF SYSTEM
 const winners = [
     { name: "محمد ع.", action: "حصل على بطاقة جوجل 50$", time: "قبل دقيقتين" },
     { name: "سارة م.", action: "فازت بآيفون 16 برو", time: "الآن" },
@@ -152,7 +144,6 @@ const showSocialProof = () => {
     }, 5000);
 };
 
-// VIRAL ENGINE
 const getShareButtonsHtml = (title: string, id: string) => {
     const url = `${window.location.origin}?art=${id}`;
     const encodedTitle = encodeURIComponent(title);
@@ -201,7 +192,7 @@ const saveAds = () => {
     state.ads.adsterraNativeScript = (document.getElementById('adsterra-native-input') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshAllAds();
-    alert('تم تفعيل كافة مناطق إعلانات Adsterra بنجاح!');
+    alert('تم تحديث إعدادات Adsterra بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -219,15 +210,13 @@ const viewArticle = (id: string) => {
                     
                     <div class="my-10 p-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-[3rem] text-white shadow-2xl text-center flex flex-col items-center gap-6">
                         <div class="space-y-2">
-                            <h3 class="text-2xl md:text-3xl font-black italic underline decoration-yellow-400">الرابط الحصري جاهز</h3>
-                            <p class="text-sm opacity-90">اضغط بالأسفل للمتابعة وتأكيد اشتراكك الآن</p>
+                            <h3 class="text-2xl md:text-3xl font-black italic underline decoration-yellow-400 font-tajawal">الرابط الحصري جاهز</h3>
+                            <p class="text-sm opacity-90">اضغط بالأسفل للمتابعة وتأكيد اشتراكك الآن عبر Adsterra Direct Link</p>
                         </div>
                         <a href="${state.ads.adsterraLink}" target="_blank" class="adsterra-direct w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl text-center">
                             انتقل للعرض الآن ⚡
                         </a>
                     </div>
-
-                    <!-- Native Ad Point at Bottom of Article -->
                     <div id="ad-article-bottom" class="ad-container active-ad min-h-[100px] mt-10"></div>
                 </div>
             </div>
