@@ -1,7 +1,7 @@
 
 /**
  * abdouweb - Ultimate Revenue Machine (HYBRID MAXIMIZER V14 - ELITE EDITION)
- * Strategy: Monetag (Popunder & Smartlink) + Adsterra (Social Bar & Banners)
+ * Strategy: Monetag (Direct Link) + Adsterra (Banners) - CLEAN NAVIGATION
  */
 
 const STORAGE_KEY = 'abdouweb_hybrid_v14'; 
@@ -51,7 +51,6 @@ const INITIAL_DATA = {
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
-let hasPopped = false;
 
 // SOCIAL PROOF SYSTEM
 const winners = [
@@ -83,39 +82,38 @@ const showSocialProof = () => {
     }, 5000);
 };
 
-// VIRAL ENGINE - CLEANED (No Ad/Unlock text)
+// VIRAL ENGINE - UPDATED with more share buttons
 const getShareButtonsHtml = (title: string, id: string) => {
     const url = `${window.location.origin}?art=${id}`;
     const encodedTitle = encodeURIComponent(title);
     const encodedUrl = encodeURIComponent(url);
     
     return `
-        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-blue-600/10 rounded-[2rem] p-6 text-center my-8 shadow-sm">
-            <h4 class="text-sm font-black mb-4 flex items-center justify-center gap-2">
-                شارك هذا المحتوى مع أصدقائك
-            </h4>
+        <div class="viral-box bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] p-6 text-center my-8">
+            <h4 class="text-sm font-black mb-4">شارك هذا المحتوى عبر منصاتك المفضلة</h4>
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-md">
+                <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
                     واتساب
                 </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:scale-105 transition shadow-md">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
                     فيسبوك
+                </a>
+                <a href="https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}" target="_blank" class="bg-black text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
+                    تويتر (X)
+                </a>
+                <a href="https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}" target="_blank" class="bg-[#0088cc] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
+                    تلغرام
+                </a>
+                <a href="https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}" target="_blank" class="bg-[#BD081C] text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 hover:opacity-90 transition">
+                    بنتريست
                 </a>
             </div>
         </div>
     `;
 };
 
-// HYBRID REVENUE ENGINE
+// CLEAN REVENUE ENGINE - NO POPUNDERS
 const initRevenueEngine = () => {
-    document.addEventListener('click', (e) => {
-        if (!hasPopped && state.ads.smartlink1 && !isLogged) {
-            window.open(state.ads.smartlink1, '_blank');
-            hasPopped = true;
-            setTimeout(() => { hasPopped = false; }, 120000); 
-        }
-    }, { once: false });
-    
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
 };
@@ -144,10 +142,6 @@ const refreshGlobalAds = () => {
         
         const monetagLink = state.ads.smartlink1;
         document.querySelectorAll('.revenue-link').forEach((el: any) => el.href = monetagLink);
-        ['header-smart-link', 'ticker-link', 'footer-smart-link'].forEach(id => {
-            const el = document.getElementById(id) as HTMLAnchorElement;
-            if (el) el.href = monetagLink;
-        });
     }, 400);
 };
 
@@ -181,10 +175,9 @@ const saveAds = () => {
     state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshGlobalAds();
-    alert('تم تحديث نظام الأرباح بنجاح!');
+    alert('تم تحديث الإعدادات بنجاح!');
 };
 
-// VIEW ARTICLE - REMOVED AD FROM TOP
 const viewArticle = (id: string) => {
     const a = state.articles.find((x: any) => x.id === id);
     if (!a) return;
@@ -195,22 +188,15 @@ const viewArticle = (id: string) => {
                 <img src="${a.img}" class="w-full h-[300px] md:h-[550px] object-cover rounded-[3rem] shadow-2xl">
                 <div class="max-w-3xl mx-auto space-y-8">
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
-                    
-                    <!-- Ad removed from here -->
-
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
-                    
                     ${getShareButtonsHtml(a.title, a.id)}
-                    
                     <div class="my-10 flex flex-col items-center gap-6 p-10 bg-gradient-to-br from-blue-700 to-blue-900 rounded-[3rem] text-white shadow-2xl">
                         <div class="text-center space-y-2">
-                            <span class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-4 py-1 rounded-full">حصري لزوار عبدو ويب</span>
                             <h3 class="text-2xl md:text-3xl font-black">الرابط المباشر جاهز الآن</h3>
                         </div>
-                        <a href="${state.ads.smartlink1}" target="_blank" class="revenue-link w-full text-center bg-white text-blue-800 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+                        <a href="${state.ads.smartlink1}" target="_blank" class="revenue-link w-full text-center bg-white text-blue-800 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all">
                              انتقل للعرض الآن 🚀
                         </a>
-                        <p class="text-[10px] opacity-60">سيتم فتح العرض في نافذة جديدة</p>
                     </div>
                 </div>
             </div>
@@ -223,19 +209,17 @@ const render = () => {
     const artList = document.getElementById('articles-list');
     if (artList) {
         artList.innerHTML = state.articles.map(a => `
-            <div class="group bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:shadow-2xl transition-all mb-10 relative overflow-hidden">
+            <div class="group bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:shadow-xl transition-all mb-10 overflow-hidden">
                 <div class="w-full md:w-72 h-60 overflow-hidden rounded-[2.5rem] shrink-0 cursor-pointer" onclick="window.viewArticle('${a.id}')">
                     <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 </div>
                 <div class="flex flex-col justify-center flex-1">
                     <div onclick="window.viewArticle('${a.id}')" class="cursor-pointer">
-                        <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-700 text-[10px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-widest">${a.category}</span>
-                        <h3 class="text-2xl md:text-3xl font-black mb-4 group-hover:text-blue-700 transition-colors line-clamp-2 leading-tight">${a.title}</h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed font-medium">${a.body}</p>
+                        <span class="inline-block bg-blue-50 dark:bg-blue-900/20 text-blue-600 text-[10px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-widest">${a.category}</span>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 group-hover:text-blue-600 transition-colors leading-tight">${a.title}</h3>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-2 leading-relaxed font-medium">${a.body}</p>
                     </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <button onclick="window.viewArticle('${a.id}')" class="bg-blue-700 text-white px-8 py-3 rounded-2xl font-black text-xs hover:scale-105 transition-all">دخول العرض</button>
-                    </div>
+                    <button onclick="window.viewArticle('${a.id}')" class="bg-gray-900 dark:bg-blue-600 text-white w-fit px-8 py-3 rounded-2xl font-black text-xs hover:scale-105 transition-all">اقرأ المزيد</button>
                 </div>
             </div>
         `).join('');
@@ -244,7 +228,7 @@ const render = () => {
     const side = document.getElementById('offers-sidebar');
     if (side) {
         side.innerHTML = state.offers.map(o => `
-            <div class="group flex gap-4 items-center p-4 rounded-[1.5rem] bg-gray-50 dark:bg-gray-800/40 hover:bg-blue-700 hover:text-white transition cursor-pointer mb-3" onclick="window.open('${state.ads.smartlink1}', '_blank')">
+            <div class="group flex gap-4 items-center p-4 rounded-[1.5rem] bg-gray-50 dark:bg-gray-800/40 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer mb-3" onclick="window.showPage('offers')">
                 <img src="${o.img}" class="w-16 h-16 object-cover rounded-2xl shrink-0">
                 <div class="flex-1 overflow-hidden">
                     <h4 class="font-black text-sm mb-1 truncate">${o.title}</h4>
@@ -257,8 +241,7 @@ const render = () => {
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, saveAds,
-    toggleDarkMode: () => document.documentElement.classList.toggle('dark'),
-    recordShare: () => console.log("Viral Share Action.")
+    toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 
 document.addEventListener('DOMContentLoaded', () => {
