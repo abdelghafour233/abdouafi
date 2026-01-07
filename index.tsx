@@ -1,18 +1,14 @@
 
 /**
- * abdouweb - Affiliate Revenue Platform
- * Strategy: Monetag (Direct Link + Global Tag) - CLEAN PERFORMANCE
+ * abdouweb - Clean Tech Platform
+ * Removed all ad networks and affiliate tracking.
  */
 
-const STORAGE_KEY = 'abdouweb_hybrid_v14'; 
+const STORAGE_KEY = 'abdouweb_clean_v1'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
-    ads: {
-        smartlink1: "https://otieu.com/4/10428641",
-        monetagTag: `<script>(function(s){s.dataset.zone='10430750',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>`
-    },
     articles: [
         {
             id: "win-iphone-2025",
@@ -21,7 +17,7 @@ const INITIAL_DATA = {
 
 1. التسجيل في القائمة البريدية للحصول على رقم الاشتراك.
 2. مشاركة المقال مع أصدقائك عبر المنصات الاجتماعية.
-3. النقر على زر "تأكيد الاشتراك" بالأسفل.
+3. تابعنا للحصول على النتائج.
 
 لماذا نقوم بذلك؟ نحن في عبدو ويب نسعى لبناء أكبر مجتمع تقني عربي، ودعمكم هو الوقود الذي يحركنا.`,
             category: "مسابقات",
@@ -33,10 +29,8 @@ const INITIAL_DATA = {
             body: `العمل الحر، الأفلييت، وإنشاء المحتوى.. هذه هي الأعمدة الثلاثة للثراء الرقمي اليوم. في هذا الدليل، نكشف لك كيف تبدأ أول مشروع لك وتجني أول 100 دولار.
 
 - استغلال منصات الـ Short-form content.
-- استراتيجية الـ Smartlinks وتوجيه الترافيك.
-- الذكاء الاصطناعي وكيف يختصر عليك 90% من الجهد.
-
-اضغط على الزر بالأسفل لتحميل ملف "خطة الـ 30 يوماً" مجاناً.`,
+- استراتيجية توجيه الترافيك.
+- الذكاء الاصطناعي وكيف يختصر عليك 90% من الجهد.`,
             category: "استراتيجيات الربح",
             img: "https://images.unsplash.com/photo-1554224155-16974a4ea2b5?w=800&q=80"
         }
@@ -50,28 +44,12 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-// Helpers to inject scripts dynamically
-const injectScriptTag = (adCode: string) => {
-    if (!adCode) return;
-    const container = document.getElementById('monetag-injection-point');
-    if (!container) return;
-    
-    container.innerHTML = adCode;
-    const scripts = container.querySelectorAll('script');
-    scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-        newScript.innerHTML = oldScript.innerHTML;
-        oldScript.parentNode?.replaceChild(newScript, oldScript);
-    });
-};
-
-// SOCIAL PROOF SYSTEM
+// SOCIAL PROOF SYSTEM (Kept for engagement, no ads)
 const winners = [
     { name: "محمد ع.", action: "حصل على بطاقة جوجل 50$", time: "قبل دقيقتين" },
     { name: "سارة م.", action: "فازت بآيفون 16 برو", time: "الآن" },
     { name: "أحمد ك.", action: "استلم كود خصم 90%", time: "قبل 5 دقائق" },
-    { name: "ياسين هـ.", action: "قام بتحميل ملف الربح", time: "قبل ثوانٍ" }
+    { name: "ياسين هـ.", action: "قام بتحميل الملف", time: "قبل ثوانٍ" }
 ];
 
 const showSocialProof = () => {
@@ -126,17 +104,9 @@ const getShareButtonsHtml = (title: string, id: string) => {
     `;
 };
 
-const initRevenueEngine = () => {
+const initSite = () => {
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
-    injectScriptTag(state.ads.monetagTag);
-};
-
-const refreshGlobalAds = () => {
-    setTimeout(() => {
-        const monetagLink = state.ads.smartlink1;
-        document.querySelectorAll('.revenue-link').forEach((el: any) => el.href = monetagLink);
-    }, 400);
 };
 
 const showPage = (id: string) => {
@@ -145,27 +115,14 @@ const showPage = (id: string) => {
     if (id === 'admin' && !isLogged) document.getElementById('page-login')?.classList.remove('hidden');
     else if (target) {
         target.classList.remove('hidden');
-        if (id === 'admin') {
-            (document.getElementById('ad-smartlink-1') as HTMLInputElement).value = state.ads.smartlink1 || "";
-            (document.getElementById('ad-monetag-tag') as HTMLTextAreaElement).value = state.ads.monetagTag || "";
-        }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     render();
-    refreshGlobalAds();
 };
 
 const handleLogin = () => {
     const p = (document.getElementById('admin-pass') as HTMLInputElement).value;
     if (p === state.adminPass) { isLogged = true; showPage('admin'); }
-};
-
-const saveAds = () => {
-    state.ads.smartlink1 = (document.getElementById('ad-smartlink-1') as HTMLInputElement).value;
-    state.ads.monetagTag = (document.getElementById('ad-monetag-tag') as HTMLTextAreaElement).value;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    injectScriptTag(state.ads.monetagTag);
-    alert('تم تحديث الإعدادات بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -180,14 +137,6 @@ const viewArticle = (id: string) => {
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
                     ${getShareButtonsHtml(a.title, a.id)}
-                    <div class="my-10 flex flex-col items-center gap-6 p-10 bg-gradient-to-br from-blue-700 to-blue-900 rounded-[3rem] text-white shadow-2xl">
-                        <div class="text-center space-y-2">
-                            <h3 class="text-2xl md:text-3xl font-black">الرابط المباشر جاهز الآن</h3>
-                        </div>
-                        <a href="${state.ads.smartlink1}" target="_blank" class="revenue-link w-full text-center bg-white text-blue-800 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all">
-                             انتقل للعرض الآن 🚀
-                        </a>
-                    </div>
                 </div>
             </div>
         `;
@@ -230,14 +179,13 @@ const render = () => {
 };
 
 Object.assign(window as any, { 
-    showPage, handleLogin, viewArticle, saveAds,
+    showPage, handleLogin, viewArticle,
     toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     render();
-    refreshGlobalAds();
-    initRevenueEngine(); 
+    initSite(); 
     const urlParams = new URLSearchParams(window.location.search);
     const artId = urlParams.get('art');
     if (artId) setTimeout(() => viewArticle(artId), 500);
