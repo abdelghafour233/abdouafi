@@ -22,7 +22,8 @@
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
-        .ad-container iframe { max-width: 100% !important; border-radius: 1rem; }
+        .ad-container iframe { max-width: 100% !important; border-radius: 1rem; margin: 0 auto; }
+        .active-ad { min-height: 250px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.02); border-radius: 2rem; }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
@@ -45,7 +46,7 @@
                 <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-600 rounded-[1.5rem] flex items-center justify-center text-white font-black italic shadow-2xl group-hover:rotate-12 transition-transform">A</div>
                 <div class="flex flex-col">
                     <span class="text-xl md:text-3xl font-black tracking-tighter leading-none">عبدو ويب</span>
-                    <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest hidden md:block">Adsterra Affiliate</span>
+                    <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest hidden md:block">Adsterra Verified</span>
                 </div>
             </div>
 
@@ -75,9 +76,9 @@
                     <div id="articles-list" class="space-y-10"></div>
                 </div>
                 <aside class="lg:col-span-4 space-y-10">
-                    <!-- Adsterra Sidebar Injection Point -->
-                    <div id="ad-sidebar-point" class="ad-container bg-white dark:bg-gray-900 p-4 rounded-3xl border border-gray-100 dark:border-gray-800 flex justify-center overflow-hidden min-h-[250px] items-center text-gray-400 text-xs italic">
-                        جاري تحميل الإعلان...
+                    <!-- Adsterra Sidebar Injection -->
+                    <div id="ad-sidebar-point" class="ad-container active-ad dark:bg-gray-900 p-4 border border-gray-100 dark:border-gray-800 flex justify-center overflow-hidden">
+                        <span class="text-gray-300 text-[10px] uppercase font-black tracking-widest animate-pulse">Adsterra Advertisement</span>
                     </div>
                     
                     <div class="bg-white dark:bg-gray-900 p-8 md:p-10 rounded-[3rem] border border-gray-100 dark:border-gray-800 shadow-sm">
@@ -89,6 +90,8 @@
         </div>
 
         <div id="page-article-detail" class="page-view hidden">
+            <!-- Adsterra Article Top Injection -->
+            <div id="ad-article-top" class="ad-container active-ad mb-10 max-w-3xl mx-auto"></div>
             <div id="article-full-content"></div>
         </div>
 
@@ -97,11 +100,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
                     <h3 class="font-black text-xl mb-4">كود خصم نون: ABDOU90</h3>
-                    <button class="bg-blue-600 text-white px-8 py-3 rounded-xl font-black">نسخ الكود</button>
+                    <a href="#" class="adsterra-direct block w-full bg-blue-600 text-white px-8 py-3 rounded-xl font-black text-center">نسخ الكود</a>
                 </div>
                 <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
                     <h3 class="font-black text-xl mb-4">بطاقة أمازون: FREE-50</h3>
-                    <button class="bg-blue-600 text-white px-8 py-3 rounded-xl font-black">نسخ الكود</button>
+                    <a href="#" class="adsterra-direct block w-full bg-blue-600 text-white px-8 py-3 rounded-xl font-black text-center">نسخ الكود</a>
                 </div>
             </div>
         </div>

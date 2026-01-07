@@ -1,9 +1,10 @@
 
 /**
- * abdouweb - Adsterra Revenue Engine
+ * abdouweb - Adsterra Revenue Engine PRO
+ * Optimized for maximum CTR and Ad Activation
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_v2'; 
+const STORAGE_KEY = 'abdouweb_adsterra_v3'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -58,19 +59,30 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-// Helpers to inject scripts dynamically
-const injectAdScript = (adCode: string) => {
+// Helpers to inject scripts dynamically to multiple locations
+const injectAdScriptToSelector = (selector: string, adCode: string) => {
     if (!adCode) return;
-    const container = document.getElementById('ad-sidebar-point');
-    if (!container) return;
+    const containers = document.querySelectorAll(selector);
+    containers.forEach(container => {
+        container.innerHTML = adCode;
+        const scripts = container.querySelectorAll('script');
+        scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.innerHTML = oldScript.innerHTML;
+            oldScript.parentNode?.replaceChild(newScript, oldScript);
+        });
+    });
+};
+
+const refreshAllAds = () => {
+    injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
+    injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
     
-    container.innerHTML = adCode;
-    const scripts = container.querySelectorAll('script');
-    scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-        newScript.innerHTML = oldScript.innerHTML;
-        oldScript.parentNode?.replaceChild(newScript, oldScript);
+    // Refresh Direct Links
+    document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
+        el.href = state.ads.adsterraLink;
+        el.target = "_blank";
     });
 };
 
@@ -134,6 +146,7 @@ const showPage = (id: string) => {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     render();
+    setTimeout(refreshAllAds, 100);
 };
 
 const handleLogin = () => {
@@ -145,8 +158,8 @@ const saveAds = () => {
     state.ads.adsterraLink = (document.getElementById('adsterra-link-input') as HTMLInputElement).value;
     state.ads.adsterraScript = (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    injectAdScript(state.ads.adsterraScript);
-    alert('تم حفظ إعدادات Adsterra بنجاح!');
+    refreshAllAds();
+    alert('تم تفعيل إعدادات Adsterra الجديدة!');
 };
 
 const viewArticle = (id: string) => {
@@ -167,7 +180,7 @@ const viewArticle = (id: string) => {
                             <h3 class="text-2xl md:text-3xl font-black italic underline decoration-yellow-400">الرابط الحصري جاهز</h3>
                             <p class="text-sm opacity-90">اضغط بالأسفل للمتابعة وتأكيد اشتراكك الآن</p>
                         </div>
-                        <a href="${state.ads.adsterraLink}" target="_blank" class="w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl">
+                        <a href="${state.ads.adsterraLink}" target="_blank" class="adsterra-direct w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl">
                             انتقل للعرض الآن ⚡
                         </a>
                     </div>
@@ -219,7 +232,7 @@ Object.assign(window as any, {
 
 document.addEventListener('DOMContentLoaded', () => {
     render();
-    injectAdScript(state.ads.adsterraScript);
+    setTimeout(refreshAllAds, 500);
     setInterval(showSocialProof, 25000); 
     setTimeout(showSocialProof, 3000);
 
