@@ -14,8 +14,8 @@ const INITIAL_DATA = {
         code1: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script><div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
         code2: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
         socialBar: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
-        // Monetag Active Ads (Direct Link/Popunder)
-        smartlink1: "https://otieu.com/4/10428459"
+        // Monetag Active Ads (Direct Link/Popunder) - UPDATED LINK
+        smartlink1: "https://otieu.com/4/10428641"
     },
     articles: [
         {
