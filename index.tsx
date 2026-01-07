@@ -1,10 +1,10 @@
 
 /**
- * abdouweb - Adsterra Revenue Engine PRO
+ * abdouweb - Adsterra Revenue Engine PRO + Multi-Zone Support
  * Optimized for maximum CTR and Ad Activation
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_v3'; 
+const STORAGE_KEY = 'abdouweb_adsterra_v4'; 
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -20,7 +20,8 @@ const INITIAL_DATA = {
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/28265724/invoke.js"></script>`
+<script type="text/javascript" src="//www.highperformanceformat.com/28265724/invoke.js"></script>`,
+        adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`
     },
     articles: [
         {
@@ -69,15 +70,40 @@ const injectAdScriptToSelector = (selector: string, adCode: string) => {
         scripts.forEach(oldScript => {
             const newScript = document.createElement('script');
             Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            newScript.innerHTML = oldScript.innerHTML;
+            if (oldScript.src) {
+                newScript.src = oldScript.src;
+            } else {
+                newScript.innerHTML = oldScript.innerHTML;
+            }
             oldScript.parentNode?.replaceChild(newScript, oldScript);
         });
     });
 };
 
+const injectGlobalScript = (adCode: string) => {
+    if (!adCode) return;
+    const temp = document.createElement('div');
+    temp.innerHTML = adCode;
+    const scripts = temp.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+        if (oldScript.src) {
+            newScript.src = oldScript.src;
+        } else {
+            newScript.innerHTML = oldScript.innerHTML;
+        }
+        document.head.appendChild(newScript);
+    });
+};
+
 const refreshAllAds = () => {
+    // In-page Ads
     injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
+    
+    // Global/Pop-under/Social Bar Ads
+    injectGlobalScript(state.ads.adsterraPopScript);
     
     // Refresh Direct Links
     document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
@@ -142,6 +168,7 @@ const showPage = (id: string) => {
         if (id === 'admin') {
             (document.getElementById('adsterra-link-input') as HTMLInputElement).value = state.ads.adsterraLink;
             (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value = state.ads.adsterraScript;
+            (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value = state.ads.adsterraPopScript;
         }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -157,9 +184,10 @@ const handleLogin = () => {
 const saveAds = () => {
     state.ads.adsterraLink = (document.getElementById('adsterra-link-input') as HTMLInputElement).value;
     state.ads.adsterraScript = (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value;
+    state.ads.adsterraPopScript = (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     refreshAllAds();
-    alert('تم تفعيل إعدادات Adsterra الجديدة!');
+    alert('تم تفعيل كافة مناطق إعلانات Adsterra بنجاح!');
 };
 
 const viewArticle = (id: string) => {
@@ -180,7 +208,7 @@ const viewArticle = (id: string) => {
                             <h3 class="text-2xl md:text-3xl font-black italic underline decoration-yellow-400">الرابط الحصري جاهز</h3>
                             <p class="text-sm opacity-90">اضغط بالأسفل للمتابعة وتأكيد اشتراكك الآن</p>
                         </div>
-                        <a href="${state.ads.adsterraLink}" target="_blank" class="adsterra-direct w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl">
+                        <a href="${state.ads.adsterraLink}" target="_blank" class="adsterra-direct w-full bg-white text-blue-900 px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl text-center">
                             انتقل للعرض الآن ⚡
                         </a>
                     </div>

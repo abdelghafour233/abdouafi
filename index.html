@@ -126,15 +126,19 @@
                 <div class="space-y-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">رابط Adsterra المباشر:</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">رابط Adsterra المباشر (Direct Link):</label>
                             <input type="text" id="adsterra-link-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-600/20">
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">سكريبت Adsterra (Banner/Zone):</label>
-                            <textarea id="adsterra-script-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-blue-600/20" placeholder="لصق السكريبت هنا..."></textarea>
+                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان البانر (Sidebar/Article):</label>
+                            <textarea id="adsterra-script-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-blue-600/20" placeholder="لصق سكريبت البانر هنا..."></textarea>
+                        </div>
+                        <div class="space-y-4 md:col-span-2">
+                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان شريط اجتماعي / منبثق (Social Bar / Popunder):</label>
+                            <textarea id="adsterra-pop-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-green-600/20" placeholder="لصق سكريبت الشريط الاجتماعي هنا..."></textarea>
                         </div>
                     </div>
-                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg">حفظ التغييرات</button>
+                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg hover:bg-blue-700 transition-colors">حفظ وتفعيل كافة الإعلانات 🚀</button>
                 </div>
             </div>
         </div>
