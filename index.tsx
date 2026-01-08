@@ -1,9 +1,9 @@
 
 /**
- * abdouweb - Adsterra & Monetag Revenue Engine PRO
+ * abdouweb - Pure Content Engine
  */
 
-const STORAGE_KEY = 'abdouweb_ads_v10'; 
+const STORAGE_KEY = 'abdouweb_clean_v1'; 
 
 const FALLBACK_IMG = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80";
 
@@ -11,32 +11,13 @@ const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
     ads: {
-        adsterraLink: "https://bouncingbuzz.com/zj3mgnqb3?key=06741e12c87b4f0448ad3a2ef3183b49",
-        adsterraScript: `<script type="text/javascript">
-	atOptions = {
-		'key' : '28268358',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 300,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/28268358/invoke.js"></script>`,
-        adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
-        adsterraExtraScript: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
-        adsterraNativeScript: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script>
-<div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
-        adsterraBanner2: `<script type="text/javascript">
-  atOptions = {
-    'key' : '28264796',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script type="text/javascript" src="https://bouncingbuzz.com/28264796/invoke.js"></script>`,
-        monetagScript: `<script src="https://otieu.com/4/10428641"></script>`
+        adsterraLink: "",
+        adsterraScript: "",
+        adsterraPopScript: "",
+        adsterraExtraScript: "",
+        adsterraNativeScript: "",
+        adsterraBanner2: "",
+        monetagScript: ""
     },
     articles: [
         {
@@ -62,64 +43,12 @@ const INITIAL_DATA = {
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
 
-const injectAdScriptToSelector = (selector: string, adCode: string) => {
-    if (!adCode) return;
-    const containers = document.querySelectorAll(selector);
-    containers.forEach(container => {
-        container.innerHTML = adCode;
-        const scripts = container.querySelectorAll('script');
-        scripts.forEach(oldScript => {
-            const newScript = document.createElement('script');
-            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            if (oldScript.src) {
-                newScript.src = oldScript.src;
-            } else {
-                newScript.innerHTML = oldScript.innerHTML;
-            }
-            oldScript.parentNode?.replaceChild(newScript, oldScript);
-        });
-    });
-};
-
-const injectGlobalScript = (adCode: string, idPrefix: string) => {
-    if (!adCode) return;
-    // تنظيف النسخ القديمة لضمان التحديث
-    document.querySelectorAll(`[id^="script-${idPrefix}-"]`).forEach(s => s.remove());
-    
-    const temp = document.createElement('div');
-    temp.innerHTML = adCode;
-    const scripts = temp.querySelectorAll('script');
-    scripts.forEach((oldScript, idx) => {
-        const scriptId = `script-${idPrefix}-${idx}`;
-        const newScript = document.createElement('script');
-        newScript.id = scriptId;
-        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-        if (oldScript.src) {
-            newScript.src = oldScript.src;
-        } else {
-            newScript.innerHTML = oldScript.innerHTML;
-        }
-        document.head.appendChild(newScript);
-    });
-};
+// تعطيل حقن الإعلانات
+const injectAdScriptToSelector = (selector: string, adCode: string) => {};
+const injectGlobalScript = (adCode: string, idPrefix: string) => {};
 
 const refreshAllAds = () => {
-    // تفعيل Monetag كأولوية قصوى
-    injectGlobalScript(state.ads.monetagScript, 'monetag');
-
-    injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
-    injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
-    injectAdScriptToSelector('#ad-article-middle', state.ads.adsterraBanner2);
-    injectAdScriptToSelector('#ad-native-point', state.ads.adsterraNativeScript);
-    injectAdScriptToSelector('#ad-article-bottom', state.ads.adsterraNativeScript);
-    
-    injectGlobalScript(state.ads.adsterraPopScript, 'adsterra-pop');
-    injectGlobalScript(state.ads.adsterraExtraScript, 'adsterra-extra');
-    
-    document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
-        el.href = state.ads.adsterraLink;
-        el.target = "_blank";
-    });
+    // تم إيقاف الإعلانات بالكامل
 };
 
 const getShareButtonsHtml = (title: string, id: string, compact = false) => {
@@ -144,7 +73,7 @@ const getShareButtonsHtml = (title: string, id: string, compact = false) => {
         </div>`;
     }
     return `<div class="viral-box bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] p-6 text-center my-8">
-        <h4 class="text-sm font-black mb-4">شارك لفتح القفل عن الجائزة</h4>
+        <h4 class="text-sm font-black mb-4">شارك المقال مع أصدقائك</h4>
         <div class="flex flex-wrap justify-center gap-3">
             <a href="https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}" target="_blank" class="bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-black text-xs hover:opacity-90 transition shadow-lg">واتساب</a>
             <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="bg-[#1877F2] text-white px-5 py-2.5 rounded-xl font-black text-xs hover:opacity-90 transition shadow-lg">فيسبوك</a>
@@ -160,17 +89,9 @@ const showPage = (id: string) => {
     if (id === 'admin' && !isLogged) document.getElementById('page-login')?.classList.remove('hidden');
     else if (target) {
         target.classList.remove('hidden');
-        if (id === 'admin') {
-            (document.getElementById('adsterra-link-input') as HTMLInputElement).value = state.ads.adsterraLink;
-            (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value = state.ads.adsterraScript;
-            (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value = state.ads.adsterraPopScript;
-            (document.getElementById('adsterra-native-input') as HTMLTextAreaElement).value = state.ads.adsterraNativeScript;
-            (document.getElementById('monetag-script-input') as HTMLTextAreaElement).value = state.ads.monetagScript;
-        }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     render();
-    setTimeout(refreshAllAds, 100);
 };
 
 const handleLogin = () => {
@@ -178,14 +99,10 @@ const handleLogin = () => {
     if (p === state.adminPass) { isLogged = true; showPage('admin'); }
 };
 
-const saveAds = () => {
-    state.ads.adsterraLink = (document.getElementById('adsterra-link-input') as HTMLInputElement).value;
-    state.ads.adsterraScript = (document.getElementById('adsterra-script-input') as HTMLTextAreaElement).value;
-    state.ads.adsterraPopScript = (document.getElementById('adsterra-pop-input') as HTMLTextAreaElement).value;
-    state.ads.adsterraNativeScript = (document.getElementById('adsterra-native-input') as HTMLTextAreaElement).value;
-    state.ads.monetagScript = (document.getElementById('monetag-script-input') as HTMLTextAreaElement).value;
+const saveSettings = () => {
+    state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    alert('تم تحديث إعدادات الإعلانات بنجاح!');
+    alert('تم حفظ الإعدادات بنجاح!');
     location.reload(); 
 };
 
@@ -202,10 +119,7 @@ const viewArticle = (id: string) => {
             <div class="max-w-3xl mx-auto space-y-8">
                 <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
                 <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${a.body}</div>
-                <div id="ad-article-middle" class="ad-container active-ad min-h-[250px] my-10"></div>
                 ${getShareButtonsHtml(a.title, a.id)}
-                <a href="${state.ads.adsterraLink}" target="_blank" class="adsterra-direct block w-full bg-blue-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all shadow-xl text-center">انتقل للعرض الآن ⚡</a>
-                <div id="ad-article-bottom" class="ad-container active-ad min-h-[100px] mt-10"></div>
             </div>
         </div>`;
     }
@@ -231,11 +145,10 @@ const render = () => {
 };
 
 Object.assign(window as any, { 
-    showPage, handleLogin, viewArticle, saveAds,
+    showPage, handleLogin, viewArticle, saveSettings,
     toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     render();
-    setTimeout(refreshAllAds, 500);
 });

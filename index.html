@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عبدو ويب abdouweb | صفقات وتقنية</title>
+    <title>عبدو ويب abdouweb | تقنية ومقالات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -21,8 +21,6 @@
         body { font-family: 'Tajawal', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
-        .ad-container iframe { max-width: 100% !important; border-radius: 1rem; margin: 0 auto; }
-        .active-ad { min-height: 250px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.02); border-radius: 2rem; }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
@@ -44,20 +42,16 @@
 
     <main class="flex-grow container mx-auto px-4 py-10 md:py-16">
         <div id="page-home" class="page-view space-y-16">
-            <h1 class="text-5xl md:text-7xl font-black text-center leading-tight">أفضل <span class="text-blue-600">العروض</span> والجوائز</h1>
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-8">
-                    <div id="articles-list" class="space-y-10"></div>
-                    <div id="ad-native-point" class="ad-container active-ad mt-10 min-h-[150px]"></div>
-                </div>
-                <aside class="lg:col-span-4 space-y-10">
-                    <div id="ad-sidebar-point" class="ad-container active-ad">إعلان Adsterra</div>
-                </aside>
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <h1 class="text-5xl md:text-7xl font-black leading-tight">عالم <span class="text-blue-600">التقنية</span> بين يديك</h1>
+                <p class="text-xl text-gray-500">مقالات حصرية، نصائح تقنية، وآخر أخبار عالم الربح من الإنترنت.</p>
+            </div>
+            <div class="max-w-5xl mx-auto">
+                <div id="articles-list" class="space-y-10"></div>
             </div>
         </div>
 
         <div id="page-article-detail" class="page-view hidden">
-            <div id="ad-article-top" class="ad-container active-ad mb-10 max-w-3xl mx-auto"></div>
             <div id="article-full-content"></div>
         </div>
 
@@ -70,42 +64,21 @@
         </div>
 
         <div id="page-admin" class="page-view hidden">
-            <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100">
-                <h2 class="text-3xl font-black mb-10">إعدادات الإعلانات الشاملة</h2>
+            <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 max-w-2xl mx-auto">
+                <h2 class="text-3xl font-black mb-10">إعدادات الموقع العام</h2>
                 <div class="space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Monetag Section -->
-                        <div class="space-y-4 col-span-2">
-                            <label class="text-xs font-black uppercase text-blue-600 border-r-2 border-blue-600 pr-2">إعدادات MONETAG:</label>
-                            <textarea id="monetag-script-input" class="w-full p-4 bg-blue-50/50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-200" rows="3" placeholder="لصق كود Monetag هنا..."></textarea>
-                        </div>
-
-                        <!-- Adsterra Section -->
-                        <div class="space-y-4">
-                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Direct Link:</label>
-                            <input type="text" id="adsterra-link-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-xs border border-gray-100">
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Banner 1:</label>
-                            <textarea id="adsterra-script-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Popunder:</label>
-                            <textarea id="adsterra-pop-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Native:</label>
-                            <textarea id="adsterra-native-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
-                        </div>
+                    <div class="space-y-4">
+                        <label class="text-xs font-black uppercase text-gray-400">اسم الموقع:</label>
+                        <input type="text" id="site-name-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-lg border border-gray-100" value="عبدو ويب Pro">
                     </div>
-                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-xl hover:bg-blue-700 transition">تحديث وحفظ الإعدادات 🚀</button>
+                    <button onclick="saveSettings()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-xl hover:bg-blue-700 transition">حفظ التغييرات 🚀</button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="py-10 text-center opacity-40 text-[10px] font-black uppercase">
-        عبدو ويب © 2025 | Monetag & Adsterra Integrated
+        عبدو ويب © 2025 | نسخة خالية من الإعلانات
     </footer>
 
     <script type="module" src="index.tsx"></script>
