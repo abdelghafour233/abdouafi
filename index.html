@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عبدو ويب abdouweb | صفقات وتقنية Adsterra</title>
+    <title>عبدو ويب abdouweb | صفقات وتقنية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -20,7 +20,6 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
         .ad-container iframe { max-width: 100% !important; border-radius: 1rem; margin: 0 auto; }
         .active-ad { min-height: 250px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.02); border-radius: 2rem; }
@@ -28,63 +27,31 @@
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Social Proof Toast -->
-    <div id="social-proof-toast" class="fixed bottom-6 right-6 z-[1000] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-4 rounded-2xl shadow-2xl flex items-center gap-4 transition-all duration-500 transform translate-y-full opacity-0 pointer-events-none max-w-xs">
-        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-        </div>
-        <div>
-            <p class="text-[10px] font-black text-blue-600 uppercase mb-0.5">نشاط مباشر</p>
-            <p class="text-xs font-bold"><span class="winner-name">...</span> <span class="winner-action font-normal text-gray-500 dark:text-gray-400">...</span></p>
-            <p class="text-[9px] text-gray-400 winner-time">...</p>
-        </div>
-    </div>
-
     <header class="sticky top-0 z-[100] bg-white/90 dark:bg-gray-900/90 backdrop-blur-2xl border-b border-gray-100 dark:border-gray-800">
         <div class="container mx-auto px-4 h-16 md:h-24 flex items-center justify-between">
-            <div class="flex items-center gap-4 cursor-pointer group" onclick="showPage('home')">
-                <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-600 rounded-[1.5rem] flex items-center justify-center text-white font-black italic shadow-2xl group-hover:rotate-12 transition-transform font-tajawal">A</div>
-                <div class="flex flex-col">
-                    <span class="text-xl md:text-3xl font-black tracking-tighter leading-none">عبدو ويب</span>
-                    <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest hidden md:block">Adsterra Verified</span>
-                </div>
+            <div class="flex items-center gap-4 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-600 rounded-[1.5rem] flex items-center justify-center text-white font-black italic shadow-2xl">A</div>
+                <span class="text-xl md:text-3xl font-black">عبدو ويب</span>
             </div>
-
-            <nav class="hidden lg:flex items-center gap-12 text-[11px] font-black uppercase tracking-widest">
-                <button onclick="showPage('home')" class="hover:text-blue-600 transition-colors">الرئيسية</button>
-                <button onclick="showPage('offers')" class="hover:text-blue-600 transition-colors">العروض</button>
-            </nav>
-
             <div class="flex items-center gap-2 md:gap-4">
-                <button onclick="toggleDarkMode()" class="p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
+                <button onclick="toggleDarkMode()" class="p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </button>
-                <button onclick="showPage('admin')" class="bg-gray-900 dark:bg-blue-600 text-white px-5 md:px-8 py-3 rounded-2xl font-black text-[10px] md:text-xs hover:scale-105 active:scale-95 transition">لوحة التحكم</button>
+                <button onclick="showPage('admin')" class="bg-blue-600 text-white px-5 py-3 rounded-2xl font-black text-xs">لوحة التحكم</button>
             </div>
         </div>
     </header>
 
     <main class="flex-grow container mx-auto px-4 py-10 md:py-16">
         <div id="page-home" class="page-view space-y-16">
-            <section class="text-center space-y-6 max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-8xl font-black leading-[1.1] text-gray-900 dark:text-white">أفضل <span class="text-blue-600">العروض</span> والجوائز</h1>
-                <p class="text-gray-500 dark:text-gray-400 text-lg md:text-2xl font-medium leading-relaxed">اكتشف أحدث المسابقات والحلول التقنية للربح من الإنترنت عبر Adsterra.</p>
-            </section>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16">
+            <h1 class="text-5xl md:text-7xl font-black text-center leading-tight">أفضل <span class="text-blue-600">العروض</span> والجوائز</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div class="lg:col-span-8">
                     <div id="articles-list" class="space-y-10"></div>
                     <div id="ad-native-point" class="ad-container active-ad mt-10 min-h-[150px]"></div>
                 </div>
                 <aside class="lg:col-span-4 space-y-10">
-                    <div id="ad-sidebar-point" class="ad-container active-ad dark:bg-gray-900 p-4 border border-gray-100 dark:border-gray-800 flex justify-center overflow-hidden">
-                        <span class="text-gray-300 text-[10px] uppercase font-black tracking-widest animate-pulse font-tajawal">إعلان Adsterra</span>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-gray-900 p-8 md:p-10 rounded-[3rem] border border-gray-100 dark:border-gray-800 shadow-sm">
-                        <h3 class="text-xl font-black mb-8 border-r-4 border-blue-600 pr-4">عروض سريعة</h3>
-                        <div id="offers-sidebar"></div>
-                    </div>
+                    <div id="ad-sidebar-point" class="ad-container active-ad">إعلان Adsterra</div>
                 </aside>
             </div>
         </div>
@@ -94,74 +61,51 @@
             <div id="article-full-content"></div>
         </div>
 
-        <div id="page-offers" class="page-view hidden text-center py-20">
-            <h2 class="text-4xl font-black mb-10">عروض وتقنيات 2025</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
-                    <h3 class="font-black text-xl mb-4">كود خصم نون: ABDOU90</h3>
-                    <a href="#" class="adsterra-direct block w-full bg-blue-600 text-white px-8 py-3 rounded-xl font-black text-center">نسخ الكود والربح</a>
-                </div>
-                <div class="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800">
-                    <h3 class="font-black text-xl mb-4">بطاقة أمازون: FREE-50</h3>
-                    <a href="#" class="adsterra-direct block w-full bg-blue-600 text-white px-8 py-3 rounded-xl font-black text-center">استلام العرض</a>
-                </div>
-            </div>
-        </div>
-
         <div id="page-login" class="page-view hidden max-w-md mx-auto py-24">
-            <div class="bg-white dark:bg-gray-900 p-10 md:p-12 rounded-[3.5rem] shadow-2xl border border-gray-50 dark:border-gray-800 text-center">
-                <h2 class="text-3xl font-black mb-10">تسجيل دخول المدير</h2>
-                <input type="password" id="admin-pass" class="w-full p-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl mb-6 text-center text-xl font-black outline-none focus:ring-2 focus:ring-blue-600 transition" placeholder="Passphrase">
-                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black text-lg shadow-2xl">دخول</button>
+            <div class="bg-white dark:bg-gray-900 p-10 rounded-[3.5rem] shadow-2xl border border-gray-50 text-center">
+                <h2 class="text-3xl font-black mb-10">دخول المدير</h2>
+                <input type="password" id="admin-pass" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl mb-6 text-center outline-none focus:ring-2 focus:ring-blue-600" placeholder="كلمة السر">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black">دخول</button>
             </div>
         </div>
 
         <div id="page-admin" class="page-view hidden">
-            <div class="bg-white dark:bg-gray-900 p-8 md:p-12 rounded-[3.5rem] border border-gray-100 dark:border-gray-800">
-                <div class="flex items-center justify-between mb-10">
-                    <h2 class="text-3xl font-black">إعدادات Adsterra الحصرية</h2>
-                    <div class="flex gap-4">
-                        <button onclick="resetSite()" class="bg-red-100 text-red-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-red-200 transition">إعادة ضبط المصنع</button>
-                        <button onclick="location.reload()" class="text-gray-400 font-bold text-xs uppercase tracking-widest">خروج</button>
-                    </div>
-                </div>
-                <div class="space-y-10">
+            <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100">
+                <h2 class="text-3xl font-black mb-10">إعدادات الإعلانات الشاملة</h2>
+                <div class="space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Monetag Section -->
+                        <div class="space-y-4 col-span-2">
+                            <label class="text-xs font-black uppercase text-blue-600 border-r-2 border-blue-600 pr-2">إعدادات MONETAG:</label>
+                            <textarea id="monetag-script-input" class="w-full p-4 bg-blue-50/50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-200" rows="3" placeholder="لصق كود Monetag هنا..."></textarea>
+                        </div>
+
+                        <!-- Adsterra Section -->
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">رابط Adsterra المباشر (Direct Link):</label>
-                            <input type="text" id="adsterra-link-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border-2 border-blue-600/20">
+                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Direct Link:</label>
+                            <input type="text" id="adsterra-link-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-xs border border-gray-100">
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان Adsterra البانر 1:</label>
-                            <textarea id="adsterra-script-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-blue-600/20" placeholder="لصق سكريبت Adsterra هنا..."></textarea>
+                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Banner 1:</label>
+                            <textarea id="adsterra-script-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">إعلان Adsterra البانر 2 (منتصف المقال):</label>
-                            <textarea id="adsterra-banner2-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-blue-400/20" placeholder="لصق سكريبت Adsterra الثاني هنا..."></textarea>
+                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Popunder:</label>
+                            <textarea id="adsterra-pop-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
                         </div>
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Popunder / Social Bar:</label>
-                            <textarea id="adsterra-pop-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-green-600/20" placeholder="سكريبت الشريط الاجتماعي..."></textarea>
-                        </div>
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Extra ID Script:</label>
-                            <textarea id="adsterra-extra-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-purple-600/20" placeholder="سكريبت إضافي من Adsterra..."></textarea>
-                        </div>
-                        <div class="space-y-4 md:col-span-2">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Adsterra Native / Container Ad:</label>
-                            <textarea id="adsterra-native-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-[10px] h-32 border-2 border-orange-600/20" placeholder="لصق سكريبت Native والحاوية هنا..."></textarea>
+                            <label class="text-xs font-black uppercase text-gray-400">Adsterra Native:</label>
+                            <textarea id="adsterra-native-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl font-mono text-xs border border-gray-100" rows="3"></textarea>
                         </div>
                     </div>
-                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-2xl text-lg hover:bg-blue-700 transition-colors">تحديث وتفعيل إعلانات Adsterra 🚀</button>
+                    <button onclick="saveAds()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-xl hover:bg-blue-700 transition">تحديث وحفظ الإعدادات 🚀</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-white dark:bg-gray-900 py-16 border-t border-gray-100 dark:border-gray-800">
-        <div class="container mx-auto px-4 text-center space-y-4">
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">عبدو ويب © 2025 | Adsterra Powered</p>
-        </div>
+    <footer class="py-10 text-center opacity-40 text-[10px] font-black uppercase">
+        عبدو ويب © 2025 | Monetag & Adsterra Integrated
     </footer>
 
     <script type="module" src="index.tsx"></script>
