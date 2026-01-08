@@ -4,7 +4,10 @@
  * 100% Adsterra Optimized - No other ad networks integrated.
  */
 
-const STORAGE_KEY = 'abdouweb_adsterra_final_v2'; 
+// تحديث المفتاح إلى v3 لضمان إعادة ضبط البيانات عند المستخدمين وتصحيح مشكلة الصور
+const STORAGE_KEY = 'abdouweb_adsterra_final_v3'; 
+
+const FALLBACK_IMG = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80";
 
 const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
@@ -37,6 +40,20 @@ const INITIAL_DATA = {
 <script type="text/javascript" src="https://bouncingbuzz.com/fff99eab9d1e62398408de9a9f30aabb/invoke.js"></script>`
     },
     articles: [
+        {
+            id: "hosting-profit-2025",
+            title: "دليل الربح من الأفلييت: كيف تجني آلاف الدولارات من تسويق استضافات المواقع؟",
+            body: `تعد استضافات المواقع (Web Hosting) من أكثر المجالات ربحية في عالم التسويق بالعمولة (Affiliate Marketing). لماذا؟ لأن الشركات تدفع عمولات ضخمة تصل إلى 200 دولار لكل عميل واحد، بالإضافة إلى الدخل المتكرر.
+
+في هذا الدليل، نكشف لك أسرار النجاح في هذا المجال:
+- لماذا مجال الاستضافات هو الأفضل للمبتدئين والمحترفين على حد سواء.
+- مراجعة لأفضل برامج الأفلييت التي تدفع عمولات مرتفعة مثل Bluehost و Cloudways.
+- استراتيجيات ذكية لجلب الزوار المهتمين ببناء مواقعهم الخاصة.
+
+إذا كنت تبحث عن مصدر دخل حقيقي ومستدام في 2025، فإن تسويق الاستضافات هو بوابتك الذهبية. ابدأ الآن ولا تضيع الفرصة.`,
+            category: "أفلييت واستضافات",
+            img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?w=800&q=80"
+        },
         {
             id: "win-iphone-2025",
             title: "مسابقة عبدو ويب: كيف تحصل على آيفون 16 برو مجاناً؟",
@@ -72,6 +89,12 @@ const INITIAL_DATA = {
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || INITIAL_DATA;
 let isLogged = false;
+
+// دالة لمعالجة أخطاء الصور واستبدالها بصورة افتراضية
+const handleImageError = (img: HTMLImageElement) => {
+    img.onerror = null;
+    img.src = FALLBACK_IMG;
+};
 
 const injectAdScriptToSelector = (selector: string, adCode: string) => {
     if (!adCode) return;
@@ -112,18 +135,11 @@ const injectGlobalScript = (adCode: string) => {
 };
 
 const refreshAllAds = () => {
-    // Banner 1
     injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
-    
-    // Banner 2 (New)
     injectAdScriptToSelector('#ad-article-middle', state.ads.adsterraBanner2);
-    
-    // Native
     injectAdScriptToSelector('#ad-native-point', state.ads.adsterraNativeScript);
     injectAdScriptToSelector('#ad-article-bottom', state.ads.adsterraNativeScript);
-    
-    // Global Scripts
     injectGlobalScript(state.ads.adsterraPopScript);
     injectGlobalScript(state.ads.adsterraExtraScript);
     
@@ -220,21 +236,24 @@ const viewArticle = (id: string) => {
     if (!a) return;
     const content = document.getElementById('article-full-content');
     if (content) {
-        // Split body to inject ad in middle
         const lines = a.body.split('\n');
         const mid = Math.floor(lines.length / 2);
         const topPart = lines.slice(0, mid).join('\n');
         const bottomPart = lines.slice(mid).join('\n');
+        const articleImg = a.img || FALLBACK_IMG;
 
         content.innerHTML = `
             <div class="space-y-8 animate-in fade-in duration-700">
-                <img src="${a.img}" class="w-full h-[300px] md:h-[550px] object-cover rounded-[3rem] shadow-2xl">
+                <div class="relative w-full h-[300px] md:h-[550px] overflow-hidden rounded-[3rem] shadow-2xl bg-gray-200">
+                    <img src="${articleImg}" 
+                         class="w-full h-full object-cover" 
+                         onerror="this.src='${FALLBACK_IMG}'; this.onerror=null;">
+                </div>
                 <div class="max-w-3xl mx-auto space-y-8">
                     <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">${a.title}</h1>
                     
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${topPart}</div>
                     
-                    <!-- New Banner Ad in Middle of Content -->
                     <div id="ad-article-middle" class="ad-container active-ad min-h-[250px] my-10"></div>
                     
                     <div class="text-lg md:text-2xl leading-[1.8] text-gray-700 dark:text-gray-300 whitespace-pre-line font-medium">${bottomPart}</div>
@@ -261,10 +280,14 @@ const viewArticle = (id: string) => {
 const render = () => {
     const artList = document.getElementById('articles-list');
     if (artList) {
-        artList.innerHTML = state.articles.map(a => `
+        artList.innerHTML = state.articles.map(a => {
+            const articleImg = a.img || FALLBACK_IMG;
+            return `
             <div class="group bg-white dark:bg-gray-900 p-6 md:p-8 rounded-[3rem] border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row gap-8 hover:shadow-xl transition-all mb-10 overflow-hidden">
-                <div class="w-full md:w-72 h-60 overflow-hidden rounded-[2.5rem] shrink-0 cursor-pointer" onclick="window.viewArticle('${a.id}')">
-                    <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="w-full md:w-72 h-60 overflow-hidden rounded-[2.5rem] shrink-0 cursor-pointer bg-gray-100" onclick="window.viewArticle('${a.id}')">
+                    <img src="${articleImg}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         onerror="this.src='${FALLBACK_IMG}'; this.onerror=null;">
                 </div>
                 <div class="flex flex-col justify-center flex-1">
                     <div onclick="window.viewArticle('${a.id}')" class="cursor-pointer">
@@ -275,14 +298,16 @@ const render = () => {
                     <button onclick="window.viewArticle('${a.id}')" class="bg-gray-900 dark:bg-blue-600 text-white w-fit px-8 py-3 rounded-2xl font-black text-xs hover:scale-105 transition-all">اقرأ المزيد</button>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     }
 
     const side = document.getElementById('offers-sidebar');
     if (side) {
         side.innerHTML = state.offers.map(o => `
             <div class="group flex gap-4 items-center p-4 rounded-[1.5rem] bg-gray-50 dark:bg-gray-800/40 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer mb-3" onclick="window.showPage('offers')">
-                <img src="${o.img}" class="w-16 h-16 object-cover rounded-2xl shrink-0">
+                <img src="${o.img || FALLBACK_IMG}" 
+                     class="w-16 h-16 object-cover rounded-2xl shrink-0"
+                     onerror="this.src='${FALLBACK_IMG}'; this.onerror=null;">
                 <div class="flex-1 overflow-hidden">
                     <h4 class="font-black text-sm mb-1 truncate">${o.title}</h4>
                     <p class="font-black text-xs opacity-70">${o.price}</p>
@@ -294,7 +319,13 @@ const render = () => {
 
 Object.assign(window as any, { 
     showPage, handleLogin, viewArticle, saveAds,
-    toggleDarkMode: () => document.documentElement.classList.toggle('dark')
+    toggleDarkMode: () => document.documentElement.classList.toggle('dark'),
+    resetSite: () => {
+        if(confirm('هل أنت متأكد من إعادة ضبط الموقع وحذف كافة الإعدادات؟')) {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        }
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
