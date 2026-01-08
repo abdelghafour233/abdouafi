@@ -3,7 +3,7 @@
  * abdouweb - Adsterra & Monetag Revenue Engine PRO
  */
 
-const STORAGE_KEY = 'abdouweb_ads_v8'; 
+const STORAGE_KEY = 'abdouweb_ads_v10'; 
 
 const FALLBACK_IMG = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80";
 
@@ -11,31 +11,31 @@ const INITIAL_DATA = {
     siteName: "عبدو ويب Pro",
     adminPass: "admin",
     ads: {
-        adsterraLink: "https://bouncingbuzz.com/wga5mrxfz?key=2d97310179e241819b7915da9473f01d",
+        adsterraLink: "https://bouncingbuzz.com/zj3mgnqb3?key=06741e12c87b4f0448ad3a2ef3183b49",
         adsterraScript: `<script type="text/javascript">
 	atOptions = {
-		'key' : '28265724',
+		'key' : '28268358',
 		'format' : 'iframe',
 		'height' : 250,
 		'width' : 300,
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/28265724/invoke.js"></script>`,
+<script type="text/javascript" src="//www.highperformanceformat.com/28268358/invoke.js"></script>`,
         adsterraPopScript: `<script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>`,
         adsterraExtraScript: `<script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>`,
         adsterraNativeScript: `<script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script>
 <div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>`,
         adsterraBanner2: `<script type="text/javascript">
   atOptions = {
-    'key' : 'fff99eab9d1e62398408de9a9f30aabb',
+    'key' : '28264796',
     'format' : 'iframe',
     'height' : 250,
     'width' : 300,
     'params' : {}
   };
 </script>
-<script type="text/javascript" src="https://bouncingbuzz.com/fff99eab9d1e62398408de9a9f30aabb/invoke.js"></script>`,
+<script type="text/javascript" src="https://bouncingbuzz.com/28264796/invoke.js"></script>`,
         monetagScript: `<script src="https://otieu.com/4/10428641"></script>`
     },
     articles: [
@@ -83,13 +83,14 @@ const injectAdScriptToSelector = (selector: string, adCode: string) => {
 
 const injectGlobalScript = (adCode: string, idPrefix: string) => {
     if (!adCode) return;
+    // تنظيف النسخ القديمة لضمان التحديث
+    document.querySelectorAll(`[id^="script-${idPrefix}-"]`).forEach(s => s.remove());
+    
     const temp = document.createElement('div');
     temp.innerHTML = adCode;
     const scripts = temp.querySelectorAll('script');
     scripts.forEach((oldScript, idx) => {
         const scriptId = `script-${idPrefix}-${idx}`;
-        if (document.getElementById(scriptId)) return;
-
         const newScript = document.createElement('script');
         newScript.id = scriptId;
         Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -103,6 +104,9 @@ const injectGlobalScript = (adCode: string, idPrefix: string) => {
 };
 
 const refreshAllAds = () => {
+    // تفعيل Monetag كأولوية قصوى
+    injectGlobalScript(state.ads.monetagScript, 'monetag');
+
     injectAdScriptToSelector('#ad-sidebar-point', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-top', state.ads.adsterraScript);
     injectAdScriptToSelector('#ad-article-middle', state.ads.adsterraBanner2);
@@ -111,7 +115,6 @@ const refreshAllAds = () => {
     
     injectGlobalScript(state.ads.adsterraPopScript, 'adsterra-pop');
     injectGlobalScript(state.ads.adsterraExtraScript, 'adsterra-extra');
-    injectGlobalScript(state.ads.monetagScript, 'monetag');
     
     document.querySelectorAll('.adsterra-direct').forEach((el: any) => {
         el.href = state.ads.adsterraLink;
