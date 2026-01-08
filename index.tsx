@@ -3,7 +3,7 @@
  * abdouweb - Adsterra & Monetag Revenue Engine PRO
  */
 
-const STORAGE_KEY = 'abdouweb_ads_v5'; 
+const STORAGE_KEY = 'abdouweb_ads_v6'; 
 
 const FALLBACK_IMG = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80";
 
@@ -36,7 +36,7 @@ const INITIAL_DATA = {
   };
 </script>
 <script type="text/javascript" src="https://bouncingbuzz.com/fff99eab9d1e62398408de9a9f30aabb/invoke.js"></script>`,
-        monetagScript: `<script src="https://otieu.com/4/10428864"></script>`
+        monetagScript: `<script src="https://otieu.com/4/10430934"></script>`
     },
     articles: [
         {
