@@ -69,6 +69,14 @@ const getShareButtonsHtml = (title: string, id: string, compact = false) => {
 const showPage = (id: string) => {
     document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
     const target = document.getElementById(`page-${id}`);
+    
+    // Reset back button
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) {
+        backBtn.setAttribute('onclick', "showPage('home')");
+        (backBtn.querySelector('span') as HTMLElement).innerText = "العودة للرئيسية";
+    }
+
     if (id === 'admin' && !isLogged) document.getElementById('page-login')?.classList.remove('hidden');
     else if (target) {
         target.classList.remove('hidden');
@@ -159,12 +167,11 @@ const resetArtForm = () => {
     document.getElementById('art-form-title')!.innerText = "إضافة مقال جديد";
 };
 
-const viewArticle = (id: string) => {
-    const a = state.articles.find((x: any) => x.id === id);
-    if (!a) return;
+const renderFullArticle = (a: any, fromPreview = false) => {
     const content = document.getElementById('article-full-content');
     if (content) {
         content.innerHTML = `<div class="space-y-8 animate-in fade-in duration-700">
+            ${fromPreview ? '<div class="bg-yellow-100 text-yellow-800 p-4 rounded-2xl text-center font-bold mb-4">وضع المعاينة: هذا المقال لم يتم حفظه بعد</div>' : ''}
             <div class="relative w-full h-[300px] md:h-[550px] overflow-hidden rounded-[3rem] shadow-2xl bg-gray-200">
                 <img src="${a.img || FALLBACK_IMG}" class="w-full h-full object-cover" onerror="this.src='${FALLBACK_IMG}'">
             </div>
@@ -179,7 +186,35 @@ const viewArticle = (id: string) => {
             </div>
         </div>`;
     }
+    
+    if (fromPreview) {
+        const backBtn = document.getElementById('back-btn');
+        if (backBtn) {
+            backBtn.setAttribute('onclick', "showPage('admin')");
+            (backBtn.querySelector('span') as HTMLElement).innerText = "العودة للوحة التحكم";
+        }
+    }
+
     showPage('article-detail');
+};
+
+const previewForm = () => {
+    const title = (document.getElementById('art-title') as HTMLInputElement).value;
+    const img = (document.getElementById('art-img') as HTMLInputElement).value;
+    const url = (document.getElementById('art-url') as HTMLInputElement).value;
+    const category = (document.getElementById('art-category') as HTMLInputElement).value;
+    const body = (document.getElementById('art-body') as HTMLTextAreaElement).value;
+
+    if (!title || !body) return alert("يرجى ملء العنوان والمحتوى للمعاينة");
+
+    const tempArt = { id: 'temp-preview', title, img, url, category, body };
+    renderFullArticle(tempArt, true);
+};
+
+const viewArticle = (id: string) => {
+    const a = state.articles.find((x: any) => x.id === id);
+    if (!a) return;
+    renderFullArticle(a);
 };
 
 const renderAdmin = () => {
@@ -231,7 +266,7 @@ const render = () => {
 };
 
 Object.assign(window as any, { 
-    showPage, handleLogin, viewArticle, saveSettings, deleteArticle, editArticle, saveArticle, resetArtForm,
+    showPage, handleLogin, viewArticle, saveSettings, deleteArticle, editArticle, saveArticle, resetArtForm, previewForm,
     toggleDarkMode: () => document.documentElement.classList.toggle('dark')
 });
 

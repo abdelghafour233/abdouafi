@@ -57,9 +57,9 @@
         <div id="page-article-detail" class="page-view hidden">
             <div id="article-full-content"></div>
             <div class="max-w-3xl mx-auto mt-10">
-                <button onclick="showPage('home')" class="text-blue-600 font-bold flex items-center gap-2">
+                <button id="back-btn" onclick="showPage('home')" class="text-blue-600 font-bold flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7 7-7"/></svg>
-                    العودة للرئيسية
+                    <span>العودة للرئيسية</span>
                 </button>
             </div>
         </div>
@@ -86,7 +86,10 @@
                         <input type="text" id="art-category" placeholder="التصنيف (مثال: تقنية)" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600" value="عام">
                         <textarea id="art-body" rows="6" placeholder="محتوى المقال..." class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600"></textarea>
                         <div class="flex gap-2 pt-4">
-                            <button onclick="saveArticle()" class="flex-1 bg-blue-600 text-white p-4 rounded-xl font-black shadow-lg">حفظ المقال</button>
+                            <button onclick="saveArticle()" class="flex-[3] bg-blue-600 text-white p-4 rounded-xl font-black shadow-lg hover:bg-blue-700 transition">حفظ المقال</button>
+                            <button onclick="previewForm()" title="معاينة ما تكتب" class="flex-1 bg-gray-800 text-white p-4 rounded-xl flex items-center justify-center hover:bg-black transition">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </button>
                             <button onclick="resetArtForm()" class="bg-gray-200 dark:bg-gray-700 p-4 rounded-xl">إلغاء</button>
                         </div>
                     </div>
