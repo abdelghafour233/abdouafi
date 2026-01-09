@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عبدو ويب abdouweb | تقنية ومقالات</title>
+    <title>عبدو ويب abdouweb | إدارة المحتوى</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -21,6 +21,7 @@
         body { font-family: 'Tajawal', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+        .page-view.hidden { display: none; }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
@@ -41,20 +42,29 @@
     </header>
 
     <main class="flex-grow container mx-auto px-4 py-10 md:py-16">
+        <!-- Home Page -->
         <div id="page-home" class="page-view space-y-16">
             <div class="max-w-4xl mx-auto text-center space-y-6">
                 <h1 class="text-5xl md:text-7xl font-black leading-tight">عالم <span class="text-blue-600">التقنية</span> بين يديك</h1>
-                <p class="text-xl text-gray-500">مقالات حصرية، نصائح تقنية، وآخر أخبار عالم الربح من الإنترنت.</p>
+                <p class="text-xl text-gray-500">مقالات حصرية، نصائح تقنية، وإدارة محتوى احترافية.</p>
             </div>
             <div class="max-w-5xl mx-auto">
                 <div id="articles-list" class="space-y-10"></div>
             </div>
         </div>
 
+        <!-- Article Detail -->
         <div id="page-article-detail" class="page-view hidden">
             <div id="article-full-content"></div>
+            <div class="max-w-3xl mx-auto mt-10">
+                <button onclick="showPage('home')" class="text-blue-600 font-bold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7 7-7"/></svg>
+                    العودة للرئيسية
+                </button>
+            </div>
         </div>
 
+        <!-- Login -->
         <div id="page-login" class="page-view hidden max-w-md mx-auto py-24">
             <div class="bg-white dark:bg-gray-900 p-10 rounded-[3.5rem] shadow-2xl border border-gray-50 text-center">
                 <h2 class="text-3xl font-black mb-10">دخول المدير</h2>
@@ -63,22 +73,49 @@
             </div>
         </div>
 
-        <div id="page-admin" class="page-view hidden">
-            <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 max-w-2xl mx-auto">
-                <h2 class="text-3xl font-black mb-10">إعدادات الموقع العام</h2>
-                <div class="space-y-8">
+        <!-- Admin Panel -->
+        <div id="page-admin" class="page-view hidden grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <!-- Form Section -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 shadow-sm">
+                    <h2 id="art-form-title" class="text-2xl font-black mb-6">إضافة مقال جديد</h2>
                     <div class="space-y-4">
-                        <label class="text-xs font-black uppercase text-gray-400">اسم الموقع:</label>
-                        <input type="text" id="site-name-input" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-lg border border-gray-100" value="عبدو ويب Pro">
+                        <input type="text" id="art-title" placeholder="عنوان المقال" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600">
+                        <input type="text" id="art-img" placeholder="رابط الصورة (URL)" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600">
+                        <input type="text" id="art-url" placeholder="رابط العرض / الأفلييت (اختياري)" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600">
+                        <input type="text" id="art-category" placeholder="التصنيف (مثال: تقنية)" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600" value="عام">
+                        <textarea id="art-body" rows="6" placeholder="محتوى المقال..." class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl outline-none border border-transparent focus:border-blue-600"></textarea>
+                        <div class="flex gap-2 pt-4">
+                            <button onclick="saveArticle()" class="flex-1 bg-blue-600 text-white p-4 rounded-xl font-black shadow-lg">حفظ المقال</button>
+                            <button onclick="resetArtForm()" class="bg-gray-200 dark:bg-gray-700 p-4 rounded-xl">إلغاء</button>
+                        </div>
                     </div>
-                    <button onclick="saveSettings()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-xl hover:bg-blue-700 transition">حفظ التغييرات 🚀</button>
+                </div>
+
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 shadow-sm">
+                    <h2 class="text-xl font-black mb-4">إعدادات الموقع</h2>
+                    <input type="text" id="site-name-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl mb-4" placeholder="اسم الموقع">
+                    <button onclick="saveSettings()" class="w-full bg-gray-900 dark:bg-blue-800 text-white p-4 rounded-xl font-bold">تحديث الإعدادات</button>
+                </div>
+            </div>
+
+            <!-- List Section -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 shadow-sm">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-black">إدارة المقالات</h2>
+                        <span class="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-xs font-bold">قائمة المحتوى</span>
+                    </div>
+                    <div id="admin-articles-list" class="space-y-4">
+                        <!-- Articles will load here -->
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="py-10 text-center opacity-40 text-[10px] font-black uppercase">
-        عبدو ويب © 2025 | نسخة خالية من الإعلانات
+        عبدو ويب © 2025 | نظام إدارة المحتوى Pro
     </footer>
 
     <script type="module" src="index.tsx"></script>
