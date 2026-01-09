@@ -64,7 +64,11 @@ const showPage = (id: string) => {
     if (id === 'admin' && !isLogged) document.getElementById('page-login')?.classList.remove('hidden');
     else if (target) {
         target.classList.remove('hidden');
-        if (id === 'admin') renderAdmin();
+        if (id === 'admin') {
+            (document.getElementById('site-name-input') as HTMLInputElement).value = state.siteName;
+            (document.getElementById('admin-pass-input') as HTMLInputElement).value = state.adminPass;
+            renderAdmin();
+        }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (id === 'home') render();
@@ -73,12 +77,20 @@ const showPage = (id: string) => {
 const handleLogin = () => {
     const p = (document.getElementById('admin-pass') as HTMLInputElement).value;
     if (p === state.adminPass) { isLogged = true; showPage('admin'); }
+    else alert("كلمة السر خاطئة!");
 };
 
 const saveSettings = () => {
-    state.siteName = (document.getElementById('site-name-input') as HTMLInputElement).value;
+    const newName = (document.getElementById('site-name-input') as HTMLInputElement).value;
+    const newPass = (document.getElementById('admin-pass-input') as HTMLInputElement).value;
+    
+    if (!newPass) return alert("لا يمكن ترك كلمة السر فارغة");
+    
+    state.siteName = newName;
+    state.adminPass = newPass;
+    
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    alert('تم حفظ إعدادات الموقع!');
+    alert('تم حفظ إعدادات الموقع بنجاح!');
 };
 
 const deleteArticle = (id: string) => {
@@ -175,7 +187,7 @@ const renderAdmin = () => {
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="window.viewArticle('${a.id}')" class="p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm hover:text-blue-600" title="معاينة (عين)">
+                    <button onclick="window.viewArticle('${a.id}')" class="p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm hover:text-blue-600" title="معاينة">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                     </button>
                     <button onclick="window.editArticle('${a.id}')" class="p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm hover:text-green-600">

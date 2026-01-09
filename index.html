@@ -94,8 +94,17 @@
 
                 <div class="bg-white dark:bg-gray-900 p-8 rounded-[3rem] border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black mb-4">إعدادات الموقع</h2>
-                    <input type="text" id="site-name-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl mb-4" placeholder="اسم الموقع">
-                    <button onclick="saveSettings()" class="w-full bg-gray-900 dark:bg-blue-800 text-white p-4 rounded-xl font-bold">تحديث الإعدادات</button>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-400 block mb-1 px-2">اسم الموقع</label>
+                            <input type="text" id="site-name-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" placeholder="اسم الموقع">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-400 block mb-1 px-2">كلمة سر المدير</label>
+                            <input type="text" id="admin-pass-input" class="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" placeholder="كلمة السر الجديدة">
+                        </div>
+                        <button onclick="saveSettings()" class="w-full bg-gray-900 dark:bg-blue-800 text-white p-4 rounded-xl font-bold">تحديث الإعدادات</button>
+                    </div>
                 </div>
             </div>
 
