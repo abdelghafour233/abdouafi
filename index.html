@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عبدو ويب abdouweb | إدارة المحتوى</title>
     
+    <!-- Adsterra Popunder -->
+    <script src="https://bouncingbuzz.com/3d/40/12/3d4012bf393d5dde160f3b0dd073d124.js"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -23,6 +26,7 @@
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
         .page-view.hidden { display: none; }
+        .ad-slot { display: flex; justify-content: center; margin: 2rem 0; clear: both; }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0b0f1a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
@@ -43,6 +47,21 @@
     </header>
 
     <main class="flex-grow container mx-auto px-4 py-10 md:py-16">
+        
+        <!-- Adsterra Banner 300x250 Top -->
+        <div class="ad-slot">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'fff99eab9d1e62398408de9a9f30aabb',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="https://bouncingbuzz.com/fff99eab9d1e62398408de9a9f30aabb/invoke.js"></script>
+        </div>
+
         <!-- Home Page -->
         <div id="page-home" class="page-view space-y-16">
             <div class="max-w-4xl mx-auto text-center space-y-6">
@@ -58,6 +77,13 @@
         <!-- Article Detail -->
         <div id="page-article-detail" class="page-view hidden">
             <div id="article-full-content"></div>
+            
+            <!-- Adsterra Native Container -->
+            <div class="ad-slot">
+                <script async="async" data-cfasync="false" src="https://bouncingbuzz.com/a8b678d7d8c502dc8ae4d07cc79789d2/invoke.js"></script>
+                <div id="container-a8b678d7d8c502dc8ae4d07cc79789d2"></div>
+            </div>
+
             <div class="max-w-3xl mx-auto mt-10">
                 <button id="back-btn" onclick="showPage('home')" class="text-blue-600 font-bold flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7 7-7"/></svg>
@@ -68,7 +94,7 @@
 
         <!-- Login -->
         <div id="page-login" class="page-view hidden max-w-md mx-auto py-24">
-            <div class="bg-white dark:bg-gray-900 p-10 rounded-[3.5rem] shadow-2xl border border-gray-50 text-center">
+            <div class="bg-white dark:bg-gray-900 p-10 rounded-[3.5rem] shadow-2xl border border-gray-100 text-center">
                 <h2 class="text-3xl font-black mb-10">دخول المدير</h2>
                 <input type="password" id="admin-pass" class="w-full p-5 bg-gray-50 dark:bg-gray-800 rounded-2xl mb-6 text-center outline-none focus:ring-2 focus:ring-blue-600" placeholder="كلمة السر">
                 <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black">دخول</button>
@@ -131,6 +157,9 @@
     <footer class="py-10 text-center opacity-40 text-[10px] font-black uppercase">
         عبدو ويب © 2025 | نظام إدارة المحتوى Pro
     </footer>
+
+    <!-- Adsterra Social Bar -->
+    <script src="https://bouncingbuzz.com/18/8b/2d/188b2d4248e4748cda209b5a7c18dcb0.js"></script>
 
     <script type="module" src="index.tsx"></script>
 </body>
