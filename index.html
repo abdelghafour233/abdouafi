@@ -80,7 +80,8 @@
                     </h2>
                     
                     <div class="relative group">
-                        <input type="file" id="image-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                        <!-- Added onchange attribute directly -->
+                        <input type="file" id="image-upload" accept="image/*" onchange="window.handleImageUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
                         <div id="upload-placeholder" class="border-3 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl h-64 flex flex-col items-center justify-center gap-4 group-hover:border-violet-500 group-hover:bg-violet-50 dark:group-hover:bg-violet-900/10 transition-all">
                             <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-violet-500 group-hover:scale-110 transition-transform">
                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -90,7 +91,8 @@
                         <!-- Preview Container -->
                         <div id="preview-container" class="hidden relative h-64 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
                             <img id="image-preview" class="w-full h-full object-contain bg-black/50">
-                            <button id="remove-image" class="absolute top-2 left-2 bg-red-500 text-white p-2 rounded-full shadow-lg hover:scale-110 transition z-30">
+                            <!-- Added onclick attribute directly -->
+                            <button id="remove-image" onclick="window.removeImage(event)" class="absolute top-2 left-2 bg-red-500 text-white p-2 rounded-full shadow-lg hover:scale-110 transition z-30">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                             </button>
                         </div>
@@ -113,7 +115,8 @@
                         <input type="text" id="custom-prompt" placeholder="مثال: اجعل الألوان زاهية، أضف نظارات شمسية..." class="w-full p-3 bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-violet-500 transition">
                     </div>
 
-                    <button id="generate-btn" class="w-full mt-6 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white py-4 rounded-xl font-black text-lg shadow-lg shadow-violet-600/30 hover:shadow-violet-600/50 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    <!-- Added onclick attribute directly -->
+                    <button id="generate-btn" onclick="window.generateImage()" class="w-full mt-6 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white py-4 rounded-xl font-black text-lg shadow-lg shadow-violet-600/30 hover:shadow-violet-600/50 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                         <span class="flex items-center justify-center gap-2">
                             <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                             تحويل الصورة الآن

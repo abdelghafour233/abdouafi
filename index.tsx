@@ -21,7 +21,6 @@ const STYLES = [
 const getAIClient = () => {
     if (!aiClient) {
         try {
-            // Check for API Key presence safely
             if (!process.env.API_KEY) {
                 console.warn("API Key might be missing in process.env");
             }
@@ -81,7 +80,7 @@ const updateUIState = () => {
     }
 
     // Toggle Result Visibility
-    if (!isProcessing && resultImg && (resultImg as HTMLImageElement).src && (resultImg as HTMLImageElement).src !== window.location.href && !(resultImg as HTMLImageElement).src.endsWith('.html')) {
+    if (!isProcessing && resultImg && (resultImg as HTMLImageElement).src && (resultImg as HTMLImageElement).src.length > 100) {
         empty?.classList.add('hidden');
         resultImg.classList.remove('hidden');
         actions?.classList.remove('hidden');
@@ -103,7 +102,7 @@ const handleImageUpload = async (event: Event) => {
         try {
             const base64 = await fileToBase64(file);
             currentImageBase64 = base64;
-            console.log("Image converted to base64 successfully");
+            console.log("Image converted to base64");
             
             // Show Preview
             const preview = document.getElementById('image-preview') as HTMLImageElement;
@@ -123,7 +122,8 @@ const handleImageUpload = async (event: Event) => {
 };
 
 const removeImage = (e?: Event) => {
-    if(e) e.stopPropagation(); // Prevent triggering upload input behind the button
+    if(e) e.stopPropagation(); 
+    console.log("Removing image");
     currentImageBase64 = null;
     const input = document.getElementById('image-upload') as HTMLInputElement;
     if (input) input.value = '';
@@ -131,7 +131,6 @@ const removeImage = (e?: Event) => {
     document.getElementById('upload-placeholder')?.classList.remove('hidden');
     document.getElementById('preview-container')?.classList.add('hidden');
     
-    // Clear preview src to avoid lingering images
     const preview = document.getElementById('image-preview') as HTMLImageElement;
     if(preview) preview.src = '';
 
@@ -144,7 +143,11 @@ const selectStyle = (id: string) => {
 };
 
 const generateImage = async () => {
-    if (!currentImageBase64) return alert("الرجاء رفع صورة أولاً");
+    console.log("Generating image...");
+    if (!currentImageBase64) {
+        alert("الرجاء رفع صورة أولاً");
+        return;
+    }
 
     isProcessing = true;
     updateUIState();
@@ -152,13 +155,11 @@ const generateImage = async () => {
     const styleObj = STYLES.find(s => s.id === selectedStyle);
     const userPrompt = (document.getElementById('custom-prompt') as HTMLInputElement)?.value || '';
     
-    // Construct Prompt
     const finalPrompt = `${styleObj?.prompt || ''} ${userPrompt}. Maintain the original composition and subject, just change the artistic style.`;
 
     try {
         const ai = getAIClient();
         
-        // Clean base64 string for API (remove data:image/xxx;base64, prefix)
         const base64Data = currentImageBase64.split(',')[1];
         const mimeType = currentImageBase64.substring(currentImageBase64.indexOf(':') + 1, currentImageBase64.indexOf(';'));
 
@@ -166,22 +167,13 @@ const generateImage = async () => {
             model: 'gemini-2.5-flash-image',
             contents: {
                 parts: [
-                    { 
-                        inlineData: { 
-                            mimeType: mimeType, 
-                            data: base64Data 
-                        } 
-                    },
-                    { 
-                        text: finalPrompt 
-                    }
+                    { inlineData: { mimeType: mimeType, data: base64Data } },
+                    { text: finalPrompt }
                 ]
             }
         });
 
-        // Extract Image from Response
         let generatedBase64 = null;
-        
         if (response.candidates && response.candidates[0].content.parts) {
             for (const part of response.candidates[0].content.parts) {
                 if (part.inlineData) {
@@ -205,14 +197,21 @@ const generateImage = async () => {
 
     } catch (error) {
         console.error("AI Error:", error);
-        alert("حدث خطأ أثناء المعالجة. يرجى التأكد من الاتصال بالإنترنت والمحاولة مرة أخرى.");
+        alert("حدث خطأ أثناء المعالجة. حاول مرة أخرى.");
     } finally {
         isProcessing = false;
         updateUIState();
     }
 };
 
-// Global Exposure for HTML onclick attributes
+// Initialization Logic
+const initApp = () => {
+    console.log("Initializing App UI...");
+    renderStyles();
+};
+
+// IMMEDIATE EXPOSURE TO WINDOW
+// This ensures that onclick="window.xxx()" works even if initApp hasn't run yet.
 Object.assign(window as any, {
     handleImageUpload,
     removeImage,
@@ -220,23 +219,9 @@ Object.assign(window as any, {
     generateImage
 });
 
-// Init Event Listeners safely
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("App Initialized");
-    renderStyles();
-    
-    const uploadInput = document.getElementById('image-upload');
-    if (uploadInput) {
-        uploadInput.addEventListener('change', handleImageUpload);
-    }
-
-    const removeBtn = document.getElementById('remove-image');
-    if (removeBtn) {
-        removeBtn.addEventListener('click', removeImage);
-    }
-
-    const generateBtn = document.getElementById('generate-btn');
-    if (generateBtn) {
-        generateBtn.addEventListener('click', generateImage);
-    }
-});
+// Run Init logic
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
