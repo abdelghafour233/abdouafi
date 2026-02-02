@@ -16,56 +16,76 @@ const STYLES = [
     { id: 'gta', name: 'GTA Style', prompt: 'Transform this into a Grand Theft Auto (GTA) loading screen art style. Vectorized look, bold outlines, saturated colors.' },
 ];
 
+// Helper: Safely get API Key string
+const getApiKeyString = (): string | undefined => {
+    let key: string | undefined = undefined;
+    
+    // Try accessing process.env safely
+    try {
+        if (typeof process !== 'undefined' && process.env) {
+            key = process.env.API_KEY;
+        }
+    } catch (e) {
+        // process is likely undefined
+    }
+
+    // Fallback for some browser bundlers
+    if (!key && (window as any).process && (window as any).process.env) {
+        key = (window as any).process.env.API_KEY;
+    }
+
+    return key;
+};
+
 // Helper: Check for API Key in Dev Environment
 const checkApiKeyStatus = async () => {
     const btn = document.getElementById('api-key-btn');
     if (!btn) return;
 
-    // Check if we are in an environment that supports aistudio helper
+    const currentKey = getApiKeyString();
+    
+    // If we already have a key in env, hide the button
+    if (currentKey) {
+        btn.classList.add('hidden');
+        return;
+    }
+
+    // If no key in env, check if we are in AI Studio env
     if ((window as any).aistudio) {
+        btn.classList.remove('hidden'); // Show button so user can connect/re-connect
         try {
             const hasKey = await (window as any).aistudio.hasSelectedApiKey();
             if (hasKey) {
+                // If AI Studio says we have a key, but getApiKeyString() failed, 
+                // it might mean we need a reload or it's not injected yet.
+                // We keep the button hidden to avoid confusion unless generation fails.
                 btn.classList.add('hidden');
-            } else {
-                btn.classList.remove('hidden');
             }
         } catch (e) {
             console.warn("AI Studio check failed", e);
         }
     }
-    // If not in AI Studio env, we rely on process.env.API_KEY which might be injected silently.
-    // If it's missing, the generation will fail and we can alert the user then.
 };
 
 const handleConnectKey = async () => {
     if ((window as any).aistudio) {
         try {
             await (window as any).aistudio.openSelectKey();
-            // Assume success and hide button to prevent race condition
+            // After selection, we hope the environment updates or at least the next check passes
             const btn = document.getElementById('api-key-btn');
             btn?.classList.add('hidden');
+            alert("تم ربط المفتاح بنجاح! يمكنك الآن تجربة تحويل الصورة.");
         } catch (e) {
             console.error("Failed to select key", e);
             alert("فشل في ربط المفتاح. يرجى المحاولة مرة أخرى.");
         }
     } else {
-        alert("يرجى التأكد من إعداد متغيرات البيئة API_KEY في مشروعك.");
+        alert("خاصية ربط المفتاح غير مدعومة في هذه البيئة. يرجى إضافة API_KEY يدوياً إلى ملفات المشروع.");
     }
 };
 
-// Helper: Get AI Client - Always create new instance to pick up latest key
-const getAIClient = () => {
-    let apiKey = process.env.API_KEY;
-    
-    // Fallback: simple check if we are in a browser env without process
-    if (!apiKey && (window as any).process && (window as any).process.env) {
-         apiKey = (window as any).process.env.API_KEY;
-    }
-    
-    // Note: In Google IDX/AI Studio environments, selecting the key via window.aistudio
-    // automatically populates process.env.API_KEY for the next call.
-    
+// Helper: Get AI Client
+const getAIClient = (apiKey: string) => {
     return new GoogleGenAI({ apiKey: apiKey });
 };
 
@@ -182,6 +202,23 @@ const generateImage = async () => {
         return;
     }
 
+    // API Key Check
+    const apiKey = getApiKeyString();
+    if (!apiKey) {
+        const btn = document.getElementById('api-key-btn');
+        btn?.classList.remove('hidden'); // Show the connect button
+        
+        if ((window as any).aistudio) {
+            alert("مفتاح API مفقود. يرجى الضغط على زر 'ربط مفتاح API' في أعلى الصفحة.");
+            await handleConnectKey();
+            // Optionally we could retry generation here if connect succeeds, 
+            // but safer to let user click again.
+        } else {
+            alert("مفتاح API غير موجود (process.env.API_KEY). يرجى التحقق من إعدادات النشر.");
+        }
+        return;
+    }
+
     isProcessing = true;
     updateUIState();
 
@@ -191,9 +228,7 @@ const generateImage = async () => {
     const finalPrompt = `${styleObj?.prompt || ''} ${userPrompt}. Maintain the original composition and subject, just change the artistic style.`;
 
     try {
-        // ALWAYS create a fresh client to ensure we have the latest env vars
-        // (especially after a user selects a key via window.aistudio)
-        const ai = getAIClient();
+        const ai = getAIClient(apiKey);
         
         const base64Data = currentImageBase64.split(',')[1];
         const mimeType = currentImageBase64.substring(currentImageBase64.indexOf(':') + 1, currentImageBase64.indexOf(';'));
@@ -233,13 +268,14 @@ const generateImage = async () => {
     } catch (error: any) {
         console.error("AI Error:", error);
         
-        // Specific error handling for missing API Key
-        if (error.message && (error.message.includes("API key") || error.message.includes("403"))) {
+        // Handle API Key specific errors
+        if (error.message && (error.message.includes("API key") || error.message.includes("403") || error.message.includes("key not valid"))) {
             if ((window as any).aistudio) {
-                alert("يرجى ربط مفتاح API للمتابعة.");
+                alert("مفتاح API غير صالح أو انتهت صلاحيته. يرجى إعادة ربط المفتاح.");
+                document.getElementById('api-key-btn')?.classList.remove('hidden');
                 await handleConnectKey();
             } else {
-                alert("مفتاح API مفقود أو غير صحيح.");
+                alert("مفتاح API غير صالح. يرجى التحقق من لوحة تحكم المطورين.");
             }
         } else {
             alert("حدث خطأ أثناء المعالجة: " + (error.message || "Unknown error"));
