@@ -5,7 +5,6 @@ import { GoogleGenAI } from "@google/genai";
 let currentImageBase64: string | null = null;
 let selectedStyle: string = '3d-cartoon';
 let isProcessing: boolean = false;
-let aiClient: GoogleGenAI | null = null;
 
 // Style Presets
 const STYLES = [
@@ -17,21 +16,57 @@ const STYLES = [
     { id: 'gta', name: 'GTA Style', prompt: 'Transform this into a Grand Theft Auto (GTA) loading screen art style. Vectorized look, bold outlines, saturated colors.' },
 ];
 
-// Helper: Get AI Client Safely
-const getAIClient = () => {
-    if (!aiClient) {
+// Helper: Check for API Key in Dev Environment
+const checkApiKeyStatus = async () => {
+    const btn = document.getElementById('api-key-btn');
+    if (!btn) return;
+
+    // Check if we are in an environment that supports aistudio helper
+    if ((window as any).aistudio) {
         try {
-            if (!process.env.API_KEY) {
-                console.warn("API Key might be missing in process.env");
+            const hasKey = await (window as any).aistudio.hasSelectedApiKey();
+            if (hasKey) {
+                btn.classList.add('hidden');
+            } else {
+                btn.classList.remove('hidden');
             }
-            aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        } catch (error) {
-            console.error("Failed to initialize GoogleGenAI:", error);
-            alert("حدث خطأ في تهيئة خدمة الذكاء الاصطناعي. يرجى التأكد من إعدادات API.");
-            throw error;
+        } catch (e) {
+            console.warn("AI Studio check failed", e);
         }
     }
-    return aiClient;
+    // If not in AI Studio env, we rely on process.env.API_KEY which might be injected silently.
+    // If it's missing, the generation will fail and we can alert the user then.
+};
+
+const handleConnectKey = async () => {
+    if ((window as any).aistudio) {
+        try {
+            await (window as any).aistudio.openSelectKey();
+            // Assume success and hide button to prevent race condition
+            const btn = document.getElementById('api-key-btn');
+            btn?.classList.add('hidden');
+        } catch (e) {
+            console.error("Failed to select key", e);
+            alert("فشل في ربط المفتاح. يرجى المحاولة مرة أخرى.");
+        }
+    } else {
+        alert("يرجى التأكد من إعداد متغيرات البيئة API_KEY في مشروعك.");
+    }
+};
+
+// Helper: Get AI Client - Always create new instance to pick up latest key
+const getAIClient = () => {
+    let apiKey = process.env.API_KEY;
+    
+    // Fallback: simple check if we are in a browser env without process
+    if (!apiKey && (window as any).process && (window as any).process.env) {
+         apiKey = (window as any).process.env.API_KEY;
+    }
+    
+    // Note: In Google IDX/AI Studio environments, selecting the key via window.aistudio
+    // automatically populates process.env.API_KEY for the next call.
+    
+    return new GoogleGenAI({ apiKey: apiKey });
 };
 
 // Helper: File to Base64 (Standard Format)
@@ -102,7 +137,6 @@ const handleImageUpload = async (event: Event) => {
         try {
             const base64 = await fileToBase64(file);
             currentImageBase64 = base64;
-            console.log("Image converted to base64");
             
             // Show Preview
             const preview = document.getElementById('image-preview') as HTMLImageElement;
@@ -123,7 +157,6 @@ const handleImageUpload = async (event: Event) => {
 
 const removeImage = (e?: Event) => {
     if(e) e.stopPropagation(); 
-    console.log("Removing image");
     currentImageBase64 = null;
     const input = document.getElementById('image-upload') as HTMLInputElement;
     if (input) input.value = '';
@@ -158,6 +191,8 @@ const generateImage = async () => {
     const finalPrompt = `${styleObj?.prompt || ''} ${userPrompt}. Maintain the original composition and subject, just change the artistic style.`;
 
     try {
+        // ALWAYS create a fresh client to ensure we have the latest env vars
+        // (especially after a user selects a key via window.aistudio)
         const ai = getAIClient();
         
         const base64Data = currentImageBase64.split(',')[1];
@@ -192,12 +227,23 @@ const generateImage = async () => {
             downloadBtn.href = finalImageSrc;
         } else {
             console.error("No image in response", response);
-            alert("لم يتمكن الذكاء الاصطناعي من توليد صورة. قد يكون السبب المحتوى أو ضغط الخادم.");
+            alert("لم يتمكن الذكاء الاصطناعي من توليد صورة.");
         }
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("AI Error:", error);
-        alert("حدث خطأ أثناء المعالجة. حاول مرة أخرى.");
+        
+        // Specific error handling for missing API Key
+        if (error.message && (error.message.includes("API key") || error.message.includes("403"))) {
+            if ((window as any).aistudio) {
+                alert("يرجى ربط مفتاح API للمتابعة.");
+                await handleConnectKey();
+            } else {
+                alert("مفتاح API مفقود أو غير صحيح.");
+            }
+        } else {
+            alert("حدث خطأ أثناء المعالجة: " + (error.message || "Unknown error"));
+        }
     } finally {
         isProcessing = false;
         updateUIState();
@@ -208,15 +254,16 @@ const generateImage = async () => {
 const initApp = () => {
     console.log("Initializing App UI...");
     renderStyles();
+    checkApiKeyStatus(); // Check if we need to show the key button
 };
 
 // IMMEDIATE EXPOSURE TO WINDOW
-// This ensures that onclick="window.xxx()" works even if initApp hasn't run yet.
 Object.assign(window as any, {
     handleImageUpload,
     removeImage,
     selectStyle,
-    generateImage
+    generateImage,
+    handleConnectKey
 });
 
 // Run Init logic
