@@ -1,13 +1,11 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 // Application State
 let currentImageBase64: string | null = null;
 let selectedStyle: string = '3d-cartoon';
 let isProcessing: boolean = false;
+let aiClient: GoogleGenAI | null = null;
 
 // Style Presets
 const STYLES = [
@@ -18,6 +16,24 @@ const STYLES = [
     { id: 'sketch', name: 'رسم قلم رصاص', prompt: 'Turn this into a detailed pencil sketch. Black and white, artistic shading, hand-drawn look.' },
     { id: 'gta', name: 'GTA Style', prompt: 'Transform this into a Grand Theft Auto (GTA) loading screen art style. Vectorized look, bold outlines, saturated colors.' },
 ];
+
+// Helper: Get AI Client Safely
+const getAIClient = () => {
+    if (!aiClient) {
+        try {
+            // Check for API Key presence safely
+            if (!process.env.API_KEY) {
+                console.warn("API Key might be missing in process.env");
+            }
+            aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        } catch (error) {
+            console.error("Failed to initialize GoogleGenAI:", error);
+            alert("حدث خطأ في تهيئة خدمة الذكاء الاصطناعي. يرجى التأكد من إعدادات API.");
+            throw error;
+        }
+    }
+    return aiClient;
+};
 
 // Helper: File to Base64 (Standard Format)
 const fileToBase64 = (file: File): Promise<string> => {
@@ -52,12 +68,12 @@ const updateUIState = () => {
     // Toggle Loading
     if (isProcessing) {
         loading?.classList.remove('hidden');
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-pulse">جاري التحويل...</span>`;
+        if (btn) btn.disabled = true;
+        if (btn) btn.innerHTML = `<span class="animate-pulse">جاري التحويل...</span>`;
     } else {
         loading?.classList.add('hidden');
-        btn.disabled = !currentImageBase64;
-        btn.innerHTML = `
+        if (btn) btn.disabled = !currentImageBase64;
+        if (btn) btn.innerHTML = `
             <span class="flex items-center justify-center gap-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 تحويل الصورة الآن
@@ -65,7 +81,7 @@ const updateUIState = () => {
     }
 
     // Toggle Result Visibility
-    if (!isProcessing && resultImg && (resultImg as HTMLImageElement).src && (resultImg as HTMLImageElement).src !== window.location.href) {
+    if (!isProcessing && resultImg && (resultImg as HTMLImageElement).src && (resultImg as HTMLImageElement).src !== window.location.href && !(resultImg as HTMLImageElement).src.endsWith('.html')) {
         empty?.classList.add('hidden');
         resultImg.classList.remove('hidden');
         actions?.classList.remove('hidden');
@@ -80,34 +96,45 @@ const updateUIState = () => {
 
 // Event Handlers
 const handleImageUpload = async (event: Event) => {
+    console.log("Image upload started");
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
         const file = input.files[0];
         try {
             const base64 = await fileToBase64(file);
             currentImageBase64 = base64;
+            console.log("Image converted to base64 successfully");
             
             // Show Preview
             const preview = document.getElementById('image-preview') as HTMLImageElement;
             const placeholder = document.getElementById('upload-placeholder');
             const container = document.getElementById('preview-container');
             
-            preview.src = base64;
-            placeholder?.classList.add('hidden');
-            container?.classList.remove('hidden');
+            if (preview) preview.src = base64;
+            if (placeholder) placeholder.classList.add('hidden');
+            if (container) container.classList.remove('hidden');
             
             updateUIState();
         } catch (e) {
+            console.error("Error processing image:", e);
             alert("حدث خطأ أثناء رفع الصورة");
         }
     }
 };
 
-const removeImage = () => {
+const removeImage = (e?: Event) => {
+    if(e) e.stopPropagation(); // Prevent triggering upload input behind the button
     currentImageBase64 = null;
-    (document.getElementById('image-upload') as HTMLInputElement).value = '';
+    const input = document.getElementById('image-upload') as HTMLInputElement;
+    if (input) input.value = '';
+    
     document.getElementById('upload-placeholder')?.classList.remove('hidden');
     document.getElementById('preview-container')?.classList.add('hidden');
+    
+    // Clear preview src to avoid lingering images
+    const preview = document.getElementById('image-preview') as HTMLImageElement;
+    if(preview) preview.src = '';
+
     updateUIState();
 };
 
@@ -123,12 +150,14 @@ const generateImage = async () => {
     updateUIState();
 
     const styleObj = STYLES.find(s => s.id === selectedStyle);
-    const userPrompt = (document.getElementById('custom-prompt') as HTMLInputElement).value;
+    const userPrompt = (document.getElementById('custom-prompt') as HTMLInputElement)?.value || '';
     
     // Construct Prompt
     const finalPrompt = `${styleObj?.prompt || ''} ${userPrompt}. Maintain the original composition and subject, just change the artistic style.`;
 
     try {
+        const ai = getAIClient();
+        
         // Clean base64 string for API (remove data:image/xxx;base64, prefix)
         const base64Data = currentImageBase64.split(',')[1];
         const mimeType = currentImageBase64.substring(currentImageBase64.indexOf(':') + 1, currentImageBase64.indexOf(';'));
@@ -176,14 +205,14 @@ const generateImage = async () => {
 
     } catch (error) {
         console.error("AI Error:", error);
-        alert("حدث خطأ أثناء المعالجة. يرجى المحاولة مرة أخرى.");
+        alert("حدث خطأ أثناء المعالجة. يرجى التأكد من الاتصال بالإنترنت والمحاولة مرة أخرى.");
     } finally {
         isProcessing = false;
         updateUIState();
     }
 };
 
-// Global Exposure
+// Global Exposure for HTML onclick attributes
 Object.assign(window as any, {
     handleImageUpload,
     removeImage,
@@ -191,10 +220,23 @@ Object.assign(window as any, {
     generateImage
 });
 
-// Init
+// Init Event Listeners safely
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("App Initialized");
     renderStyles();
-    document.getElementById('image-upload')?.addEventListener('change', handleImageUpload);
-    document.getElementById('remove-image')?.addEventListener('click', removeImage);
-    document.getElementById('generate-btn')?.addEventListener('click', generateImage);
+    
+    const uploadInput = document.getElementById('image-upload');
+    if (uploadInput) {
+        uploadInput.addEventListener('change', handleImageUpload);
+    }
+
+    const removeBtn = document.getElementById('remove-image');
+    if (removeBtn) {
+        removeBtn.addEventListener('click', removeImage);
+    }
+
+    const generateBtn = document.getElementById('generate-btn');
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateImage);
+    }
 });
